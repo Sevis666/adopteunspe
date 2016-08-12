@@ -1,0 +1,470 @@
+$violet: #4C4356;
+$rose: #E97EEB;
+$dark-grey: #a2a2a2;
+$light-grey: #f4f4f4;
+$very-light-grey: #fafafa;
+$dark-red: #840505;
+
+body {
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* ----- Typography ----- */
+h1, h2, h3, h4, h5, p, a, small {
+    margin: .8rem;
+}
+h1 {
+    font-size: 2.5rem;
+    line-height: 3rem;
+}
+h2 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+}
+p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+h5 , h5 a {
+    text-transform: uppercase;
+}
+
+a {
+    color: #000;
+    text-transform: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.small {
+    line-height: 1.2rem;
+    font-size: 0.8rem;
+}
+
+/* --- General positionning --- */
+.header {
+    width: 100%;
+    padding: 0 2% 0 2%;
+    box-sizing: border-box;
+}
+
+.side-title {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: right;
+    margin: 0;
+    padding: .6rem;
+}
+
+.user-info {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: right;
+    margin: 0;
+    margin-top: 1rem;
+    font-weight: bold;
+    padding-right: 1.5rem;
+}
+
+.main-body {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 5% 0 5%;
+}
+
+.footer {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.copyright {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: .6rem;
+}
+
+.bottom-links {
+    width: 100%;
+    text-align: right;
+
+    a {
+        padding: .8rem;
+    }
+}
+
+
+/* --- Questions Page --- */
+.button {
+    border: 1px solid #000;
+    border-radius: .6rem;
+    margin: 1rem;
+    padding: .6rem;
+    display: inline-block;
+}
+
+.centered-button {
+    text-align: center;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.main-container {
+    text-align: left;
+    margin-bottom: 1rem;
+    padding: .5rem;
+}
+
+.comments {
+    position: relative;
+    border: 0.15rem solid $dark-grey;
+    border-radius: 0.5rem;
+    padding: 0;
+    margin: 1.5rem .5rem 0 .5rem;
+
+    .comment {
+        border-top: 1px solid $dark-grey;
+        margin: 0 .8rem;
+        padding: .6rem 0;
+    }
+    .comment:first-child {
+        border: none;
+    }
+}
+.comments:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 1rem;
+    top: -2rem;
+    border: 1rem solid;
+    border-color: transparent transparent $dark-grey transparent;
+}
+.comments:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 1.12rem;
+    top: -1.75rem;
+    border: 0.9rem solid;
+    border-color: transparent transparent #fff transparent;
+}
+
+.add-comment-box {
+    border-top: 1px solid $dark-grey;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+
+
+    .comment-input {
+        margin: 0;
+        padding: .6rem .8rem;
+        border: none;
+        background: none;
+        flex-grow: 1;
+    }
+    .comment-button {
+        border: none;
+        border-left: 1px solid $dark-grey;
+        border-radius: 0;
+        border-bottom-right-radius: 0.5rem;
+        background: $light-grey;
+    }
+}
+.add-comment-box.no-comments {
+    border-top: none;
+    .comment-button {
+        border-top-right-radius: 0.5rem;
+    }
+}
+
+.question-box {
+    padding: 0;
+    margin: 2rem .5rem 0 .5rem;
+    border: 1px solid #000;
+    border-radius: .8rem;
+    overflow: hidden;
+}
+.question-box:first-child {
+    margin-top: 0;
+}
+
+.question-box {
+    .question-title-wrapper {
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid #000;
+        background: $light-grey;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .question-title {
+        margin: 0;
+        padding: .6rem .8rem .6rem .8rem;
+        text-align: center;
+        flex-grow: 1;
+    }
+
+    .modify-button {
+        float: right;
+        width: 1.5rem;
+        height: 1.5rem;
+        background-image: image-url("edit.png");
+        background-size: 1.5rem 1.5rem;
+        padding: 0;
+        margin: .5rem;
+    }
+}
+
+.answer-box {
+    margin: 0 .5rem 0 .5rem;
+    border-bottom: 1px solid #000;
+}
+
+.answer-box:last-child {
+    border: none;
+}
+
+.answer-title {
+    font-weight: bold;
+    margin-top: .6rem;
+    margin-bottom: .6rem;
+}
+
+.answer-scores {
+    font-size: .8rem;
+    margin-top: .6rem;
+    margin-bottom: .6rem;
+}
+
+.question-box.shown .answer-scores{
+    display: block;
+}
+.question-box .answer-scores {
+    display: none;
+}
+
+/* --- Nouvelle question --- */
+.question-form-box, .login-form-box {
+    text-align: center;
+    border: 1px solid #000;
+    border-top-width:  .5rem;
+    border-radius: 3px;
+}
+
+.login-form-box {
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+
+    .button {
+        display: inline-block;
+        background: none;
+        background: $light-grey;
+        border: none;
+        border-top: 1px solid #000;
+        border-radius: 0;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0;
+        text-align: center;
+    }
+
+    input {
+        display: inline-block;
+    }
+}
+
+.question-input, .answer-input, .login-form-box input {
+    text-align: left;
+    width: 90%;
+    box-sizing: border-box;
+    border: none;
+    border: 1px solid $light-grey;
+    border-radius: 5px;
+    font-size: 1rem;
+    line-height: 1.8rem;
+    margin: .5rem;
+    padding: .4rem .8rem;
+    background: $very-light-grey;
+}
+
+.answer-input {
+    display: inline-block;
+}
+
+#answers-box {
+    .answer {
+        border-top: 1px solid #000;
+        padding: .5rem 0;
+    }
+
+    .upper-box {
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .answer-input {
+        flex-grow: 1;
+        margin-left: 0;
+    }
+
+    .button {
+        border-radius: 50%;
+        background: $light-grey;
+        background-image: image-url("plus.png");
+        background-size: 2rem 2rem;
+        box-sizing: border-box;
+        height: 2rem;
+        width: 2rem;
+        text-align: center;
+        font-size: 1rem;
+        padding: 0;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+}
+
+.student-points {
+    border-radius: .5rem;
+    border: 1px solid #000;
+    width: 12rem;
+    max-width: 90%;
+    margin: 0 auto 1rem auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    select {
+        background: none;
+        border: none;
+        padding-right: .8rem;
+        border-right: 1px solid #000;
+        border-radius: 0;
+        flex-basis: 35%;
+        flex-grow: 3;
+        text-align: center;
+    }
+
+    input {
+        box-sizing: border-box;
+        border: none;
+        background: none;
+        text-align: center;
+        flex-basis: 10%;
+        flex-grow: 2;
+        min-width: 1rem;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+}
+
+.bottom-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: hidden;
+
+    .button {
+        border: none;
+        border-top: 1px solid #000;
+        border-radius: 0;
+        background: $light-grey;
+        box-sizing: border-box;
+        margin: 0;
+        flex-basis: 49.5%;
+        flex-grow: 1;
+        display: inline-block;
+        text-align: center;
+        font-size: .8rem;
+        line-height: 1.5rem;
+        border-bottom-left-radius: 3px;
+    }
+
+    #submit-button {
+        border-left: 1px solid #000;
+        border-radius: 0;
+        border-bottom-right-radius: 3px;
+    }
+}
+
+/* --- Index --- */
+.justify {
+    text-align: justify;
+}
+
+/* --- Login --- */
+.error-message p {
+    color: $dark-red;
+}
+
+/* --- Media Queries --- */
+@media all and (min-width: 29rem) {
+    // add some padding
+    .main-container {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+@media all and (min-width: 45rem) {
+    // add some more padding
+    .main-container {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+}
+
+@media all and (min-width: 60rem) {
+    // again some more padding
+    .main-container {
+        margin-left: 15%;
+        margin-right: 15;
+    }
+}
+
+@media all and (min-width: 80rem) {
+    // this is a small computer, maybe modify some stuff
+    .main-container {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+
+}
+
+@media all and (min-width: 100rem) {
+    // now this is a real computer, make it ok for big screens
+    .main-container {
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+}

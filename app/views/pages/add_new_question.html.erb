@@ -1,0 +1,30 @@
+<h1 class="page-title">Ajoutez votre question</h1>
+<div class="main-container">
+<%= form_tag("/questions/new", method: "post", class: "question-form-box") do %>
+    <%= text_field_tag(:question, nil, placeholder: "Votre question", class: "question-input", autocomplete: "off") %>
+    <div id="answers-box"></div>
+    <div class="bottom-buttons">
+        <p class="button" onclick="addAnswer()">Ajouter une réponse</p>
+        <%= submit_tag("Valider", class: "button", id: "submit-button") %>
+    </div>
+<% end %>
+</div>
+
+<script type="text/javascript">
+ <%
+ students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
+               bustillo careil chardon cortes diridollou dumond fievet flechelles
+               gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
+               lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
+               ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
+ %>
+ var students = <%= ('["' + students.map(&:capitalize).join('", "') + '"]').html_safe %>;
+ var studentIds = <%=  ('["' + students.join('", "') + '"]').html_safe %>;
+</script>
+
+<%= javascript_include_tag "question_buttons.js" %>
+
+<script type="text/javascript">
+ addAnswer();
+ addAnswer();
+</script>

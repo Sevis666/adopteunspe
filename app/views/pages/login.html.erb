@@ -1,0 +1,13 @@
+<h1 class="page-title">Login</h1>
+<% if @error %>
+    <div class="error-message">
+        <p><%= @error %></p>
+    </div>
+<% end %>
+<div class="main-container">
+    <%= form_tag("/login", method: "post", class: "login-form-box") do %>
+        <%= hidden_field_tag('page', params[:page]) %>
+        <%= text_field_tag(:key, nil, placeholder: "Votre clé", autocomplete: "on") %>
+        <%= submit_tag("Login", class: "button") %>
+    <% end %>
+</div>

@@ -1,0 +1,53 @@
+<h1 class="page-title">Modifier une question</h1>
+<% q = Question.find(params[:id]) %>
+<div class="main-container">
+    <%= form_tag("/questions/new", method: "post", class: "question-form-box") do %>
+        <%= hidden_field_tag('question_id', params[:id])%>
+        <%= text_field_tag(:question, nil, value: q.question, class: "question-input", autocomplete: "off") %>
+        <div id="answers-box">
+            <% q.answer.each_with_index do |a, i| %>
+                <div class="answer">
+                    <div class="upper-box">
+                        <input type="text" name="answers[<%= i+1 %>][answer]" value="<%= a.answer %>" class="answer-input">
+                        <div class="button" onclick="addStudentsPoints(document.getElementsByClassName('students-points-holder')[<%= i %>], <%= i+1 %>)"></div>
+                    </div>
+                    <p><%= a.print_scores.join(', ') %></p>
+                    <div class="students-points-holder"></div>
+                </div>
+            <% end %>
+        </div>
+        <div class="bottom-buttons">
+            <p class="button" onclick="addAnswer()">Ajouter une réponse</p>
+            <%= submit_tag("Valider", class: "button", id: "submit-button") %>
+        </div>
+    <% end %>
+
+    <% comments = q.comments %>
+    <div class="comments">
+        <% comments.each do |c| %>
+            <p class="comment"><%= "#{c[:user]} : #{c[:comment]}" %></p>
+        <% end %>
+        <%= form_tag("/questions/#{q.id}/comment", method: "post", class: "add-comment-box #{comments.empty? ? 'no-comments' : ''}",
+                     remote: true, onsubmit: "sendComment(this)") do %>
+            <%= text_field_tag(:comment_buff, nil, placeholder: "Commenter", class: "comment-input", autocomplete: "off") %>
+            <%= hidden_field_tag(:comment, nil, class: "comment-hidden")%>
+            <%= submit_tag("Send", class: "comment-button")%>
+        <% end %>
+    </div>
+</div>
+
+<script type="text/javascript">
+ <%
+ students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
+               bustillo careil chardon cortes diridollou dumond fievet flechelles
+               gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
+               lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
+               ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
+ %>
+ var students = <%= ('["' + students.map(&:capitalize).join('", "') + '"]').html_safe %>;
+ var studentIds = <%=  ('["' + students.join('", "') + '"]').html_safe %>;
+ var fullName = "<%= @spe.full_name %>";
+</script>
+
+<%= javascript_include_tag "question_buttons.js" %>
+<%= javascript_include_tag "send_comment.js" %>
