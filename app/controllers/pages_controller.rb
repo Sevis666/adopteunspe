@@ -1,8 +1,6 @@
 # coding: utf-8
 class PagesController < ApplicationController
   def index
-    params[:page] = "/"
-    check_cookie
   end
 
   def questions
