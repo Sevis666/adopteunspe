@@ -26,7 +26,7 @@ class PagesController < ApplicationController
         unless value["points"].nil?
           points = {}
           value["points"].each do |k, v|
-            points[ v["student"].to_sym] = v["value"].to_i
+            points[ v["student"].to_sym] = v["value"].to_i unless (v["student"] == "")
           end
         end
 

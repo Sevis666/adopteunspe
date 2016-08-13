@@ -43,6 +43,12 @@ function addStudentsPoints(parent, count) {
 
     var dropdown = document.createElement("select");
     dropdown.name = "answers[" + count + "][points][" + (countChildren(parent) + 1) + "][student]";
+    // Fix for Lison always getting 0 points
+    var o = document.createElement("option");
+    o.value = "";
+    o.text = "";
+    dropdown.appendChild(o);
+
     for (var i=0; i<students.length; i++) {
         var option = document.createElement("option");
         option.value = studentIds[i];
