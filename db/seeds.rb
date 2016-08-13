@@ -41,7 +41,7 @@ spes = [
   ["scotti", "Martin Scotti", "martin.scotti.fr@gmail.com"],
   ["ren", "Isaac Ren", "gopi3.1415@gmail.com"],
   ["boutin", "Simon Boutin", "simonboutin@hotmail.fr"],
-  ["fievet", "baptiste.fievet@laposte.net"],
+  ["fievet", "Baptiste Fievet", "baptiste.fievet@laposte.net"],
   ["lozach", "Mathilde Lozac'h", "mathilde.lozach@gmail.com"],
   ["vital", "Loïc Vital", "loc.vital@orange.fr"],
   ["godefroy", "Henri Godefroy", "henri_godefroy@sfr.fr"],

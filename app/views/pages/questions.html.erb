@@ -33,7 +33,7 @@ end %>
                 <a class="modify-button" href="/questions/<%= q.id %>"></a>
             </div>
             <ul class="answers-container">
-                <% q.answer.each do |a| %>
+                <% q.answer.order(:answer_number).each do |a| %>
                     <li class="answer-box">
                         <p class="answer-title"><%= clean(a.answer).html_safe %></p>
                         <p class="answer-scores"><%= a.print_scores.join(', ') %></p>

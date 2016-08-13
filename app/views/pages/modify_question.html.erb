@@ -5,7 +5,7 @@
         <%= hidden_field_tag('question_id', params[:id])%>
         <%= text_field_tag(:question, nil, value: q.question, class: "question-input", autocomplete: "off") %>
         <div id="answers-box">
-            <% q.answer.each_with_index do |a, i| %>
+            <% q.answer.order(:answer_number).each_with_index do |a, i| %>
                 <div class="answer">
                     <div class="upper-box">
                         <input type="text" name="answers[<%= i+1 %>][answer]" value="<%= a.answer %>" class="answer-input">
