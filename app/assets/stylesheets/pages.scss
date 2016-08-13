@@ -11,6 +11,7 @@ body {
     width: 100%;
     text-align: center;
     margin-bottom: 3rem;
+    position: relative;
 }
 
 /* ----- Typography ----- */
@@ -67,11 +68,11 @@ a:hover {
 .user-info {
     width: 100%;
     box-sizing: border-box;
-    text-align: right;
+    text-align: left;
     margin: 0;
     margin-top: 1rem;
     font-weight: bold;
-    padding-right: 1.5rem;
+    padding-left: 1.5rem;
 }
 
 .main-body {
@@ -110,10 +111,34 @@ a:hover {
     margin: 1rem;
     padding: .6rem;
     display: inline-block;
+    margin-top: .5rem;
 }
 
 .centered-button {
     text-align: center;
+}
+
+.to-bottom-button, .to-top-button {
+    width: 2rem;
+    height: 2rem;
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+    margin: 1rem;
+    background-size: 2rem 2rem;
+    background-repeat: no-repeat;
+}
+
+.to-bottom-button {
+    background-image: image-url("down_arrow.png");
+    top: 0;
+    margin-top: 0;
+}
+
+.to-top-button {
+    background-image: image-url("up_arrow.png");
+    bottom: 0;
+    margin-bottom: 0;
 }
 
 ul, li {

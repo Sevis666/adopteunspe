@@ -1,5 +1,6 @@
 <h1 class="page-title">Questions actuelles :</h1>
 <%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button" %>
+<%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
 <% def clean string
     string = string.force_encoding('UTF-8')
@@ -57,8 +58,9 @@ end %>
         <% end %>
     <% end %>
 </ul>
-<%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button" %>
+<%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button", id: "bottom" %>
 <p class="user-info"><%= @spe.full_name %></p>
+<%= link_to "", "#", class: "to-top-button" %>
 
 <script>
  var fullName = "<%= @spe.full_name %>";
