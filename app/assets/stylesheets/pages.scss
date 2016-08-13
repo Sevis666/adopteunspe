@@ -204,6 +204,7 @@ ul, li {
         border: none;
         background: none;
         flex-grow: 1;
+        font-size: 1rem;
     }
     .comment-button {
         border: none;
@@ -211,6 +212,7 @@ ul, li {
         border-radius: 0;
         border-bottom-right-radius: 0.5rem;
         background: $light-grey;
+        font-size: 1rem;
     }
 }
 .add-comment-box.no-comments {
