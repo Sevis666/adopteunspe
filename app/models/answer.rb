@@ -15,7 +15,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
 
     def print_scores
       scores.map do |k, v|
-        "#{k.to_s.ljust(10)} : #{v.to_s.rjust(2)}"
+        "#{k.to_s.ljust(10)} : #{v.to_s.rjust(2)}".gsub(/lezanne/, "lezane")
       end
     end
 end

@@ -44,7 +44,7 @@
                lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
                ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
  %>
- var students = <%= ('["' + students.map(&:capitalize).join('", "') + '"]').html_safe %>;
+ var students = <%= ('["' + students.map(&:capitalize).join('", "').gsub(/Lezanne/, "Lezane") + '"]').html_safe %>;
  var studentIds = <%=  ('["' + students.join('", "') + '"]').html_safe %>;
  var fullName = "<%= @spe.full_name %>";
 </script>
