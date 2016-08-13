@@ -43,7 +43,7 @@ class PagesController < ApplicationController
         end
       end
 
-      redirect_to "/questions"
+      redirect_to "/questions#question-#{q.id}"
     end
   end
 

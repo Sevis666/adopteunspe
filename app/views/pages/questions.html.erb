@@ -27,7 +27,7 @@
                 "Ï" => "&Iuml;"  )
 end %>
     <% Question.all.order(:id).each do |q| %>
-        <li class="question-box">
+        <li class="question-box" id="question-<%= q.id %>">
             <div class="question-title-wrapper">
                 <h3 class="question-title"  onclick="showAnswerPoints(this)"><%= clean(q.question).html_safe %></h3>
                 <a class="modify-button" href="/questions/<%= q.id %>"></a>
