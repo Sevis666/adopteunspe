@@ -218,7 +218,7 @@ ul, li {
 
     .question-title {
         margin: 0;
-        padding: .6rem .8rem .6rem .8rem;
+        padding: .6rem .6rem .6rem .8rem;
         text-align: center;
         flex-grow: 1;
     }
@@ -229,8 +229,12 @@ ul, li {
         height: 1.5rem;
         background-image: image-url("edit.png");
         background-size: 1.5rem 1.5rem;
+        background-repeat: no-repeat;
         padding: 0;
         margin: .5rem;
+        flex-basis: 1.5rem;
+        flex-grow: 0;
+        flex-shrink: 0;
     }
 }
 
