@@ -62,7 +62,7 @@ end %>
 <p class="user-info"><%= @spe.full_name %></p>
 <%= link_to "", "#", class: "to-top-button" %>
 
-<script>
+<script type="text/javascript">
  var fullName = "<%= @spe.full_name %>";
  function showAnswerPoints(div) {
      var c = div.parentNode.parentNode.className;
@@ -73,6 +73,10 @@ end %>
      }
      div.parentNode.parentNode.className = c;
  }
+</script>
+
+<script type="text/javascript">
+ window.history.replaceState("", "", location.href.split('#')[0]);
 </script>
 
 <%= javascript_include_tag "send_comment.js" %>
