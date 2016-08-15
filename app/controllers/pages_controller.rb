@@ -3,6 +3,10 @@ class PagesController < ApplicationController
   def index
   end
 
+  def message_board
+    check_cookie
+  end
+
   def questions
     params[:page] = "/questions"
     check_cookie
@@ -18,29 +22,25 @@ class PagesController < ApplicationController
         q = Question.find(params[:question_id])
       else
         q = Question.new
+        q.vote = Vote.new
+        q.suggested_coeff = SuggestedCoeff.new
       end
       q.question = params[:question]
+      c = q.chosen_coeff(@spe)
+      unless c == params["coeff"].to_i
+        q.set_coeff(@spe, params["coeff"].to_i)
+      end
       q.save
 
       params["answers"].each do |key, value|
-        unless value["points"].nil?
-          points = {}
-          value["points"].each do |k, v|
-            points[ v["student"].to_sym] = v["value"].to_i unless (v["student"] == "")
-          end
-        end
-
         a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
-        if a
-          a.answer = value["answer"]
-          points.each do |student, p|
-            a[student] = p
-          end unless points.nil?
-          a.save
-        else
-          a = Answer.new(answer: value["answer"], answer_number: key.to_i, **points)
+        unless a
+          a = Answer.new(answer: value["answer"], answer_number: key.to_i)
           q.answer << a
         end
+        a.answer = value["answer"]
+        a[@spe.username.to_sym] = value["points"].to_i
+        a.save
       end
 
       redirect_to "/questions#question-#{q.id}"
@@ -73,6 +73,17 @@ class PagesController < ApplicationController
         @error = "Votre clé est invalide, merci de contacter les développeurs"
       end
     end
+  end
+
+  def vote_question
+    check_cookie
+    q = Question.find(params[:id])
+    if params[:upvote] == ""
+      q.upvote(@spe)
+    elsif params[:downvote] == ""
+      q.downvote(@spe)
+    end
+    render nothing: true, status: 200
   end
 
   private

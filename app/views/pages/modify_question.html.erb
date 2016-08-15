@@ -3,16 +3,19 @@
 <div class="main-container">
     <%= form_tag("/questions/new", method: "post", class: "question-form-box") do %>
         <%= hidden_field_tag('question_id', params[:id])%>
-        <%= text_field_tag(:question, nil, value: q.question, class: "question-input", autocomplete: "off") %>
+        <div class="flex-box-reverse">
+            <%= number_field_tag(:coeff, q.chosen_coeff(@spe), class: "private-points-input", min: 0, max: 10) %>
+            <%= text_field_tag(:question, nil, value: q.question, class: "question-input", autocomplete: "off") %>
+        </div>
+
         <div id="answers-box">
             <% q.answer.order(:answer_number).each_with_index do |a, i| %>
                 <div class="answer">
                     <div class="upper-box">
+                        <input type="number" name="answers[<%= i+1 %>][points]" value="<%= a[@spe.username.to_sym] %>" class="private-points-input" min="0" max="10">
                         <input type="text" name="answers[<%= i+1 %>][answer]" value="<%= a.answer %>" class="answer-input">
-                        <div class="button" onclick="addStudentsPoints(document.getElementsByClassName('students-points-holder')[<%= i %>], <%= i+1 %>)"></div>
                     </div>
                     <p><%= a.print_scores.join(', ') %></p>
-                    <div class="students-points-holder"></div>
                 </div>
             <% end %>
         </div>
@@ -37,17 +40,7 @@
 </div>
 
 <script type="text/javascript">
- <%
- students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
-               bustillo careil chardon cortes diridollou dumond fievet flechelles
-               gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
-               lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
-               ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
- %>
- var students = <%= ('["' + students.map(&:capitalize).join('", "').gsub(/Lezanne/, "Lezane") + '"]').html_safe %>;
- var studentIds = <%=  ('["' + students.join('", "') + '"]').html_safe %>;
  var fullName = "<%= @spe.full_name %>";
 </script>
 
-<%= javascript_include_tag "question_buttons.js" %>
 <%= javascript_include_tag "send_comment.js" %>

@@ -1,5 +1,8 @@
 class Answer < ActiveRecord::Base
-    @@students = %i(abecassis athor azizian beaulieu boutin bruneaux brunod
+  has_many :comments
+  has_many :answers
+
+  @@students = %i(abecassis athor azizian beaulieu boutin bruneaux brunod
 bustillo careil chardon cortes diridollou dumond fievet flechelles
 gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
 lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael

@@ -27,8 +27,25 @@
                 "Ü" => "&Uuml;"  ,
                 "Ï" => "&Iuml;"  )
 end %>
+    <div class="info">
+        <h4>Le système de points change !</h4>
+        <p>Cliquez <a href="/message_board">ici</a> pour plus d'explications</p>
+    </div>
     <% Question.all.order(:id).each do |q| %>
-        <li class="question-box" id="question-<%= q.id %>">
+        <div class="centerer">
+            <div class="coeff-box" id="question-<%= q.id %>">
+                <%= form_tag("/questions/#{q.id}/vote", method: "post",
+                             class: "vote-form #{q.chosen_vote_class(@spe)}", remote: "true") do %>
+                    <%= submit_tag("", name: "upvote", id: "upvote") %>
+                    <p class="votes"><%= q.vote_count %></p>
+                    <%= submit_tag("", name: "downvote", id: "downvote") %>
+                <% end %>
+                <div class="divider"></div>
+                <p class="your-coeff"><%= q.chosen_coeff(@spe) %></p>
+                <p class="general-coeff"><%= q.coeff %></p>
+            </div>
+        </div>
+        <li class="question-box">
             <div class="question-title-wrapper">
                 <h3 class="question-title"  onclick="showAnswerPoints(this)"><%= clean(q.question).html_safe %></h3>
                 <a class="modify-button" href="/questions/<%= q.id %>"></a>
@@ -36,8 +53,11 @@ end %>
             <ul class="answers-container">
                 <% q.answer.order(:answer_number).each do |a| %>
                     <li class="answer-box">
-                        <p class="answer-title"><%= clean(a.answer).html_safe %></p>
-                        <p class="answer-scores"><%= a.print_scores.join(', ') %></p>
+                        <p class="answer-private-points"><%= (e = a[@spe.username.to_sym]) == 0 ? "-" : e %></p>
+                        <div class="answer-public">
+                            <p class="answer-title"><%= clean(a.answer).html_safe %></p>
+                            <p class="answer-scores"><%= a.print_scores.join(', ') %></p>
+                        </div>
                     </li>
                 <% end %>
             </ul>
