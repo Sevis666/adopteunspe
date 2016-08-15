@@ -67,6 +67,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       vote[spe.username.to_sym] = n
       vote.save
     end
+    update_vote_count
   end
 
   def update_vote_count
