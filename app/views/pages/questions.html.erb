@@ -2,31 +2,6 @@
 <%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
-<% def clean string
-    string = string.force_encoding('UTF-8')
-    string = string.split.join(' ')
-    string.gsub(/[éèêîôàâûïüÉÈÊÎÔÀÂÛÏÜ]/,
-                "é" => "&eacute;",
-                "è" => "&egrave;",
-                "ê" => "&ecirc;" ,
-                "î" => "&icirc;" ,
-                "ô" => "&ocirc;" ,
-                "à" => "&agrave;",
-                "â" => "&acirc;" ,
-                "û" => "&ucirc;" ,
-                "ü" => "&uuml;"  ,
-                "ï" => "&iuml;"  ,
-                "É" => "&Eacute;",
-                "È" => "&Egrave;",
-                "Ê" => "&Ecirc;" ,
-                "Î" => "&Icirc;" ,
-                "Ô" => "&Ocirc;" ,
-                "À" => "&Agrave;",
-                "Â" => "&Acirc;" ,
-                "Û" => "&Ucirc;" ,
-                "Ü" => "&Uuml;"  ,
-                "Ï" => "&Iuml;"  )
-end %>
     <div class="info">
         <h4>Le système de points change !</h4>
         <p>Cliquez <a href="/message_board">ici</a> pour plus d'explications</p>
@@ -47,7 +22,7 @@ end %>
         </div>
         <li class="question-box">
             <div class="question-title-wrapper">
-                <h3 class="question-title"  onclick="showAnswerPoints(this)"><%= clean(q.question).html_safe %></h3>
+                <h3 class="question-title"  onclick="showAnswerPoints(this)"><%= q.question %></h3>
                 <a class="modify-button" href="/questions/<%= q.id %>"></a>
             </div>
             <ul class="answers-container">
@@ -55,7 +30,7 @@ end %>
                     <li class="answer-box">
                         <p class="answer-private-points"><%= (e = a[@spe.username.to_sym]) == 0 ? "-" : e %></p>
                         <div class="answer-public">
-                            <p class="answer-title"><%= clean(a.answer).html_safe %></p>
+                            <p class="answer-title"><%= a.answer %></p>
                             <p class="answer-scores"><%= a.print_scores.join(', ') %></p>
                         </div>
                     </li>
@@ -67,7 +42,7 @@ end %>
         <% unless comments.empty? %>
             <div class="comments">
                 <% comments.each do |c| %>
-                    <p class="comment"><%= clean("#{c[:user]} : #{c[:comment]}").html_safe %></p>
+                    <p class="comment"><%= "#{c[:user]} : #{c[:comment]}" %></p>
                 <% end %>
                 <%= form_tag("/questions/#{q.id}/comment", method: "post", class: "add-comment-box", remote: true, onsubmit: "sendComment(this)") do %>
                     <%= text_field_tag(:comment_buff, nil, placeholder: "Commenter", class: "comment-input", autocomplete: "off") %>
