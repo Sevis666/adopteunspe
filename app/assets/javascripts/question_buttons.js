@@ -36,35 +36,3 @@ function countChildren(parent) {
     }
     return relevantChildren;
 }
-
-function addStudentsPoints(parent, count) {
-    var div = document.createElement("div");
-    div.className = "student-points";
-
-    var dropdown = document.createElement("select");
-    dropdown.name = "answers[" + count + "][points][" + (countChildren(parent) + 1) + "][student]";
-    // Fix for Lison always getting 0 points
-    var o = document.createElement("option");
-    o.value = "";
-    o.text = "";
-    dropdown.appendChild(o);
-
-    for (var i=0; i<students.length; i++) {
-        var option = document.createElement("option");
-        option.value = studentIds[i];
-        option.text = students[i];
-        dropdown.appendChild(option);
-    }
-    div.appendChild(dropdown);
-
-    var pointsInput = document.createElement("input");
-    pointsInput.type = "number"
-    pointsInput.name = "answers[" + count + "][points][" + (countChildren(parent) + 1) + "][value]";
-    pointsInput.value = 0;
-    pointsInput.min = 0;
-    pointsInput.max = 10;
-    pointsInput.class = "points-counter";
-    div.appendChild(pointsInput);
-
-    parent.appendChild(div);
-}
