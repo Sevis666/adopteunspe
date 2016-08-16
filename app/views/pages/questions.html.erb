@@ -11,9 +11,10 @@
             <div class="coeff-box" id="question-<%= q.id %>">
                 <%= form_tag("/questions/#{q.id}/vote", method: "post",
                              class: "vote-form #{q.chosen_vote_class(@spe)}", remote: "true") do %>
-                    <%= submit_tag("", name: "upvote", id: "upvote") %>
+                    <%= hidden_field_tag("", q.chosen_vote(@spe), name: "previousvote", class: "previousvote") %>
+                    <%= submit_tag("", name: "upvote", id: "upvote", onclick: "setUpvoted(this.parentNode)") %>
                     <p class="votes"><%= q.vote_count %></p>
-                    <%= submit_tag("", name: "downvote", id: "downvote") %>
+                    <%= submit_tag("", name: "downvote", id: "downvote", onclick: "setDownvoted(this.parentNode)") %>
                 <% end %>
                 <div class="divider"></div>
                 <p class="your-coeff"><%= q.chosen_coeff(@spe) %></p>
@@ -78,3 +79,22 @@
 </script>
 
 <%= javascript_include_tag "send_comment.js" %>
+
+<script type="text/javascript">
+ function setUpvoted(div) {
+     div.className = "vote-form upvoted";
+     var p = div.getElementsByClassName("previousvote")[0];
+     d = 1 - p.value;
+     p.value = 1;
+     var points = div.getElementsByClassName("votes")[0];
+     points.innerHTML = Number(points.innerHTML) + d;
+ }
+ function setDownvoted(div) {
+     div.className = "vote-form downvoted";
+     var p = div.getElementsByClassName("previousvote")[0];
+     d = -1 - p.value;
+     p.value = -1;
+     var points = div.getElementsByClassName("votes")[0];
+     points.innerHTML = Number(points.innerHTML) + d;
+ }
+</script>
