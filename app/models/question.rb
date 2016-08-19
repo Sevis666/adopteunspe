@@ -101,4 +101,11 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       self.save
     end
   end
+
+  def shred
+    Answer.where(question_id: id).destroy_all
+    Vote.where(question_id: id).destroy_all
+    SuggestedCoeff.where(question_id: id).destroy_all
+    destroy
+  end
 end
