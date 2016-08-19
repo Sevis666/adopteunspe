@@ -106,6 +106,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     Answer.where(question_id: id).destroy_all
     Vote.where(question_id: id).destroy_all
     SuggestedCoeff.where(question_id: id).destroy_all
+    Comment.where(question_id: 2).destroy_all
     destroy
   end
 end
