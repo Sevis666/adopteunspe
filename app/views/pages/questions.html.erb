@@ -6,95 +6,20 @@
         <h4>Le système de points change !</h4>
         <p>Cliquez <a href="/message_board">ici</a> pour plus d'explications</p>
     </div>
-    <% Question.all.order(:id).each do |q| %>
-        <div class="centerer">
-            <div class="coeff-box" id="question-<%= q.id %>">
-                <%= form_tag("/questions/#{q.id}/vote", method: "post",
-                             class: "vote-form #{q.chosen_vote_class(@spe)}", remote: "true") do %>
-                    <%= hidden_field_tag("", q.chosen_vote(@spe), name: "previousvote", class: "previousvote") %>
-                    <%= submit_tag("", name: "upvote", id: "upvote", onclick: "setUpvoted(this.parentNode)") %>
-                    <p class="votes"><%= q.vote_count %></p>
-                    <%= submit_tag("", name: "downvote", id: "downvote", onclick: "setDownvoted(this.parentNode)") %>
-                <% end %>
-                <div class="divider"></div>
-                <p class="your-coeff"><%= q.chosen_coeff(@spe) %></p>
-                <p class="general-coeff"><%= q.coeff.round(1) %></p>
-            </div>
-        </div>
-        <li class="question-box">
-            <div class="question-title-wrapper">
-                <h3 class="question-title"  onclick="showAnswerPoints(this)"><%= q.question %></h3>
-                <a class="modify-button" href="/questions/<%= q.id %>"></a>
-            </div>
-            <ul class="answers-container">
-                <% q.answer.order(:answer_number).each do |a| %>
-                    <li class="answer-box">
-                        <p class="answer-private-points"><%= (e = a[@spe.username.to_sym]) == 0 ? "-" : e %></p>
-                        <div class="answer-public">
-                            <p class="answer-title"><%= a.answer %></p>
-                            <p class="answer-scores"><%= a.print_scores.join(', ') %></p>
-                        </div>
-                    </li>
-                <% end %>
-            </ul>
-        </li>
-
-        <% comments = q.comments %>
-        <% unless comments.empty? %>
-            <div class="comments">
-                <% comments.each do |c| %>
-                    <p class="comment"><%= "#{c[:user]} : #{c[:comment]}" %></p>
-                <% end %>
-                <%= form_tag("/questions/#{q.id}/comment", method: "post", class: "add-comment-box", remote: true, onsubmit: "sendComment(this)") do %>
-                    <%= text_field_tag(:comment_buff, nil, placeholder: "Commenter", class: "comment-input", autocomplete: "off") %>
-                    <%= hidden_field_tag(:comment, nil, class: "comment-hidden")%>
-                    <%= submit_tag("Send", class: "comment-button")%>
-                <% end %>
-            </div>
-        <% end %>
-    <% end %>
+    <%= render 'question', collection: Question.all.order(:id) %>
 </ul>
 <%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button", id: "bottom" %>
 <p class="user-info"><%= @spe.full_name %></p>
 <%= link_to "", "#", class: "to-top-button" %>
 
 <script type="text/javascript">
- var fullName = "<%= @spe.full_name %>";
- function showAnswerPoints(div) {
-     var c = div.parentNode.parentNode.className;
-     if (c == "question-box") {
-         c = "question-box shown";
-     } else {
-         c = "question-box";
-     }
-     div.parentNode.parentNode.className = c;
- }
-</script>
-
-<script type="text/javascript">
  window.onload =
      function () {
-         window.history.replaceState("", document.title, location.href.split('#')[0]);
+         window.history.pushState("", document.title, location.href.split('#')[0]);
      };
+var fullName = "<%= @spe.full_name %>";
 </script>
 
 <%= javascript_include_tag "send_comment.js" %>
-
-<script type="text/javascript">
- function setUpvoted(div) {
-     div.className = "vote-form upvoted";
-     var p = div.getElementsByClassName("previousvote")[0];
-     d = 1 - p.value;
-     p.value = 1;
-     var points = div.getElementsByClassName("votes")[0];
-     points.innerHTML = Number(points.innerHTML) + d;
- }
- function setDownvoted(div) {
-     div.className = "vote-form downvoted";
-     var p = div.getElementsByClassName("previousvote")[0];
-     d = -1 - p.value;
-     p.value = -1;
-     var points = div.getElementsByClassName("votes")[0];
-     points.innerHTML = Number(points.innerHTML) + d;
- }
-</script>
+<%= javascript_include_tag "toggle_question_points.js" %>
+<%= javascript_include_tag "vote_question.js" %>
