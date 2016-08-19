@@ -1,4 +1,5 @@
 <h1 class="page-title">Questions non-coefficientées</h1>
+<%= link_to "", "/questions", class: "home-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
     <% collection = Question.joins(:suggested_coeff).where(:suggested_coeffs => {@spe.username.to_sym => 0}).order(:id) %>

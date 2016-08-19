@@ -1,4 +1,5 @@
 <h1 class="page-title">Questions à réponse invalide</h1>
+<%= link_to "", "/questions", class: "home-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
     <% collection = Question.joins(:answer).select("questions.*").having("SUM(#{@spe.username}) <> 10").group("questions.id").order(:id) %>

@@ -140,12 +140,11 @@ a:hover {
     text-align: center;
 }
 
-.to-bottom-button, .to-top-button {
+.to-bottom-button, .to-top-button, .home-button {
     width: 2rem;
     height: 2rem;
     box-sizing: border-box;
     position: absolute;
-    right: 0;
     margin: 1rem;
     background-size: 2rem 2rem;
     background-repeat: no-repeat;
@@ -154,13 +153,22 @@ a:hover {
 .to-bottom-button {
     background-image: image-url("down_arrow.png");
     top: 0;
+    right: 0;
     margin-top: 0;
 }
 
 .to-top-button {
     background-image: image-url("up_arrow.png");
     bottom: 0;
+    right: 0;
     margin-bottom: 0;
+}
+
+.home-button {
+    background-image: image-url("home.png");
+    top: 0;
+    left: 0;
+    margin-top: 0;
 }
 
 ul, li {
@@ -660,14 +668,18 @@ ul, li {
         margin-left: 10%;
         margin-right: 10%;
     }
-
+    .home-button {
+        width: 2.5rem;
+        height: 2.5rem;
+        background-size: 2.5rem 2.5rem;
+    }
 }
 
 @media all and (min-width: 60rem) {
     // again some more padding
     .main-container {
         margin-left: 15%;
-        margin-right: 15;
+        margin-right: 15%;
     }
 }
 
@@ -677,7 +689,11 @@ ul, li {
         margin-left: 20%;
         margin-right: 20%;
     }
-
+    .home-button {
+        width: 3rem;
+        height: 3rem;
+        background-size: 3rem 3rem;
+    }
 }
 
 @media all and (min-width: 100rem) {
