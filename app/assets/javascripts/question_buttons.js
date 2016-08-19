@@ -7,6 +7,16 @@ function addAnswer() {
 
     var tmp = document.createElement("div");
     tmp.className = "upper-box";
+
+    var points = document.createElement("input");
+    points.className = "private-points-input";
+    points.type = "number";
+    points.min = 0;
+    points.max = 10;
+    points.value = 0;
+    points.name = "answers[" + count + "][points]";
+    tmp.appendChild(points);
+
     var input = document.createElement("input");
     input.type = "text";
     input.name = "answers[" + count + "][answer]";
@@ -14,15 +24,7 @@ function addAnswer() {
     input.className = "answer-input";
     tmp.appendChild(input);
 
-    var button = document.createElement("div");
-    button.className = "button";
-    button.onclick = function() {addStudentsPoints(pointsDiv, count);};
-    tmp.appendChild(button);
     div.appendChild(tmp);
-
-    var pointsDiv = document.createElement("div");
-    addStudentsPoints(pointsDiv, count);
-    div.appendChild(pointsDiv);
 
     container.appendChild(div);
 }
