@@ -12,6 +12,23 @@ class PagesController < ApplicationController
     check_cookie
   end
 
+  def questions_unvoted
+    params[:page] = "/questions/unvoted"
+    check_cookie
+  end
+
+  def questions_unanswered
+    params[:page] = "/questions/unanswered"
+    @unanswered = true
+    check_cookie
+  end
+
+  def questions_unrated
+    params[:page] = "/questions/unrated"
+    @unrated = true
+    check_cookie
+  end
+
   def add_new_question
     params[:page] = "/questions/new"
     check_cookie
@@ -43,7 +60,13 @@ class PagesController < ApplicationController
         a.save
       end
 
-      redirect_to "/questions#question-#{q.id}"
+      if params.has_key? :unanswered
+        redirect_to "/questions/unanswered"
+      elsif params.has_key? :unrated
+        redirect_to "/questions/unrated"
+      else
+        redirect_to "/questions#question-#{q.id}"
+      end
     end
   end
 

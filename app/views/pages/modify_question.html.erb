@@ -2,7 +2,12 @@
 <% q = Question.find(params[:id]) %>
 <div class="main-container">
     <%= form_tag("/questions/new", method: "post", class: "question-form-box") do %>
-        <%= hidden_field_tag('question_id', params[:id])%>
+        <% if params.has_key? :unanswered %>
+            <%= hidden_field_tag(:unanswered, true) %>
+        <% elsif params.has_key? :unrated %>
+            <%= hidden_field_tag(:unrated, true) %>
+        <% end %>
+        <%= hidden_field_tag('question_id', params[:id]) %>
         <div class="flex-box-reverse">
             <%= number_field_tag(:coeff, q.chosen_coeff(@spe), class: "private-points-input", min: 0, max: 10) %>
             <%= text_field_tag(:question, nil, value: q.question, class: "question-input", autocomplete: "off") %>

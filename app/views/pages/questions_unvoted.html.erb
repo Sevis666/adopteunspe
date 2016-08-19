@@ -1,0 +1,27 @@
+<h1 class="page-title">Questions non-votées</h1>
+<%= link_to "", "#bottom", class: "to-bottom-button" %>
+<ul class="main-container">
+    <% collection = Question.joins(:vote).where(:votes => {@spe.username.to_sym => 0}) %>
+    <%= render 'question', collection: collection %>
+    <% if collection.empty? %>
+        <div class="centerer">
+            <p>C'est bon !</p>
+            <p>Vous avez voté pour toutes les questions</p>
+            <p>Repassez plus tard, d'autres questions pourraient être ajoutées</p>
+        </div>
+    <% end %>
+</ul>
+<p class="user-info"><%= @spe.full_name %></p>
+<%= link_to "", "#", class: "to-top-button" %>
+
+<script type="text/javascript">
+ window.onload =
+     function () {
+         window.history.pushState("", document.title, location.href.split('#')[0]);
+     };
+var fullName = "<%= @spe.full_name %>";
+</script>
+
+<%= javascript_include_tag "send_comment.js" %>
+<%= javascript_include_tag "toggle_question_points.js" %>
+<%= javascript_include_tag "vote_question.js" %>

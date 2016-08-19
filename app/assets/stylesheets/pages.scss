@@ -105,8 +105,25 @@ a:hover {
 
 .info {
     border: 1px solid $dark-grey;
-    border-radius: 1rem;
+    border-radius: .5rem;
     text-align: center;
+}
+
+.info-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    a {
+        box-sizing: border-box;
+        flex-basis: 20%;
+        flex-grow: 1;
+        border: 1px solid $dark-grey;
+        border-radius: .5rem;
+        margin-top: 0;
+        margin-bottom: .4rem;
+        padding: .4rem;
+    }
 }
 
 /* --- Questions Page --- */

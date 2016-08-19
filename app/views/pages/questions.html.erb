@@ -2,9 +2,13 @@
 <%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
-    <div class="info">
-        <h4>Le système de points change !</h4>
-        <p>Cliquez <a href="/message_board">ici</a> pour plus d'explications</p>
+    <div class="centerer">
+        <h4>Filtrer les questions par</h4>
+        <div class="info-links">
+            <%= link_to "Vote", "/questions/unvoted" %>
+            <%= link_to "Réponses", "/questions/unanswered" %>
+            <%= link_to "Coefficients", "/questions/unrated" %>
+        </div>
     </div>
     <%= render 'question', collection: Question.all.order(:id) %>
 </ul>

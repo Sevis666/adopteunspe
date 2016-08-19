@@ -1,3 +1,14 @@
+<%
+def parse_filter
+    if @unanswered
+        "?unanswered"
+    elsif @unrated
+        "?unrated"
+    else
+        ""
+    end
+end
+%>
 <% collection.find_each do |q| %>
     <div class="centerer">
         <div class="coeff-box" id="question-<%= q.id %>">
@@ -16,7 +27,7 @@
     <li class="question-box">
         <div class="question-title-wrapper">
             <h3 class="question-title"  onclick="showAnswerPoints(this)"><%= q.question %></h3>
-            <a class="modify-button" href="/questions/<%= q.id %>"></a>
+            <a class="modify-button" href="/questions/<%= q.id %><%= parse_filter %>"></a>
         </div>
         <ul class="answers-container">
             <% q.answer.order(:answer_number).each do |a| %>
