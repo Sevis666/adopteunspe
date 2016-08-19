@@ -18,7 +18,7 @@
                 <% end %>
                 <div class="divider"></div>
                 <p class="your-coeff"><%= q.chosen_coeff(@spe) %></p>
-                <p class="general-coeff"><%= q.coeff %></p>
+                <p class="general-coeff"><%= q.coeff.round(1) %></p>
             </div>
         </div>
         <li class="question-box">
