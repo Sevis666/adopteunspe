@@ -3,6 +3,12 @@
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
     <% collection = Question.joins(:answer).select("questions.*").having("SUM(#{@spe.username}) <> 10").group("questions.id").order(:id) %>
+    <% unless collection.empty? %>
+        <div class="info">
+            <p>Le total de vos points sur ces questions n'est pas 10</p>
+            <p>Pour attribuer vos points, cliquer sur l'icône de modification</p>
+        </div>
+    <% end %>
     <%= render 'question', collection: collection %>
     <% if collection.empty? %>
         <div class="centerer"

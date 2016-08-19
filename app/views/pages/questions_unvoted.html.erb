@@ -3,6 +3,12 @@
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
     <% collection = Question.joins(:vote).where(:votes => {@spe.username.to_sym => 0}) %>
+    <% unless collection.empty? %>
+        <div class="info">
+            <p>Il est conseillé d'éviter de voter blanc, mais vous pouvez choisir de le faire de façon ponctuelle</p>
+            <p>Vous n'avez pas voté pour les questions suivantes :</p>
+        </div>
+    <% end %>
     <%= render 'question', collection: collection %>
     <% if collection.empty? %>
         <div class="centerer">

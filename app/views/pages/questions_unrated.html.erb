@@ -3,6 +3,13 @@
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
     <% collection = Question.joins(:suggested_coeff).where(:suggested_coeffs => {@spe.username.to_sym => 0}).order(:id) %>
+    <% unless collection.empty? %>
+        <div class="info">
+            <p>Il est conseillé d'attribuer un coefficient à chaque question</p>
+            <p>Si le coefficient déjà attribué vous convient, vous pouvez revoter pour ce même coefficient</p>
+            <p>Vous n'avez pas attribué de coefficients aux questions suivantes :</p>
+        </div>
+    <% end %>
     <%= render 'question', collection: collection %>
     <% if collection.empty? %>
         <div class="centerer">
