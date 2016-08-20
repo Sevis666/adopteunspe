@@ -119,12 +119,16 @@ class PagesController < ApplicationController
                  gender: params[:gender],
                  birthday: Date.parse("#{params["year-of-birth"]}-#{params["month-of-birth"]}-#{params["day-of-birth"]}"))
     u.save
-    redirect_to action: "survey"
+    token = u.calculate_token
+    redirect_to action: "survey", token: token
   end
 
   def survey
+    user = User.find_by(token: params[:token])
     if request.post?
-      # handle user's answers
+      params[:answers].each do |question_id, chosen_answer|
+        UsersAnswer.new(user_id: user.id, question_id: question_id.to_i, answer_number: chosen_answer.to_i).save
+      end
       redirect_to action: "user_login"
     end
   end

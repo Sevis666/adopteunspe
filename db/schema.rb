@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819185732) do
+ActiveRecord::Schema.define(version: 20160820124301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20160819185732) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
+    t.string "token"
     t.string "email"
     t.string "first_name"
     t.string "last_name"
@@ -155,53 +155,7 @@ ActiveRecord::Schema.define(version: 20160819185732) do
   create_table "users_answers", force: :cascade do |t|
     t.integer "question_id"
     t.integer "answer_number"
-    t.integer "abecassis"
-    t.integer "athor"
-    t.integer "azizian"
-    t.integer "beaulieu"
-    t.integer "boutin"
-    t.integer "bruneaux"
-    t.integer "brunod"
-    t.integer "bustillo"
-    t.integer "careil"
-    t.integer "chardon"
-    t.integer "cortes"
-    t.integer "diridollou"
-    t.integer "dumond"
-    t.integer "fievet"
-    t.integer "flechelles"
-    t.integer "gaborit"
-    t.integer "georges"
-    t.integer "godefroy"
-    t.integer "haas"
-    t.integer "khalfallah"
-    t.integer "lanfranchi"
-    t.integer "lecat"
-    t.integer "ledaguenel"
-    t.integer "laigret"
-    t.integer "lengele"
-    t.integer "lequen"
-    t.integer "lerbet"
-    t.integer "lezanne"
-    t.integer "lozach"
-    t.integer "medmoun"
-    t.integer "nguyen"
-    t.integer "preumont"
-    t.integer "qrichi"
-    t.integer "rabineau"
-    t.integer "ravetta"
-    t.integer "rael"
-    t.integer "ren"
-    t.integer "robina"
-    t.integer "robind"
-    t.integer "sahli"
-    t.integer "scotti"
-    t.integer "sourice"
-    t.integer "steiner"
-    t.integer "thomas"
-    t.integer "vanel"
-    t.integer "vital"
-    t.integer "zhou"
+    t.integer "user_id"
   end
 
   create_table "votes", force: :cascade do |t|
