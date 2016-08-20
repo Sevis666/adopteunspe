@@ -122,6 +122,10 @@ a:hover {
     border: 1px solid $dark-grey;
     border-radius: 1rem;
     text-align: center;
+
+    a {
+        margin: 0;
+    }
 }
 
 .info-links {
@@ -139,6 +143,10 @@ a:hover {
         margin-bottom: .4rem;
         padding: .4rem;
     }
+}
+
+.top-spacing {
+    margin-top: 1.2rem;
 }
 
 /* --- Questions Page --- */

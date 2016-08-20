@@ -2,7 +2,11 @@
 <%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
-    <div class="centerer">
+    <div class="info">
+        <p>Pour un aperçu de la façon dont les sups verront le questionnaire, c'est <a href="/user_login">par ici</a></p>
+        <p>(Vous pouvez rentrer des infos bidons, elles seront supprimées de toute façon)</p>
+    </div>
+    <div class="centerer top-spacing">
         <h4>Filtrer les questions par</h4>
         <div class="info-links">
             <%= link_to "Vote", "/questions/unvoted" %>
