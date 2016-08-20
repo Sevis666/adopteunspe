@@ -135,12 +135,11 @@ a:hover {
 
     a {
         box-sizing: border-box;
-        flex-basis: 20%;
+        flex-basis: 28%;
         flex-grow: 1;
         border: 1px solid $dark-grey;
         border-radius: .5rem;
-        margin-top: 0;
-        margin-bottom: .4rem;
+        margin: 0 .4rem .4rem .4rem;
         padding: .4rem;
     }
 }
