@@ -1,0 +1,48 @@
+<style>
+ body {
+     background: #1C2128;
+ }
+</style>
+<%= form_tag("/survey", method: "post") do %>
+<div class="main-container centerer horizontal-layout">
+    <div id="page-1" class="survey-page visible">
+        <h1>Questionnaire de personnalité</h1>
+        <p class="justify">Comme tout site de rencontre sérieux, nous pensons que la clé de la rencontre sérieuse est le test de compatibilité.<br>C'est pourquoi l'approche choisie par notre agence de rencontre haut de gamme repose sur un questionnaire de personnalité.<br>À la fois simple et scientifique, notre questionnaire de personnalité est composé d'une série d'interrogations focalisées sur l'examen approfondi des aspects psychologiques et affectifs de celui qui s'y soumet. Élaboré par un groupe d'experts en relations sups-spés, ce test a été spécialement conçu pour vous permettre de trouver le spé qu'il vous faut.</p>
+        <p class="button" onclick="nextPage()">Commencer</p>
+        <p class="dark-small-bottom-message">En choisissant de répondre à ce questionnaire, vous acceptez par la même occasion que notre site enregistre des données sensibles vous concernant. Le site décline toute responsabilité en cas de maltraitance future si ces données devaient malencontreusement être communiquées à un barbu en trotinette ou à un callipyge humoriste en devenir. Toute information que vous communiquez dans le présent questionnaire pourra être et sera utilisée contre vous dans le courant de l'année.</p>
+    </div>
+    <% i = 2 %>
+    <% Question.all.find_each do |q| %>
+        <div id="page-<%= i %>" class="survey-page">
+            <%= hidden_field_tag(nil, 0, name: "answers[#{q.id}]", class: "answer-buffer") %>
+            <h1 class="question"><%= q.question %></h1>
+            <div class="answers">
+                <% q.answer.order(:answer_number).each do |a| %>
+                    <p class="answer" onclick="setAnswer(this.parentNode.parentNode, <%= a.answer_number %>);nextPage()"><%= a.answer %></p>
+                <% end %>
+            </div>
+        </div>
+        <% i += 1 %>
+    <% end %>
+    <div class="survey-page">
+        <h1>Fin du questionnaire</h1>
+        <p>Merci d'avoir répondu</p>
+        <p>Nous vous recontacterons lorsque nous aurons trouvé quelqu'un qui vous correspond</p>
+        <p>Pour finaliser votre inscription, veuillez valider vos réponses avec le bouton ci-dessous</p>
+        <%= submit_tag("Valider", class: "button") %>
+    </div>
+</div>
+<% end %>
+
+<script type="text/javascript">
+ var i = 0;
+ function nextPage() {
+     document.getElementsByClassName("survey-page")[i].className = "survey-page";
+     i = i + 1;
+     document.getElementsByClassName("survey-page")[i].className = "survey-page visible";
+ }
+
+ function setAnswer(div, number) {
+     div.getElementsByClassName("answer-buffer")[0].value = number;
+ }
+</script>

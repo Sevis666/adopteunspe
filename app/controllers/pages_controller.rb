@@ -119,7 +119,14 @@ class PagesController < ApplicationController
                  gender: params[:gender],
                  birthday: Date.parse("#{params["year-of-birth"]}-#{params["month-of-birth"]}-#{params["day-of-birth"]}"))
     u.save
-    redirect_to "/"
+    redirect_to action: "survey"
+  end
+
+  def survey
+    if request.post?
+      # handle user's answers
+      redirect_to action: "user_login"
+    end
   end
 
   private

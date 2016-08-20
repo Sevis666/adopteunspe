@@ -16,4 +16,6 @@ Rails.application.routes.draw do
 
   get '/user_login', to: 'pages#user_login'
   post '/user_login', to: 'pages#register_user'
+  get '/survey', to: 'pages#survey'
+  post '/survey', to: 'pages#survey'
 end

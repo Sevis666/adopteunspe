@@ -789,6 +789,74 @@ ul, li {
     }
 }
 
+.main-container.horizontal-layout {
+    display: flex;
+    flex-direction: row;
+    max-width: 30rem;
+    margin: 0 auto;
+}
+
+.survey-page {
+    box-sizing: border-box;
+    display: none;
+    overflow: hidden;
+    color: #fff;
+
+    h1 {
+        color: $pink;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button {
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 1.2rem;
+        padding: .4rem .6rem;
+        margin: 1rem .8rem;
+        color: #fff;
+        border: none;
+        border-radius: 0;
+        background: none;
+        background-color: $pink;
+    }
+    button:hover {
+        animation-name: changepink;
+        animation-duration: .5s;
+        background: $dark-pink;
+    }
+
+    .question {
+        font-weight: bold;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        color: $pink;
+    }
+
+    .answer {
+        padding: .6rem;
+        border: 1px solid #fff;
+        border-radius: .5rem;
+    }
+
+    p.justify {
+        text-align: justify;
+    }
+
+    .dark-small-bottom-message {
+        text-align: justify;
+        font-size: .8rem;
+        line-height: 1rem;
+        color: $very-dark-grey;
+    }
+
+}
+
+.survey-page.visible {
+    width: 100%;
+    display: block;
+}
+
 /* --- Media Queries --- */
 @media all and (min-width: 29rem) {
     // add some padding
