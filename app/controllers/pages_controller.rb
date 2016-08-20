@@ -109,6 +109,19 @@ class PagesController < ApplicationController
     render nothing: true, status: 200
   end
 
+  def user_login
+  end
+
+  def register_user
+    u = User.new(first_name: params[:first_name], last_name: params[:last_name],
+                 email: params[:email],
+                 phonenumber: params[:phonenumber],
+                 gender: params[:gender],
+                 birthday: Date.parse("#{params["year-of-birth"]}-#{params["month-of-birth"]}-#{params["day-of-birth"]}"))
+    u.save
+    redirect_to "/"
+  end
+
   private
   def check_authenticity(key)
     @spe = Spe.find_by(key: key)

@@ -1,0 +1,58 @@
+<style>
+ body {
+     background: #1C2128;
+ }
+</style>
+<div class="main-container">
+    <%= form_tag("/user_login", method: "post", class: "user-login-form") do %>
+        <%= image_tag("logo.png", class: "logo") %>
+        <% if @error %>
+            <div class="error-message">
+                <p><%= @error %></p>
+            </div>
+        <% else %>
+            <h5>Inscription gratuite</h5>
+            <p class="subtitle"><i>en moins d'une minute</i></p>
+        <% end %>
+        <select name="gender" id="gender">
+            <option value="" disabled="disabled" selected>je suis&hellip;</option>
+            <option value="female">une femme</option>
+            <option value="male">un homme</option>
+        </select>
+        <div class="date-of-birth">
+            <select name="day-of-birth" class="day-of-birth">
+                <option selected value="" disabled="disabled"><i>JJ</i></option>
+                <% (1..31).each do |i| %>
+                    <option value="<%= i %>"><%= i %></option>
+                <% end %>
+            </select>
+            <select name="month-of-birth" class="month-of-birth">
+                <option selected value="" disabled="disabled"><i>MM</i></option>
+                <% ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
+                .each_with_index do |m, i| %>
+                    <option value="<%= i + 1%>"><%= m %></option>
+                <% end %>
+            </select>
+            <select name="year-of-birth" class="year-of-birth">
+                <option selected value="" disabled="disabled"><i>AAAA</i></option>
+                <% (1995..2016).each do |i| %>
+                    <option value="<%= i %>"><%= i %></option>
+                <% end %>
+            </select>
+        </div>
+        <%= text_field_tag(:first_name, nil, placeholder: "Prénom", autocomplete: "off") %>
+        <%= text_field_tag(:last_name, nil, placeholder: "Nom", autocomplete: "off") %>
+        <%= email_field_tag(:email, nil, placeholder: "e-mail", autocomplete: "off") %>
+        <%= telephone_field_tag(:phonenumber, nil, placeholder: "Tel", autocomplete: "off") %>
+        <div class="license-agreement">
+            <input name="agreement" type="checkbox">
+            <p class="small-bottom-message">Je certifie être en MPSI2 et j'accepte les <a href="/license_agreement">condition générales d'utilisation</a>. J'accepte que ce site collecte et traite mes données sensibles dans le cadre de ses activités</p>
+        </div>
+        <%= submit_tag("Je m'inscris", class: "button") %>
+        <br>
+        <p class="dark-small-bottom-message"><i>
+            Vos données personnelles sont collectées pour vous permettre d’accéder et d'utiliser les services du Site.
+            Ces informations sont exclusivement destinées à notre classe et à ses prestataires situés dans et en dehors de l’Union Européenne (#Gusdorf).
+            Vous pouvez demander l’accès, la rectification et l'opposition aux données vous concernant en vous adressant à notre Support Clientèle : <a href="mailto:david.robin97@gmail.com">support.adopteunspe@mpsi2.llg.edu</a></i></p>
+    <% end %>
+</div>

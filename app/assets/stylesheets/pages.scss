@@ -5,6 +5,12 @@ $light-grey: #f4f4f4;
 $very-light-grey: #fafafa;
 $dark-red: #840505;
 
+$dark-black: #1C2128;
+$light-black: #3C4147;
+$very-dark-grey: #676E76;
+$pink: #F48FB1;
+$dark-pink: #FF4081;
+
 body {
     margin: 0;
     box-sizing: border-box;
@@ -12,6 +18,15 @@ body {
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
+}
+
+@keyframes changepink {
+    from {
+        background-color: $pink;
+    }
+    to {
+        background-color: $dark-pink;
+    }
 }
 
 /* ----- Typography ----- */
@@ -651,6 +666,127 @@ ul, li {
 /* --- Login --- */
 .error-message p {
     color: $dark-red;
+}
+
+/* --- User Login --- */
+.user-login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    box-sizing: border-box;
+    max-width: 28rem;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+
+    a {
+        color: $pink;
+    }
+    a:hover {
+        color: $dark-pink;
+    }
+
+    input:not([type='checkbox']), select {
+        box-sizing: border-box;
+        line-height: 1.8rem;
+        font-size: 1.2rem;
+        vertical-align: baseline;
+        border: none;
+        background: none;
+        background: $light-black;
+        margin: .4rem .5rem;
+        padding: .3rem .6rem;
+        color: #fff;
+    }
+    input[type='checkbox'] {
+        background: $light-black;
+        color: #fff;
+    }
+
+    select {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: image-url("white_down_arrow.png");
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        background-position: right top;
+    }
+
+
+    h5 {
+        margin-bottom: .1rem;
+        color: $pink;
+        font-size: 1.2rem;
+    }
+    .subtitle {
+        margin-top: 0;
+    }
+
+    .date-of-birth, .license-agreement {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .date-of-birth {
+        .year-of-birth {
+            flex-basis: 40%;
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+        .month-of-birth {
+            flex-basis: 20%;
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+        .day-of-birth {
+            flex-basis: 20%;
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+    }
+
+    .license-agreement {
+        input, p {
+            margin: .6rem;
+        }
+    }
+
+    .small-bottom-message, .dark-small-bottom-message {
+        text-align: justify;
+        font-size: .8rem;
+        line-height: 1rem;
+        a {
+            margin: 0;
+        }
+    }
+
+    .dark-small-bottom-message {
+        color: $very-dark-grey;
+        a {
+            font-weight: normal;
+        }
+    }
+
+    input.button {
+        border: none;
+        border-radius: 0;
+        background: $pink;
+    }
+    input.button:hover {
+        animation-name: changepink;
+        animation-duration: .5s;
+        background: $dark-pink;
+    }
+
+    .logo {
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+        margin: 0;
+    }
 }
 
 /* --- Media Queries --- */
