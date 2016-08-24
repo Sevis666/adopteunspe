@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160824061310) do
+ActiveRecord::Schema.define(version: 20160824123521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 20160824061310) do
     t.integer "vital",         default: 0
     t.integer "zhou",          default: 0
   end
+
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "question_id"
@@ -143,6 +145,8 @@ ActiveRecord::Schema.define(version: 20160824061310) do
     t.integer "zhou",        default: 0
   end
 
+  add_index "suggested_coeffs", ["question_id"], name: "index_suggested_coeffs_on_question_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string "token"
     t.string "email"
@@ -209,5 +213,7 @@ ActiveRecord::Schema.define(version: 20160824061310) do
     t.integer "vital",       default: 0
     t.integer "zhou",        default: 0
   end
+
+  add_index "votes", ["question_id"], name: "index_votes_on_question_id", using: :btree
 
 end
