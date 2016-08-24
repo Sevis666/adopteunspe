@@ -416,6 +416,18 @@ ul, li {
         flex-grow: 0;
         flex-shrink: 0;
     }
+
+    .multiple {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+
+        p {
+            margin: 0;
+            padding: .4rem .6rem;
+            border-bottom: 1px solid #000;
+        }
+    }
 }
 
 .answer-box {
@@ -816,18 +828,18 @@ ul, li {
     }
 
     .button {
-        width: 100%;
+        width: 98%;
         box-sizing: border-box;
         font-size: 1.2rem;
         padding: .4rem .6rem;
-        margin: 1rem .8rem;
+        margin: 1rem 0;
         color: #fff;
         border: none;
         border-radius: 0;
         background: none;
         background-color: $pink;
     }
-    button:hover {
+    .button:hover {
         animation-name: changepink;
         animation-duration: .5s;
         background: $dark-pink;
@@ -844,6 +856,9 @@ ul, li {
         padding: .6rem;
         border: 1px solid #fff;
         border-radius: .5rem;
+    }
+    .answer.selected, .answer:hover {
+        background: $pink;
     }
 
     p.justify {

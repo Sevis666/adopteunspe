@@ -127,8 +127,10 @@ class PagesController < ApplicationController
     if request.post?
       user = User.find_by(token: params[:token])
       redirect_to action: "user_login" if user.nil?
-      params[:answers].each do |question_id, chosen_answer|
-        UsersAnswer.new(user_id: user.id, question_id: question_id.to_i, answer_number: chosen_answer.to_i).save
+      params[:answers].each do |question_id, chosen_answers|
+        (chosen_answers.split(";").select {|s| s.size > 0 }).map(&:to_i).sort.uniq.each do |answer_number|
+          UsersAnswer.new(user_id: user.id, question_id: question_id.to_i, answer_number: answer_number).save
+        end
       end
       redirect_to action: "user_login"
     end

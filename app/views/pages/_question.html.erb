@@ -29,6 +29,11 @@ end
             <h3 class="question-title"  onclick="showAnswerPoints(this)"><%= q.question %></h3>
             <a class="modify-button" href="/questions/<%= q.id %><%= parse_filter %>"></a>
         </div>
+        <% if q.multiple %>
+            <div class="multiple">
+                <p>Question à réponses multiples</p>
+            </div>
+        <% end %>
         <ul class="answers-container">
             <% q.answer.order(:answer_number).each do |a| %>
                 <li class="answer-box">

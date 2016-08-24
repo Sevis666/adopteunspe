@@ -17,11 +17,21 @@
         <div id="page-<%= i %>" class="survey-page">
             <%= hidden_field_tag(nil, 0, name: "answers[#{q.id}]", class: "answer-buffer") %>
             <h1 class="question"><%= q.question %></h1>
+            <% if q.multiple %>
+                <p class="small-indication"><i>Question à réponses multiples</i></p>
+            <% end %>
             <div class="answers">
                 <% q.answer.order(:answer_number).each do |a| %>
-                    <p class="answer" onclick="setAnswer(this.parentNode.parentNode, <%= a.answer_number %>);nextPage()"><%= a.answer %></p>
+                    <% if q.multiple %>
+                        <p class="answer" onclick="setAnswerMultiple(this, <%= a.answer_number %>)"><%= a.answer %></p>
+                    <% else %>
+                        <p class="answer" onclick="setAnswer(this, <%= a.answer_number %>);nextPage()"><%= a.answer %></p>
+                    <% end %>
                 <% end %>
             </div>
+            <% if q.multiple %>
+                <p class="button" onclick="nextPage()">Valider</p>
+            <% end %>
         </div>
         <% i += 1 %>
     <% end %>
@@ -44,6 +54,13 @@
  }
 
  function setAnswer(div, number) {
-     div.getElementsByClassName("answer-buffer")[0].value = number;
+     div.className = "answer selected";
+     div.parentNode.parentNode.getElementsByClassName("answer-buffer")[0].value = number;
+ }
+
+ function setAnswerMultiple(div, number) {
+     div.className = "answer selected";
+     var buffer = div.parentNode.parentNode.getElementsByClassName("answer-buffer")[0];
+     buffer.value = buffer.value + number + ";";
  }
 </script>
