@@ -856,8 +856,9 @@ ul, li {
         padding: .6rem;
         border: 1px solid #fff;
         border-radius: .5rem;
+        background: none;
     }
-    .answer.selected, .answer:hover {
+    .answer.selected {
         background: $pink;
     }
 

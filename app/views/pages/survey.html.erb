@@ -15,7 +15,7 @@
     <% i = 2 %>
     <% Question.all.find_each do |q| %>
         <div id="page-<%= i %>" class="survey-page">
-            <%= hidden_field_tag(nil, 0, name: "answers[#{q.id}]", class: "answer-buffer") %>
+            <%= hidden_field_tag(nil, "0;", name: "answers[#{q.id}]", class: "answer-buffer") %>
             <h1 class="question"><%= q.question %></h1>
             <% if q.multiple %>
                 <p class="small-indication"><i>Question à réponses multiples</i></p>
@@ -23,7 +23,7 @@
             <div class="answers">
                 <% q.answer.order(:answer_number).each do |a| %>
                     <% if q.multiple %>
-                        <p class="answer" onclick="setAnswerMultiple(this, <%= a.answer_number %>)"><%= a.answer %></p>
+                        <p class="answer" onclick="toggleAnswerMultiple(this, <%= a.answer_number %>)"><%= a.answer %></p>
                     <% else %>
                         <p class="answer" onclick="setAnswer(this, <%= a.answer_number %>);nextPage()"><%= a.answer %></p>
                     <% end %>
@@ -58,9 +58,14 @@
      div.parentNode.parentNode.getElementsByClassName("answer-buffer")[0].value = number;
  }
 
- function setAnswerMultiple(div, number) {
-     div.className = "answer selected";
+ function toggleAnswerMultiple(div, number) {
      var buffer = div.parentNode.parentNode.getElementsByClassName("answer-buffer")[0];
-     buffer.value = buffer.value + number + ";";
+     if (div.className == "answer selected") {
+         div.className = "answer";
+         buffer.value = buffer.value.replace(";" + number + ";", ";");
+     } else {
+         div.className = "answer selected";
+         buffer.value = buffer.value + number + ";";
+     }
  }
 </script>
