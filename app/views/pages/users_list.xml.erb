@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+    <% User.all.find_each do |u| %>
+        <user>
+            <id><%= u.id %></id>
+            <firstname><%= u.first_name %></firstname>
+            <lastname><%= u.last_name %></lastname>
+            <phonenumber><%= u.phonenumber %></phonenumber>
+            <birthday><%= u.birthday %></birthday>
+            <godfather><%= u.godfather_id.nil? ? "None" : Spe.find(u.godfather_id).full_name %></godfather>
+        </user>
+    <% end %>
+</users>

@@ -136,6 +136,9 @@ class PagesController < ApplicationController
     end
   end
 
+  def users_list
+  end
+
   private
   def check_authenticity(key)
     @spe = Spe.find_by(key: key)
