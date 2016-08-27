@@ -14,7 +14,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
 
     spes = []
     Spe.all.order(:username).each_with_index do |s, i|
-      spes << SpeStudent.new(s.full_name, i, @table, s.id)
+      spes << SpeStudent.new(s.full_name, i, @table, s.id, s.elligible)
     end
     sups = []
     User.all.order(:id).each_with_index do |u, i|
@@ -121,9 +121,10 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
   end
 
   class SpeStudent < Student
-    def initialize(name, id, table, spe_id)
+    def initialize(name, id, table, spe_id, elligible)
       super(name, id, table)
       @spe_id = spe_id
+      @elligible = elligible
     end
     attr_reader :spe_id
 
@@ -137,15 +138,29 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
 
     def respond_to_proposal(person)
       if single?
-        puts "#{self} accepts proposal from #{person}"
+        puts engagement_message(person)
         engage(person)
       elsif better_choice?(person)
-        puts "#{self} dumps #{@fiance} for #{person} (previous score #{affinity_with(@fiance)})"
+        puts dumping_message(person)
         @fiance.free
         engage(person)
       else
-        puts "#{self} refuses proposal from #{person} (previous score #{affinity_with(@fiance)})"
+        puts refusal_message(person)
       end
+    end
+
+    def engagement_message(person)
+      "#{self} accepts proposal from #{person}"
+    end
+
+    def dumping_message(person)
+      "#{self} dumps #{@fiance} for #{person} (previous score #{affinity_with(@fiance)})"
+    end
+
+    def refusal_message(person)
+      s = "#{self} refuses proposal from #{person} "
+      s += "(already taken)" unless @ellgible
+      s += "(previous score #{affinity_with(@fiance)})" unless @fiance.nil?
     end
   end
 end
