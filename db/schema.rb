@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160824123521) do
+ActiveRecord::Schema.define(version: 20160827072637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,9 +89,10 @@ ActiveRecord::Schema.define(version: 20160824123521) do
   end
 
   create_table "spes", force: :cascade do |t|
-    t.string "username"
-    t.string "full_name"
-    t.string "key"
+    t.string  "username"
+    t.string  "full_name"
+    t.string  "key"
+    t.boolean "elligible", default: true
   end
 
   create_table "suggested_coeffs", force: :cascade do |t|
@@ -148,13 +149,14 @@ ActiveRecord::Schema.define(version: 20160824123521) do
   add_index "suggested_coeffs", ["question_id"], name: "index_suggested_coeffs_on_question_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string "token"
-    t.string "email"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "phonenumber"
-    t.date   "birthday"
-    t.string "gender"
+    t.string  "token"
+    t.string  "email"
+    t.string  "first_name"
+    t.string  "last_name"
+    t.string  "phonenumber"
+    t.date    "birthday"
+    t.string  "gender"
+    t.integer "godfather_id"
   end
 
   create_table "users_answers", force: :cascade do |t|

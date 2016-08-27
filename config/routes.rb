@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   post '/user_login', to: 'pages#register_user'
   get '/survey', to: 'pages#survey'
   post '/survey', to: 'pages#survey'
+
+  get '/match_pairs', to: 'processing#match_pairs'
 end
