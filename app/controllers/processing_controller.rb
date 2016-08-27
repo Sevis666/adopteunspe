@@ -5,6 +5,21 @@ gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
 lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
 ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
 
+  def reset_users
+    User.destroy_all
+    UsersAnswer.destroy_all
+    render nothing: true, status: 200
+  end
+
+  def reset_godfathers
+    stmts = ["UPDATE users SET godfather_id = NULL",
+             "UPDATE spes SET elligible = true"]
+    stmts.each do |stmt|
+      ActiveRecord::Base.connection.execute(stmt)
+    end
+    render nothing: true, status: 200
+  end
+
   def match_pairs
     render nothing: true, status: 200
     puts "Starting algorithm"

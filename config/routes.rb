@@ -19,5 +19,7 @@ Rails.application.routes.draw do
   get '/survey', to: 'pages#survey'
   post '/survey', to: 'pages#survey'
 
+  get '/db/reset_users', to: 'processing#reset_users'
+  get '/db/reset_godfathers', to: 'processing#reset_godfathers'
   get '/match_pairs', to: 'processing#match_pairs'
 end
