@@ -15,6 +15,7 @@
     <% i = 2 %>
     <% Question.all.find_each do |q| %>
         <div id="page-<%= i %>" class="survey-page">
+            <p class="back-button" onclick="previousPage()"></p>
             <%= hidden_field_tag(nil, "0;", name: "answers[#{q.id}]", class: "answer-buffer") %>
             <h1 class="question"><%= q.question %></h1>
             <% if q.multiple %>
@@ -36,6 +37,7 @@
         <% i += 1 %>
     <% end %>
     <div class="survey-page">
+        <p class="back-button" onclick="previousPage()"></p>
         <h1>Fin du questionnaire</h1>
         <p>Merci d'avoir répondu</p>
         <p>Nous vous recontacterons lorsque nous aurons trouvé quelqu'un qui vous correspond</p>
@@ -53,9 +55,18 @@
      document.getElementsByClassName("survey-page")[i].className = "survey-page visible";
  }
 
+ function previousPage() {
+     document.getElementsByClassName("survey-page")[i].className = "survey-page";
+     i = i - 1;
+     document.getElementsByClassName("survey-page")[i].className = "survey-page visible";
+ }
+
  function setAnswer(div, number) {
-     div.className = "answer selected";
      div.parentNode.parentNode.getElementsByClassName("answer-buffer")[0].value = number;
+     for (var i=div.parentNode.firstElementChild; i!=null; i=i.nextElementSibling) {
+         i.className = "answer";
+     }
+     div.className = "answer selected";
  }
 
  function toggleAnswerMultiple(div, number) {

@@ -162,7 +162,7 @@ a:hover {
     text-align: center;
 }
 
-.to-bottom-button, .to-top-button, .home-button {
+.to-bottom-button, .to-top-button, .home-button, .back-button {
     width: 2rem;
     height: 2rem;
     box-sizing: border-box;
@@ -188,6 +188,13 @@ a:hover {
 
 .home-button {
     background-image: image-url("home.png");
+    top: 0;
+    left: 0;
+    margin-top: 0;
+}
+
+.back-button {
+    background-image: image-url("left_arrow.png");
     top: 0;
     left: 0;
     margin-top: 0;
@@ -818,6 +825,7 @@ ul, li {
 .survey-page {
     box-sizing: border-box;
     display: none;
+    position: relative;
     overflow: hidden;
     color: #fff;
 
