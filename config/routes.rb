@@ -24,4 +24,5 @@ Rails.application.routes.draw do
   get '/match_pairs', to: 'processing#match_pairs'
 
   get '/api/users', to: 'pages#users_list'
+  post '/api/users', to: 'pages#users_list'
 end

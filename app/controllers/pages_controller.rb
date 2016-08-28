@@ -1,5 +1,7 @@
 # coding: utf-8
 class PagesController < ApplicationController
+  protect_from_forgery except: [:users_list]
+
   def index
   end
 
