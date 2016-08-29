@@ -41,6 +41,9 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       sups << SupStudent.new(u.first_name + " " + u.last_name, i, @table, u.id)
     end
     puts "\n\nDone loading"
+    while sups.size > spes.size
+      pre_match(sups, spes)
+    end
 
     while s = sups.find {|sup| sup.single?} do
       puts "\nConsidering single sup #{s}"
@@ -56,6 +59,18 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     end
 
     puts "\n\nProcessing ended"
+  end
+
+  def force_match
+    check_token or return
+    s = Spe.find_by(username: params[:spe_username])
+    u = User.find(params[:user_id])
+    return if s.nil? || u.nil?
+    s.elligible = false
+    u.godfather_id = s.id
+    u.save
+    s.save
+    render nothing: true, status: 200
   end
 
   private
@@ -83,6 +98,28 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     User.all.order(:id).each_with_index do |u, i|
       @table[i] = retrieve_scores(u).sort_by {|k, v| k }.map {|a| a[1].to_i}
     end
+  end
+
+  def pre_match(sups, spes)
+    best_scores = sups.map {|s| s.affinity_with(spes[s.best_partner]) }
+    s = sups[best_scores.index best_scores.max]
+    bp = s.best_partner
+    puts "sup #{s} has highest affinity with #{spes[bp]}"
+    c = User.where("godfather_id = #{spes[bp].spe_id}").count
+    case c
+    when 2
+      puts "Already taken. Forget him/her"
+      s.forget_best_partner
+      return
+    when 1
+      t = Spe.find(spes[bp].spe_id)
+      t.elligible = false;
+      t.save
+    end
+    u = User.find(s.user_id)
+    u.godfather_id = spes[s.best_partner].spe_id
+    u.save
+    sups.delete(s)
   end
 
   class Student
@@ -135,6 +172,10 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       best_id
     end
 
+    def forget_best_partner
+      @affinity_table[@id][best_partner] = 0
+    end
+
     def affinity_with(person)
       @affinity_table[@id][person.id]
     end
@@ -163,10 +204,10 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     end
 
     def respond_to_proposal(person)
-      if single?
+      if @elligible && single?
         puts engagement_message(person)
         engage(person)
-      elsif better_choice?(person)
+      elsif @eliigible && better_choice?(person)
         puts dumping_message(person)
         @fiance.free
         engage(person)
