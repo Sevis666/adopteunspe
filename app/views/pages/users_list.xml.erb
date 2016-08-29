@@ -7,6 +7,7 @@
             <lastname><%= u.last_name %></lastname>
             <phonenumber><%= u.phonenumber %></phonenumber>
             <birthday><%= u.birthday %></birthday>
+            <gender><%= case u.gender; when "male"; 1; when "female"; 0; else; 2; end %></gender>
             <godfather><%= u.godfather_id.nil? ? "None" : Spe.find(u.godfather_id).full_name %></godfather>
         </user>
     <% end %>
