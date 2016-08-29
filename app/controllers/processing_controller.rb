@@ -1,4 +1,6 @@
 class ProcessingController < ApplicationController
+  protect_from_forgery except: [:reset_users, :reset_godfathers, :match_pairs]
+
   @@students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
 bustillo careil chardon cortes diridollou dumond fievet flechelles
 gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
@@ -6,12 +8,14 @@ lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau rav
 ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
 
   def reset_users
+    check_token and return
     User.destroy_all
     UsersAnswer.destroy_all
     render nothing: true, status: 200
   end
 
   def reset_godfathers
+    check_token and return
     stmts = ["UPDATE users SET godfather_id = NULL",
              "UPDATE spes SET elligible = true"]
     stmts.each do |stmt|
@@ -21,6 +25,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
   end
 
   def match_pairs
+    check_token and return
     render nothing: true, status: 200
     puts "Starting algorithm"
 
@@ -54,6 +59,12 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
   end
 
   private
+  def check_token
+    s = Spe.find_by(admin_token: params[:token])
+    render nothing: true, status: 403 unless s
+    s.nil?
+  end
+
   def build_scores_query
     sums = @@students.map {|s| "SUM(#{s}) AS #{s}"}.join(', ')
     coeffs = @@students.map {|s| "q.coeff * #{s} AS #{s}"}.join(', ')

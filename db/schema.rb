@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160827072637) do
+ActiveRecord::Schema.define(version: 20160829101233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,8 @@ ActiveRecord::Schema.define(version: 20160827072637) do
     t.string  "username"
     t.string  "full_name"
     t.string  "key"
-    t.boolean "elligible", default: true
+    t.boolean "elligible",   default: true
+    t.string  "admin_token"
   end
 
   create_table "suggested_coeffs", force: :cascade do |t|
