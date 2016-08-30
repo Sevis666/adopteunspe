@@ -1,5 +1,5 @@
 class ProcessingController < ApplicationController
-  protect_from_forgery except: [:reset_users, :reset_godfathers, :match_pairs]
+  protect_from_forgery except: [:reset_users, :reset_godfathers, :match_pairs, :force_match]
 
   @@students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
 bustillo careil chardon cortes diridollou dumond fievet flechelles
