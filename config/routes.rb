@@ -18,4 +18,12 @@ Rails.application.routes.draw do
   post '/user_login', to: 'pages#register_user'
   get '/survey', to: 'pages#survey'
   post '/survey', to: 'pages#survey'
+
+  post '/db/reset_users', to: 'processing#reset_users'
+  post '/db/reset_godfathers', to: 'processing#reset_godfathers'
+  post '/match_pairs', to: 'processing#match_pairs'
+  post '/force_match', to: 'processing#force_match'
+
+  get '/api/users', to: 'pages#users_list'
+  post '/api/users', to: 'pages#users_list'
 end

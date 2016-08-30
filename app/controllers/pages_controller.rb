@@ -1,5 +1,7 @@
 # coding: utf-8
 class PagesController < ApplicationController
+  protect_from_forgery except: [:users_list]
+
   def index
   end
 
@@ -134,6 +136,9 @@ class PagesController < ApplicationController
       end
       redirect_to action: "user_login"
     end
+  end
+
+  def users_list
   end
 
   private
