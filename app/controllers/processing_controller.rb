@@ -37,11 +37,11 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       spes << SpeStudent.new(s.full_name, i, @table, s.id, s.elligible)
     end
     sups = []
-    User.all.order(:id).each_with_index do |u, i|
+    User.where("godfather_id IS NULL").order(:id).each_with_index do |u, i|
       sups << SupStudent.new(u.first_name + " " + u.last_name, i, @table, u.id)
     end
     puts "\n\nDone loading"
-    while sups.size > spes.size
+    while sups.size > spes.select {|s| s.elligible }.size
       pre_match(sups, spes)
     end
 
@@ -95,7 +95,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
 
   def build_table
     @table = []
-    User.all.order(:id).each_with_index do |u, i|
+    User.where("godfather_id IS NULL").order(:id).each_with_index do |u, i|
       @table[i] = retrieve_scores(u).sort_by {|k, v| k }.map {|a| a[1].to_i}
     end
   end
@@ -107,14 +107,16 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     puts "sup #{s} has highest affinity with #{spes[bp]}"
     c = User.where("godfather_id = #{spes[bp].spe_id}").count
     case c
-    when 2
+    when 0
+    when 1
+      t = Spe.find(spes[bp].spe_id)
+      t.elligible = false
+      t.save
+      spes[bp].elligible = false
+    else
       puts "Already taken. Forget him/her"
       s.forget_best_partner
       return
-    when 1
-      t = Spe.find(spes[bp].spe_id)
-      t.elligible = false;
-      t.save
     end
     u = User.find(s.user_id)
     u.godfather_id = spes[s.best_partner].spe_id
@@ -194,6 +196,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       @elligible = elligible
     end
     attr_reader :spe_id
+    attr_accessor :elligible
 
     def affinity_with(person)
       @affinity_table[person.id][@id]
@@ -207,7 +210,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       if @elligible && single?
         puts engagement_message(person)
         engage(person)
-      elsif @eliigible && better_choice?(person)
+      elsif @elligible && better_choice?(person)
         puts dumping_message(person)
         @fiance.free
         engage(person)
@@ -226,8 +229,9 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
 
     def refusal_message(person)
       s = "#{self} refuses proposal from #{person} "
-      s += "(already taken)" unless @ellgible
+      s += "(already taken)" unless @elligible
       s += "(previous score #{affinity_with(@fiance)})" unless @fiance.nil?
+      s
     end
   end
 end
