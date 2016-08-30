@@ -26,7 +26,7 @@
                     <% if q.multiple %>
                         <p class="answer" onclick="toggleAnswerMultiple(this, <%= a.answer_number %>)"><%= a.answer %></p>
                     <% else %>
-                        <p class="answer" onclick="setAnswer(this, <%= a.answer_number %>);nextPage()"><%= a.answer %></p>
+                        <p class="answer" onclick="setAnswer(this, <%= a.answer_number %>);setTimeout(nextPage,500)"><%= a.answer %></p>
                     <% end %>
                 <% end %>
             </div>
