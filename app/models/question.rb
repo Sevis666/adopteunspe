@@ -102,6 +102,19 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     end
   end
 
+  def balance_points(spe)
+    if spe.is_a? Spe
+      spe = spe.username.to_sym
+    end
+    sum = self.answer.map {|a| a[spe] }.sum.to_f
+    unless sum == 0 || sum == 10
+      self.answer.each do |a|
+        a[spe] = (10.0 * (a[spe] / sum)).to_i
+        a.save
+      end
+    end
+  end
+
   def shred
     Answer.where(question_id: id).destroy_all
     Vote.where(question_id: id).destroy_all

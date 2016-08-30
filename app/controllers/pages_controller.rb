@@ -51,6 +51,7 @@ class PagesController < ApplicationController
       end
       q.save
 
+      sum = params["answers"].map {|k, v| v["points"].to_i}.sum.to_f
       params["answers"].each do |key, value|
         a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
         unless a
@@ -58,7 +59,9 @@ class PagesController < ApplicationController
           q.answer << a
         end
         a.answer = value["answer"]
-        a[@spe.username.to_sym] = value["points"].to_i
+        point = value["points"].to_i
+        point = (10.0 * (point / sum)).to_i unless sum == 10 || sum == 0
+        a[@spe.username.to_sym] = point
         a.save
       end
 
