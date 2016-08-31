@@ -40,11 +40,13 @@ class PagesController < ApplicationController
         already_present = true
         q = Question.find(params[:question_id])
       else
-        q = Question.new
-        q.vote = Vote.new
-        q.suggested_coeff = SuggestedCoeff.new
+        render nothing: true, status: 404
+        return
+        #q = Question.new
+        #q.vote = Vote.new
+        #q.suggested_coeff = SuggestedCoeff.new
       end
-      q.question = params[:question]
+      #q.question = params[:question] #Question cannot be modified anymore
       c = q.chosen_coeff(@spe)
       unless c == params["coeff"].to_i
         q.set_coeff(@spe, params["coeff"].to_i)
@@ -55,10 +57,11 @@ class PagesController < ApplicationController
       params["answers"].each do |key, value|
         a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
         unless a
-          a = Answer.new(answer: value["answer"], answer_number: key.to_i)
-          q.answer << a
+          next
+          #a = Answer.new(answer: value["answer"], answer_number: key.to_i)
+          #q.answer << a
         end
-        a.answer = value["answer"]
+        #a.answer = value["answer"] #Question cannot be modified anymore
         point = value["points"].to_i
         point = (10.0 * (point / sum)).to_i unless sum == 10 || sum == 0
         a[@spe.username.to_sym] = point
