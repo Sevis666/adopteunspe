@@ -108,7 +108,16 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       spe = spe.username.to_sym
     end
     sum = self.answer.map {|a| a[spe] }.sum.to_f
-    unless sum == 0 || sum == 10
+
+    if sum == 10
+      # everything ok
+    elsif sum == 0
+      c = self.answer.size
+      self.answer.each do |a|
+        a[spe] = (10.0 / c).to_i
+        a.save
+      end
+    else
       self.answer.each do |a|
         a[spe] = (10.0 * (a[spe] / sum)).to_i
         a.save
