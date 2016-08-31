@@ -1,5 +1,6 @@
 class CleanUsersAnswers < ActiveRecord::Migration
   def change
+    # HARDCODE
     students = %i(abecassis athor azizian beaulieu boutin bruneaux brunod
 bustillo careil chardon cortes diridollou dumond fievet flechelles
 gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret

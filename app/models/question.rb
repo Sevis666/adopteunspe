@@ -4,6 +4,7 @@ class Question < ActiveRecord::Base
   has_one :vote
   has_one :suggested_coeff
 
+  # HARDCODE
   @@students = %i(abecassis athor azizian beaulieu boutin bruneaux brunod
 bustillo careil chardon cortes diridollou dumond fievet flechelles
 gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret

@@ -1,6 +1,7 @@
 class ProcessingController < ApplicationController
   protect_from_forgery except: [:reset_users, :reset_godfathers, :match_pairs, :force_match]
 
+  # HARDCODE
   @@students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
 bustillo careil chardon cortes diridollou dumond fievet flechelles
 gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret

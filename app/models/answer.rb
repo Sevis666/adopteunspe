@@ -2,6 +2,7 @@ class Answer < ActiveRecord::Base
   has_many :comments
   has_many :answers
 
+  # HARDCODE
   @@students = %i(abecassis athor azizian beaulieu boutin bruneaux brunod
 bustillo careil chardon cortes diridollou dumond fievet flechelles
 gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
