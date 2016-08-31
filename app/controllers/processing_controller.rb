@@ -25,6 +25,13 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     render nothing: true, status: 200
   end
 
+  def delete_user
+    check_token or return
+    User.find(params[:user_id]).delete
+    UsersAnswer.where(user_id: params[:user_id]).destroy_all
+    render nothing: true, status: 200
+  end
+
   def match_pairs
     check_token or return
     render nothing: true, status: 200

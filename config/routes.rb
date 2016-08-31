@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   post '/db/reset_users', to: 'processing#reset_users'
   post '/db/reset_godfathers', to: 'processing#reset_godfathers'
+  post '/db/delete_user', to: 'processing#delete_user'
   post '/match_pairs', to: 'processing#match_pairs'
   post '/force_match', to: 'processing#force_match'
 
