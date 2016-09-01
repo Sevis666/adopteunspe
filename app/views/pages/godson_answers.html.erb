@@ -1,0 +1,28 @@
+<h1 class="page-title">Les réponses de votre sup</h1>
+<% @godson = User.find_by(godfather_id: @spe.id) %>
+<div class="main-container">
+    <% if @godson %>
+        <p><b><%= @spe.full_name %></b>, votre filleul est : <b><%= @godson.first_name + " " + @godson.last_name %></b></p>
+        <% stmt = "SELECT q.question AS question, a.answer AS answer " +
+        "FROM users_answers ua INNER JOIN questions q ON q.id = ua.question_id " +
+        "INNER JOIN answers a ON a.question_id = ua.question_id AND a.answer_number = ua.answer_number " +
+        "WHERE ua.user_id = #{@godson.id} ORDER BY ua.question_id ASC" %>
+        <% r = ActiveRecord::Base.connection.execute(stmt) %>
+        <% r.each do |qa| %>
+            <div class="question-box">
+                <div class="question-title-wrapper">
+                    <p class="question-title"><b><%= qa["question"] %></b></p>
+                </div>
+                <div class="answers-container">
+                    <div class="answer-box">
+                        <div class="answer-public">
+                            <p class="answer-title"><%= qa["answer"] %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <p>Navré, vous n'avez pas de filleul</p>
+    <% end %>
+</div>

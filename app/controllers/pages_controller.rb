@@ -91,6 +91,11 @@ class PagesController < ApplicationController
     render nothing: true, status: 200
   end
 
+  def godson_answers
+    params[:page] = "/godson_answers"
+    check_cookie
+  end
+
   def serve_public_key
     render file: 'public/sevisKey.asc', layout: false
   end

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/questions/unvoted', to: 'pages#questions_unvoted'
   get '/questions/unanswered', to: 'pages#questions_unanswered'
   get '/questions/unrated', to: 'pages#questions_unrated'
+  get '/godson_answers', to: 'pages#godson_answers'
   get '/public/sevisKey.asc', to: 'pages#serve_public_key'
   get '/message_board', to: 'pages#message_board'
   get '/login', to: 'pages#login'
