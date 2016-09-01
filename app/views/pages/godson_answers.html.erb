@@ -3,7 +3,7 @@
 <div class="main-container">
     <% if @godson %>
         <p><b><%= @spe.full_name %></b>, votre filleul est : <b><%= @godson.first_name + " " + @godson.last_name %></b></p>
-        <% stmt = "SELECT q.question AS question, a.answer AS answer, #{@spe.username} AS score " +
+        <% stmt = "SELECT q.question AS question, a.answer AS answer, q.coeff * #{@spe.username} AS score " +
         "FROM users_answers ua INNER JOIN questions q ON q.id = ua.question_id " +
         "INNER JOIN answers a ON a.question_id = ua.question_id AND a.answer_number = ua.answer_number " +
         "WHERE ua.user_id = #{@godson.id} ORDER BY ua.question_id ASC" %>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="answers-container">
                     <div class="answer-box">
-                        <p class="answer-private-points"><%= qa["score"]%></p>
+                        <p class="answer-private-points larger"><%= qa["score"].to_f.round(1)%></p>
                         <div class="answer-public">
                             <p class="answer-title"><%= qa["answer"] %></p>
                         </div>
