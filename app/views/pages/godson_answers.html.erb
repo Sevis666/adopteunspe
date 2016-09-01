@@ -9,7 +9,7 @@
         "WHERE ua.user_id = #{@godson.id} ORDER BY ua.question_id ASC" %>
         <% r = ActiveRecord::Base.connection.execute(stmt) %>
         <% r.each do |qa| %>
-            <div class="question-box top-spacing">
+            <div class="question-box big-top-spacing">
                 <div class="question-title-wrapper">
                     <p class="question-title"><b><%= qa["question"] %></b></p>
                 </div>
