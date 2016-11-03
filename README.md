@@ -4,7 +4,7 @@ Built for Louis-le-Grand's MPSI2, but should be reusable with a few hardcode cha
 
 ## Install
 
-Pull the code, make the following changes so it matches your classmates' names, and push to your production server. It is already Heroku-ready, more info on [Heroku Rails's starting page][https://devcenter.heroku.com/articles/getting-started-with-ruby#introduction]
+Pull the code, make the following changes so it matches your classmates' names, and push to your production server. It is already Heroku-ready, more info on [Heroku Rails's starting page](https://devcenter.heroku.com/articles/getting-started-with-ruby#introduction)
 
 ### Hardcode fixes
 
@@ -28,12 +28,12 @@ Hopefully by the end of April 2017, maybe before. These variables were hardcoded
 
 ## Description
 
-This is a website to choose godfathers for the newcomers in MPSI2. 
+This is a website to choose godfathers for the newcomers in MPSI2.
 
-It's built as a joke, and used during our first day of class, to welcome the new students. This is why it uses the famous [Adopte un mec][http://adopteunmec.com] theme. I _do not_ own the original logo, nor any of Adopte un mec's content. This website is up for a month every year at most, and you are free to use this code, but do not misuse it, or violate copyright laws associated with the original theme and logo, those are Adopte un mec's property.
+It's built as a joke, and used during our first day of class, to welcome the new students. This is why it uses the famous [Adopte un mec](http://adopteunmec.com) theme. I _do not_ own the original logo, nor any of Adopte un mec's content. This website is up for a month every year at most, and you are free to use this code, but do not misuse it, or violate copyright laws associated with the original theme and logo, those are Adopte un mec's property.
 
 ## Authors
 
-Implemented by [David ROBIN][http://www.sevis.pro/contact] with [Ruby on Rails][http://rubyonrails.org] on an original idea from Laura NGUYEN and Myriam QRICHI ANIBA.
+Implemented by [David ROBIN](http://www.sevis.pro/contact) with [Ruby on Rails](http://rubyonrails.org) on an original idea from Laura NGUYEN and Myriam QRICHI ANIBA.
 
 Credits also go to Lison ABECASSIS and Florence GABORIT for their work in reporting bugs and giving advices that made this project awesome.
