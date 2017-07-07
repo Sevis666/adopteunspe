@@ -1,15 +1,8 @@
 class Question < ActiveRecord::Base
   has_many :answer
   has_many :comment
-  has_one :vote
-  has_one :suggested_coeff
-
-  # HARDCODE
-  @@students = %i(abecassis athor azizian beaulieu boutin bruneaux brunod
-bustillo careil chardon cortes diridollou dumond fievet flechelles
-gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
-lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
-ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
+  has_many :vote
+  has_many :suggested_coeff
 
   def answers
     ans = []
@@ -28,55 +21,40 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
   end
 
   def chosen_vote(spe)
-    s = spe.username.to_sym
-    a = Vote.where(question_id: id).select(:id, s).first
-    unless a.is_a? Vote
-      a = Vote.new
-      self.vote = a
-    end
-    a[s]
+    a = vote.find_by(spe_id: spe.id)
+    a.nil? ? 0 : a.vote
   end
 
   def chosen_vote_class(spe)
-    a = ["", "upvoted", "downvoted"]
-    a[chosen_vote(spe)]
+    ["", "upvoted", "downvoted"][chosen_vote(spe)]
   end
 
   def chosen_coeff(spe)
-    s = spe.username.to_sym
-    a = SuggestedCoeff.where(question_id: id).select(:id, s).first
-    unless a.is_a? SuggestedCoeff
-      a = SuggestedCoeff.new
-      self.suggested_coeff = a
-    end
-    a[s]
+    a = suggested_coeff.find_by(spe_id: spe.id)
+    a.nil? ? 0 : a.coeff
   end
 
   def upvote(spe)
-    set_vote(1, spe)
+    set_vote(spe, 1)
   end
 
   def downvote(spe)
-    set_vote(-1, spe)
+    set_vote(spe, -1)
   end
 
-  def set_vote(n, spe)
-    d = n - vote[spe.username.to_sym]
+  def set_vote(spe, n)
+    d = n - chosen_vote(spe)
     if d != 0
       self.vote_count = vote_count + d
       self.save
-      vote[spe.username.to_sym] = n
-      vote.save
+      v = vote.find_by(spe_id: spe.id) || Vote.new(question_id: id, spe_id: spe.id)
+      v.vote = n
+      v.save
     end
-    update_vote_count
   end
 
   def update_vote_count
-    s = 0
-    v = vote
-    @@students.each do |sym|
-      s += v[sym]
-    end
+    s = vote.sum(:vote)
     if s != vote_count
       self.vote_count = s
       self.save
@@ -85,22 +63,20 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
   end
 
   def set_coeff(spe, new_coeff)
-    suggested_coeff[spe.username.to_sym] = new_coeff
-    suggested_coeff.save
+    s = suggested_coeff.find_by(spe_id: spe.id) || SuggestedCoeff.new(question_id: id, spe_id: spe.id)
+    s.coeff = new_coeff
+    s.save
     update_coeff
   end
 
   def update_coeff
-    s = {}
-    @@students.each do |sym|
-      s[sym] = suggested_coeff[sym]
-    end
-    s = s.values.select {|i| i > 0}
-    c = s.sum.to_f / s.size
+    return 0 if suggested_coeff.empty?
+    c = suggested_coeff.sum(:coeff) / suggested_coeff.count
     if c != coeff
       self.coeff = c
       self.save
     end
+    c
   end
 
   def balance_points(spe)
@@ -129,7 +105,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     Answer.where(question_id: id).destroy_all
     Vote.where(question_id: id).destroy_all
     SuggestedCoeff.where(question_id: id).destroy_all
-    Comment.where(question_id: 2).destroy_all
+    Comment.where(question_id: id).destroy_all
     destroy
   end
 end

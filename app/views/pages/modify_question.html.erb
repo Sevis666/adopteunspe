@@ -17,7 +17,7 @@
             <% q.answer.order(:answer_number).each_with_index do |a, i| %>
                 <div class="answer">
                     <div class="upper-box">
-                        <input type="number" name="answers[<%= i+1 %>][points]" value="<%= a[@spe.username.to_sym] %>" class="private-points-input" min="0" max="10">
+                        <input type="number" name="answers[<%= i+1 %>][points]" value="<%= a.points(@spe) %>" class="private-points-input" min="0" max="10">
                         <input type="text" name="answers[<%= i+1 %>][answer]" value="<%= a.answer %>" class="answer-input">
                     </div>
                     <p><%= a.print_scores.join(', ') %></p>

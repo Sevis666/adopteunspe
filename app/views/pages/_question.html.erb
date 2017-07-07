@@ -37,7 +37,7 @@ end
         <ul class="answers-container">
             <% q.answer.order(:answer_number).each do |a| %>
                 <li class="answer-box">
-                    <p class="answer-private-points"><%= (e = a[@spe.username.to_sym]) == 0 ? "-" : e %></p>
+                    <p class="answer-private-points"><%= (e = a.points(@spe)) == 0 ? "-" : e %></p>
                     <div class="answer-public">
                         <p class="answer-title"><%= a.answer %></p>
                         <p class="answer-scores"><%= a.print_scores.join(', ') %></p>

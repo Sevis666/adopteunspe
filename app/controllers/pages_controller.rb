@@ -40,32 +40,32 @@ class PagesController < ApplicationController
         already_present = true
         q = Question.find(params[:question_id])
       else
-        render nothing: true, status: 404
-        return
-        #q = Question.new
-        #q.vote = Vote.new
-        #q.suggested_coeff = SuggestedCoeff.new
+        # If questions are fixed
+        # render nothing: true, status: 404
+        # return
+        q = Question.new
       end
-      #q.question = params[:question] #Question cannot be modified anymore
+      q.question = params[:question] # Remove if questions fixed
       c = q.chosen_coeff(@spe)
       unless c == params["coeff"].to_i
         q.set_coeff(@spe, params["coeff"].to_i)
       end
       q.save
 
-      sum = params["answers"].map {|k, v| v["points"].to_i}.sum.to_f
-      params["answers"].each do |key, value|
-        a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
-        unless a
-          next
-          #a = Answer.new(answer: value["answer"], answer_number: key.to_i)
-          #q.answer << a
+      unless params["answers"].nil?
+        sum = params["answers"].map {|k, v| v["points"].to_i}.sum.to_f
+        params["answers"].each do |key, value|
+          a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
+          unless a
+            a = Answer.new(answer: value["answer"], answer_number: key.to_i)
+            q.answer << a
+          end
+          a.answer = value["answer"]
+          point = value["points"].to_i
+          # point = (10.0 * (point / sum)).to_i unless sum == 10 || sum == 0
+          a.set_points(point, @spe)
+          a.save
         end
-        #a.answer = value["answer"] #Question cannot be modified anymore
-        point = value["points"].to_i
-        point = (10.0 * (point / sum)).to_i unless sum == 10 || sum == 0
-        a[@spe.username.to_sym] = point
-        a.save
       end
 
       if params.has_key? :unanswered

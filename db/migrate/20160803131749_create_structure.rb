@@ -1,14 +1,10 @@
 class CreateStructure < ActiveRecord::Migration
   def change
-    # HARDCODE
-    students = %i(abecassis athor azizian beaulieu boutin bruneaux brunod
-bustillo careil chardon cortes diridollou dumond fievet flechelles
-gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
-lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
-ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
-
     create_table :questions do |t|
       t.string :question
+      t.integer :vote_count, default: 0
+      t.float :coeff, default: 0.0
+      t.boolean :multiple, default: false
       t.timestamps
     end
 
@@ -23,30 +19,48 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
       t.belongs_to :question
       t.integer :answer_number
       t.string :answer
+    end
 
-      students.each do |sym|
-        t.integer sym, default: 0
-      end
+    create_table :answer_points do |t|
+      t.belongs_to :answer, index: true
+      t.integer :spe_id
+      t.integer :score, default: 0
     end
 
     create_table :users do |t|
-      t.string :username
       t.string :email
+      t.string :first_name
+      t.string :last_name
+      t.string :phonenumber
+      t.date :birthday
+      t.string :gender
+      t.string :token
+      t.integer :godfather_id
     end
 
     create_table :users_answers do |t|
       t.integer :question_id
       t.integer :answer_number
-
-      students.each do |sym|
-        t.integer sym
-      end
+      t.integer :user_id
     end
 
     create_table :spes do |t|
       t.string :username
       t.string :full_name
       t.string :key
+      t.boolean :elligible, default: true
+    end
+
+    create_table :votes do |t|
+      t.belongs_to :question
+      t.belongs_to :spe
+      t.integer :vote, default: 0
+    end
+
+    create_table :suggested_coeffs do |t|
+      t.belongs_to :question
+      t.belongs_to :spe
+      t.integer :coeff, default: 0
     end
   end
 end

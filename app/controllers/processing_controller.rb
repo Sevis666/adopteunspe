@@ -1,13 +1,6 @@
 class ProcessingController < ApplicationController
   protect_from_forgery except: [:reset_users, :reset_godfathers, :match_pairs, :force_match]
 
-  # HARDCODE
-  @@students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
-bustillo careil chardon cortes diridollou dumond fievet flechelles
-gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
-lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
-ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
-
   def reset_users
     check_token or return
     User.destroy_all
@@ -41,7 +34,7 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     build_table
 
     spes = []
-    Spe.all.order(:username).each_with_index do |s, i|
+    Spe.all.order(:id).each_with_index do |s, i|
       spes << SpeStudent.new(s.full_name, i, @table, s.id, s.elligible)
     end
     sups = []
@@ -88,23 +81,19 @@ ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
     not s.nil?
   end
 
-  def build_scores_query
-    sums = @@students.map {|s| "SUM(#{s}) AS #{s}"}.join(', ')
-    coeffs = @@students.map {|s| "q.coeff * #{s} AS #{s}"}.join(', ')
-    @@scores_query = "SELECT #{sums} FROM " +
-                     "(SELECT #{coeffs} " +
-                     "FROM users_answers u INNER JOIN answers a ON a.question_id = u.question_id AND u.answer_number = a.answer_number INNER JOIN questions q ON q.id = u.question_id " +
-                     "WHERE user_id = ?) t"
-  end
+  @@scores_query = "SELECT ap.spe_id AS spe, SUM(ap.score) AS score FROM (SELECT * FROM users_answers WHERE user_id = ?) ua INNER JOIN answers a ON a.question_id = ua.question_id AND a.answer_number = ua.answer_number JOIN answer_points ap ON ap.answer_id = a.id GROUP BY ap.spe_id"
 
   def retrieve_scores(user)
-    ActiveRecord::Base.connection.execute(@@scores_query.sub("?", user.id.to_s)).first
+    scores = Array.new { 0 }
+    ActiveRecord::Base.connection.execute(@@scores_query.sub("?", user.id.to_s))
+      .each { |h| scores[h["spe"]] = h["score"] }
+    scores
   end
 
   def build_table
     @table = []
     User.where("godfather_id IS NULL").order(:id).each_with_index do |u, i|
-      @table[i] = retrieve_scores(u).sort_by {|k, v| k }.map {|a| a[1].to_i}
+      @table[i] = retrieve_scores(u)
     end
   end
 

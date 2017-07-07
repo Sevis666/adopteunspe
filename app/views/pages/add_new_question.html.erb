@@ -10,19 +10,6 @@
 <% end %>
 </div>
 
-<script type="text/javascript">
- <%
- # HARDCODE
- students = %w(abecassis athor azizian beaulieu boutin bruneaux brunod
-               bustillo careil chardon cortes diridollou dumond fievet flechelles
-               gaborit georges godefroy haas khalfallah lanfranchi lecat ledaguenel laigret
-               lengele lequen lerbet lezanne lozach medmoun nguyen preumont qrichi rabineau ravetta rael
-               ren robina robind sahli scotti sourice steiner thomas vanel vital zhou)
- %>
- var students = <%= ('["' + students.map(&:capitalize).join('", "').gsub(/Lezanne/, "Lezane") + '"]').html_safe %>;
- var studentIds = <%=  ('["' + students.join('", "') + '"]').html_safe %>;
-</script>
-
 <%= javascript_include_tag "question_buttons.js" %>
 
 <script type="text/javascript">
