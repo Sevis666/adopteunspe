@@ -34,18 +34,25 @@ class PagesController < ApplicationController
   def add_new_question
     params[:page] = "/questions/new"
     check_cookie
-    redirect_to_questions_list unless request.post?
+    return unless request.post?
     q = nil
     q = Question.find(params[:question_id]) if params.has_key? :question_id
-    already_present = q.nil?
-    redirect_to_questions_list if Config::frozen?(:questions) && q.nil?
+    already_present = !q.nil?
+    redirect_to_questions_list and return if Config::frozen?(:questions) && q.nil?
     q ||= Question.new
-    q.question = params[:question] unless Config::frozen?(:questions)
+
+    unless Config::frozen?(:questions) || q.question == params[:question]
+      Log::log_question_change(q, @spe, params[:question]) if already_present
+      q.question = params[:question]
+    end
+
     c = q.chosen_coeff(@spe)
     unless c == params["coeff"].to_i
       q.set_coeff(@spe, params["coeff"].to_i)
     end
     q.save
+
+    Log::log_new_question(q, @spe) unless already_present
 
     unless params["answers"].nil?
       sum = params["answers"].map {|k, v| v["points"].to_i}.sum.to_f
@@ -75,6 +82,7 @@ class PagesController < ApplicationController
     else
       redirect_to "/questions"
     end
+    true
   end
 
   def modify_question
@@ -87,6 +95,7 @@ class PagesController < ApplicationController
     q = Question.find(params[:id])
     c = Comment.new(user_id: @spe.id, comment: params[:comment])
     q.comment << c
+    Log::log_comment(q, @spe, c)
     render nothing: true, status: 200
   end
 
@@ -159,7 +168,9 @@ class PagesController < ApplicationController
 
   def check_cookie
     cookie = cookies.permanent[:AdopteUnSpe_login]
-    unless check_authenticity(cookie)
+    if check_authenticity(cookie)
+      Log::spe_connection(@spe)
+    else
       redirect_to "/login?page=#{params[:page]}"
     end
   end

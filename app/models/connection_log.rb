@@ -5,8 +5,9 @@ class ConnectionLog < ActiveRecord::Base
     c = spe.connection_log.order(:updated_at).last
     if c.nil? || (Time.now - c.updated_at > 900)
       c = ConnectionLog.new(spe_id: spe.id)
+    else
+      c.touch
     end
-    c.touch
     c.save
   end
 end
