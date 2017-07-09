@@ -10,8 +10,17 @@ class Config
   end
 
   def self.freeze(sym)
+    self.set_freeze_value(sym, 1)
+  end
+
+  def self.unfreeze(sym)
+    self.set_freeze_value(sym, 0)
+  end
+
+  private
+  def self.set_freeze_value(sym, value)
     c = self.freeze_var(sym)
-    c.value = "1"
+    c.value = value.to_s
     c.save
     c
   end

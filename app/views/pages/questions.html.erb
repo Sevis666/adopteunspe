@@ -11,6 +11,11 @@
     </div>
     <%= render 'question', collection: Question.all.order(:id) %>
 </ul>
+
+<% unless Config::frozen?(:questions) %>
+  <%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button", id: "bottom" %>
+<% end %>
+
 <p class="user-info"><%= @spe.full_name %></p>
 <%= link_to "", "#", class: "to-top-button" %>
 
