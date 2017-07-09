@@ -40,6 +40,25 @@ ActiveRecord::Schema.define(version: 20160829101233) do
     t.datetime "updated_at"
   end
 
+  create_table "config_vars", force: :cascade do |t|
+    t.string "name"
+    t.string "value"
+  end
+
+  create_table "connection_logs", force: :cascade do |t|
+    t.integer  "spe_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.boolean  "reversible",  default: false
+    t.string   "description"
+    t.string   "blob"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string   "question"
     t.integer  "vote_count", default: 0

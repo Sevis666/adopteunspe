@@ -62,5 +62,23 @@ class CreateStructure < ActiveRecord::Migration
       t.belongs_to :spe
       t.integer :coeff, default: 0
     end
+
+    create_table :config_vars do |t|
+      t.string :name
+      t.string :value
+    end
+
+    create_table :logs do |t|
+      t.boolean :reversible, default: false
+      t.integer :type
+      t.string :description
+      t.string :blob
+      t.timestamps
+    end
+
+    create_table :connection_logs do |t|
+      t.belongs_to :spe
+      t.timestamps
+    end
   end
 end
