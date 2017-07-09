@@ -6,25 +6,25 @@
     <p>There are <b>four main phases</b> in the creation of questions :</p>
     <ul>
       <li><b>First</b> : Everything can be modified, questions can be created, automatically destroyed, modified, etc.</li>
-      <li><b>Second</b> : Questions are freezed, no new questions can be added, but they can still be automatically removed, and answers can be modified</li>
-      <li><b>Third</b> : Both questions and their answers are freezed, questions will no longer be deleted, and students must give their points</li>
-      <li><b>Fourth</b> : Everything is freezed, and the users database resets, everyting is ready for the matching</li>
+      <li><b>Second</b> : Questions are frozen, no new questions can be added, but they can still be automatically removed, and answers can be modified</li>
+      <li><b>Third</b> : Both questions and their answers are frozen, questions will no longer be deleted, and students must give their points</li>
+      <li><b>Fourth</b> : Everything is frozen, and the users database resets, everyting is ready for the matching</li>
     </ul>
     <p>Please make sure everybody understands this scheme, and make sure to notify users before freezing anything</p>
 
     <div class="freeze-box">
       <h4>Questions</h4>
-      <p>Current state : [insert here]</p>
+      <p>Current state : <%= Config::frozen?(:questions) ? "Frozen" : "Modifiable" %></p>
       <!-- button here -->
     </div>
     <div class="freeze-box">
       <h4>Answers</h4>
-      <p>Current state : [insert here]</p>
+      <p>Current state : <%= Config::frozen?(:answers) ? "Frozen" : "Modifiable" %></p>
       <!-- button here -->
     </div>
     <div class="freeze-box">
       <h4>Answer points</h4>
-      <p>Current state : [insert here]</p>
+      <p>Current state : <%= Config::frozen?(:answer_points) ? "Frozen" : "Modifiable" %></p>
       <!-- button here -->
     </div>
   </div>
