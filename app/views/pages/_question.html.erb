@@ -9,7 +9,7 @@ def parse_filter
     end
 end
 %>
-<% collection.find_each do |q| %>
+<% collection.each do |q| %>
     <div class="centerer">
         <div class="coeff-box" id="question-<%= q.id %>">
             <%= form_tag("/questions/#{q.id}/vote", method: "post",

@@ -2,7 +2,7 @@
 <%= link_to "", "/questions", class: "home-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
-    <% collection = Question.joins(:suggested_coeff).where(:suggested_coeffs => {@spe.username.to_sym => 0}).order(:id) %>
+    <% collection = @spe.unrated_questions %>
     <% unless collection.empty? %>
         <div class="info">
             <p>Il est conseillé d'attribuer un coefficient à chaque question</p>

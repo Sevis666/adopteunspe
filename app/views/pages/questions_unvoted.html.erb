@@ -2,7 +2,7 @@
 <%= link_to "", "/questions", class: "home-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
-    <% collection = Question.joins(:vote).where(:votes => {@spe.username.to_sym => 0}).order(:id) %>
+    <% collection = @spe.unvoted_questions %>
     <% unless collection.empty? %>
         <div class="info">
             <p>Il est conseillé d'éviter de voter blanc, mais vous pouvez choisir de le faire de façon ponctuelle</p>

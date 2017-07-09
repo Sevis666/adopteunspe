@@ -2,7 +2,7 @@
 <%= link_to "", "/questions", class: "home-button" %>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
-    <% collection = Question.joins(:answer).select("questions.*").having("SUM(#{@spe.username}) <> 10").group("questions.id").order(:id) %>
+    <% collection = @spe.unanswered_questions %>
     <% unless collection.empty? %>
         <div class="info">
             <p>Le total de vos points sur ces questions n'est pas 10</p>
