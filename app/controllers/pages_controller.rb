@@ -34,47 +34,46 @@ class PagesController < ApplicationController
   def add_new_question
     params[:page] = "/questions/new"
     check_cookie
-    if request.post?
-      already_present = false
-      if params[:question_id]
-        already_present = true
-        q = Question.find(params[:question_id])
-      else
-        # If questions are fixed
-        # render nothing: true, status: 404
-        # return
-        q = Question.new
-      end
-      q.question = params[:question] # Remove if questions fixed
-      c = q.chosen_coeff(@spe)
-      unless c == params["coeff"].to_i
-        q.set_coeff(@spe, params["coeff"].to_i)
-      end
-      q.save
+    redirect_to_questions_list unless request.post?
+    q = nil
+    q = Question.find(params[:question_id]) if params.has_key? :question_id
+    already_present = q.nil?
+    redirect_to_questions_list if Config::freezed?(:questions) && q.nil?
+    q ||= Question.new
+    q.question = params[:question] unless Config::freezed?(:questions)
+    c = q.chosen_coeff(@spe)
+    unless c == params["coeff"].to_i
+      q.set_coeff(@spe, params["coeff"].to_i)
+    end
+    q.save
 
-      unless params["answers"].nil?
-        sum = params["answers"].map {|k, v| v["points"].to_i}.sum.to_f
-        params["answers"].each do |key, value|
-          a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
-          unless a
-            a = Answer.new(answer: value["answer"], answer_number: key.to_i)
-            q.answer << a
-          end
-          a.answer = value["answer"]
-          point = value["points"].to_i
-          # point = (10.0 * (point / sum)).to_i unless sum == 10 || sum == 0
-          a.set_points(point, @spe)
-          a.save
+    unless params["answers"].nil?
+      sum = params["answers"].map {|k, v| v["points"].to_i}.sum.to_f
+      params["answers"].each do |key, value|
+        a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
+        unless a
+          next if Config::freezed?(:answers)
+          a = Answer.new(answer: value["answer"], answer_number: key.to_i)
+          q.answer << a
         end
+        a.answer = value["answer"] unless Config::freezed?(:answers)
+        point = value["points"].to_i
+        a.set_points(point, @spe) unless Config::freezed?(:answer_points)
+        a.save
       end
+    end
+    redirect_to_questions_list(q)
+  end
 
-      if params.has_key? :unanswered
-        redirect_to "/questions/unanswered"
-      elsif params.has_key? :unrated
-        redirect_to "/questions/unrated"
-      else
-        redirect_to "/questions#question-#{q.id}"
-      end
+  def redirect_to_questions_list(q = nil)
+    if params.has_key? :unanswered
+      redirect_to "/questions/unanswered"
+    elsif params.has_key? :unrated
+      redirect_to "/questions/unrated"
+    elsif q
+      redirect_to "/questions#question-#{q.id}"
+    else
+      redirect_to "/questions"
     end
   end
 

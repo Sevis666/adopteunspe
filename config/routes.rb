@@ -29,4 +29,6 @@ Rails.application.routes.draw do
 
   get '/api/users', to: 'pages#users_list'
   post '/api/users', to: 'pages#users_list'
+
+  get '/admin', to: 'admin#index'
 end
