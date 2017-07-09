@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160829101233) do
 
   create_table "logs", force: :cascade do |t|
     t.boolean  "reversible",  default: false
+    t.integer  "category"
     t.string   "description"
     t.string   "blob"
     t.datetime "created_at"

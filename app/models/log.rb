@@ -1,7 +1,7 @@
 require 'base64'
 
 class Log < ActiveRecord::Base
-  @@types = [:question_creation, :question_change,
+  @@categories = [:question_creation, :question_change,
              :answer_creation, :answer_change,
              :comment]
 
@@ -19,7 +19,7 @@ class Log < ActiveRecord::Base
   end
 
   def self.log_comment(question, spe, comment)
-    Log.new(type: @@types.index(:comment),
+    Log.new(category: @@categories.index(:comment),
             reversible: true,
             description: "#{spe.full_name} commented on question ##{question.id} :" +
             " \"#{comment.comment}\"",
@@ -28,7 +28,7 @@ class Log < ActiveRecord::Base
   end
 
   def self.log_new_question(question, spe)
-    Log.new(type: @@types.index(:question_creation),
+    Log.new(category: @@categories.index(:question_creation),
             reversible: true,
             description: "#{spe.full_name} created question ##{question.id} :" +
             " \"#{question.question}\"",
@@ -37,17 +37,18 @@ class Log < ActiveRecord::Base
   end
 
   def self.log_question_change(question, spe, new_question)
-    Log.new(type: @@types.index(:question_change),
+    puts question.inspect
+    Log.new(category: @@categories.index(:question_change),
             reversible: true,
             description: "#{spe.full_name} changed question ##{question.id}" +
             " from \"#{question.question}\" to \"#{new_question}\"",
             blob: spe.id.to_s.rjust(4, '0') + question.id.to_s.rjust(4, '0') +
-            Base64.encode64(question.question) )
+            Base64.encode64(question.question || "") )
       .save
   end
 
   def self.log_new_answer(answer, spe)
-    Log.new(type: @@types.index(:answer_creation),
+    Log.new(category: @@categories.index(:answer_creation),
             reversible: true,
             description: "#{spe.full_name} created answer ##{answer.id}" +
             " for question #{answer.question_id} : \"#{answer.answer}\"",
@@ -56,7 +57,7 @@ class Log < ActiveRecord::Base
   end
 
   def self.log_answer_change(answer, spe, new_answer)
-    Log.new(type: @@types.index(:answer_change),
+    Log.new(category: @@categories.index(:answer_change),
             reversible: true,
             description: "#{spe.full_name} changed answer ##{answer.id}" +
             " from \"#{answer.answer}\" to \"#{new_answer}\"",

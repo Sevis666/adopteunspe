@@ -70,7 +70,7 @@ class CreateStructure < ActiveRecord::Migration
 
     create_table :logs do |t|
       t.boolean :reversible, default: false
-      t.integer :type
+      t.integer :category
       t.string :description
       t.string :blob
       t.timestamps
