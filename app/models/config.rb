@@ -3,7 +3,7 @@ class Config
                     answers: "answers_freezed",
                     answer_points: "answer_points_freezed" }
 
-  def self.freezed?(sym)
+  def self.frozen?(sym)
     c = self.freeze_var(sym)
     c.save
     c.value == "1"

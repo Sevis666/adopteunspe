@@ -38,9 +38,9 @@ class PagesController < ApplicationController
     q = nil
     q = Question.find(params[:question_id]) if params.has_key? :question_id
     already_present = q.nil?
-    redirect_to_questions_list if Config::freezed?(:questions) && q.nil?
+    redirect_to_questions_list if Config::frozen?(:questions) && q.nil?
     q ||= Question.new
-    q.question = params[:question] unless Config::freezed?(:questions)
+    q.question = params[:question] unless Config::frozen?(:questions)
     c = q.chosen_coeff(@spe)
     unless c == params["coeff"].to_i
       q.set_coeff(@spe, params["coeff"].to_i)
@@ -52,13 +52,13 @@ class PagesController < ApplicationController
       params["answers"].each do |key, value|
         a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
         unless a
-          next if Config::freezed?(:answers)
+          next if Config::frozen?(:answers)
           a = Answer.new(answer: value["answer"], answer_number: key.to_i)
           q.answer << a
         end
-        a.answer = value["answer"] unless Config::freezed?(:answers)
+        a.answer = value["answer"] unless Config::frozen?(:answers)
         point = value["points"].to_i
-        a.set_points(point, @spe) unless Config::freezed?(:answer_points)
+        a.set_points(point, @spe) unless Config::frozen?(:answer_points)
         a.save
       end
     end
