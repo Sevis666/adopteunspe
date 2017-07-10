@@ -28,7 +28,7 @@ class Spe < ActiveRecord::Base
 
   private
   def questions_not_matching_query(query)
-    all = Question.all.select(:id).map { |i| i[:id] }
+    all = Question.all.order(:id).select(:id).map { |i| i[:id] }
     matching = ActiveRecord::Base.connection.execute(query).map {|r| r["id"].to_i }
     (all - matching).map { |i| Question.find i }
   end
