@@ -5,15 +5,23 @@ class Spe < ActiveRecord::Base
 
   def last_connection
     c = connection_log.order(:updated_at).last
-    c.nil? ? "Never" : c.updated_at
+    c.nil? ? "Never" : c.updated_at.strftime("%Y-%m-%d %H:%M:%S")
   end
 
   def time_spent_on_site
-    s = 0
-    connection_log.each { |c| s += c.updated_at - c.created_at }
-    s
+    s = seconds_spent_on_site
+    "#{(s / 3600).to_s.rjust(2, '0')}:" +
+      "#{(s / 60 % 60).to_s.rjust(2, '0')}:" +
+      "#{(s % 60).to_s.rjust(2, '0')}"
   end
 
+  def seconds_spent_on_site
+    s = 0
+    connection_log.each { |c| s += c.updated_at - c.created_at }
+    s.to_i
+  end
+
+  # Retrieve list of filtered questions
   def unanswered_questions
     questions_not_matching_query(answered_questions_query)
   end
@@ -26,11 +34,28 @@ class Spe < ActiveRecord::Base
     questions_not_matching_query(rated_questions_query)
   end
 
+  # Count filtered questions
+  def unanswered_questions_count
+    questions_not_matching_query(answered_questions_query, count: true)
+  end
+
+  def unvoted_questions_count
+    questions_not_matching_query(voted_questions_query, count: true)
+  end
+
+  def unrated_questions_count
+    questions_not_matching_query(rated_questions_query, count: true)
+  end
+
   private
-  def questions_not_matching_query(query)
+  def questions_not_matching_query(query, count: false)
     all = Question.all.order(:id).select(:id).map { |i| i[:id] }
     matching = ActiveRecord::Base.connection.execute(query).map {|r| r["id"].to_i }
-    (all - matching).map { |i| Question.find i }
+    if count
+      (all - matching).size
+    else
+      (all - matching).map { |i| Question.find i }
+    end
   end
 
   def answered_questions_query

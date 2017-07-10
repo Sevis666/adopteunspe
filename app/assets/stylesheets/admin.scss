@@ -7,6 +7,51 @@
   margin: 0 auto;
 }
 
+.tool-wrapper {
+  margin-bottom: 3rem;
+}
+
 .tool-wrapper > p , .tool-wrapper > ul {
   text-align: left;
+}
+
+.tool-title {
+  border-bottom: 1px solid #000;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.freeze-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.freeze-wrapper div {
+  flex-basis: 20%;
+  flex-grow: 1;
+}
+
+.toolbox-container .button {
+  background: #eee;
+  &:hover {
+    background: #fff;
+    cursor: pointer;
+  }
+}
+
+.tool-wrapper {
+  table {
+    border-collapse: collapse;
+  }
+  th, td {
+    text-align: center;
+    line-height: 1.4rem;
+    font-size: 1rem;
+    padding: .3rem .5rem;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
 }

@@ -12,20 +12,37 @@
     </ul>
     <p>Please make sure everybody understands this scheme, and make sure to notify users before freezing anything</p>
 
-    <div class="freeze-box">
-      <h4>Questions</h4>
-      <p>Current state : <%= Config::frozen?(:questions) ? "Frozen" : "Modifiable" %></p>
-      <!-- button here -->
-    </div>
-    <div class="freeze-box">
-      <h4>Answers</h4>
-      <p>Current state : <%= Config::frozen?(:answers) ? "Frozen" : "Modifiable" %></p>
-      <!-- button here -->
-    </div>
-    <div class="freeze-box">
-      <h4>Answer points</h4>
-      <p>Current state : <%= Config::frozen?(:answer_points) ? "Frozen" : "Modifiable" %></p>
-      <!-- button here -->
+    <% q_frozen = Config::frozen?(:questions)
+       a_frozen = Config::frozen?(:answers)
+       p_frozen = Config::frozen?(:answer_points) %>
+    <div class="freeze-wrapper">
+      <div class="freeze-box">
+        <h4>Questions</h4>
+        <p>Current state : <%= q_frozen ? "Frozen" : "Modifiable" %></p>
+        <%= form_tag("/admin/freeze", method: "post") do %>
+          <%= hidden_field_tag(:category, "questions") %>
+          <%= submit_tag (q_frozen ? "Unfreeze" : "Freeze"),
+            class: "button centered-button" %>
+        <% end %>
+      </div>
+      <div class="freeze-box">
+        <h4>Answers</h4>
+        <p>Current state : <%= Config::frozen?(:answers) ? "Frozen" : "Modifiable" %></p>
+        <%= form_tag("/admin/freeze", method: "post") do %>
+          <%= hidden_field_tag(:category, "answers") %>
+          <%= submit_tag (a_frozen ? "Unfreeze" : "Freeze"),
+            class: "button centered-button" %>
+        <% end %>
+      </div>
+      <div class="freeze-box">
+        <h4>Answer points</h4>
+        <p>Current state : <%= Config::frozen?(:answer_points) ? "Frozen" : "Modifiable" %></p>
+        <%= form_tag("/admin/freeze", method: "post") do %>
+          <%= hidden_field_tag(:category, "answer_points") %>
+          <%= submit_tag (p_frozen ? "Unfreeze" : "Freeze"),
+            class: "button centered-button" %>
+        <% end %>
+      </div>
     </div>
   </div>
 
@@ -33,13 +50,34 @@
     <h2 class="tool-title">Balance points</h2>
     <p>Triggering this action will cause all points to be messed up, realigning points for every question so the sum for each student is as close as possible to 10, but keeping proper proportions.</p>
     <p><b>This is not reversible</b>, please make sure everybody understands what will happen before triggering it, and send an e-mail to all students so they have the option to rebalance their points themselve. Only use this as a last resort to avoid bias during matching</p>
-    <!-- button here -->
+    <%= form_tag("/admin/balance", method: "post") do %>
+      <%= submit_tag "Balance now", class: "button centered-button" %>
+    <% end %>
   </div>
 
   <div class="tool-wrapper">
     <h2 class="tool-title">Activity monitor</h2>
     <div class="activity-monitor-wrapper">
-      <!-- insert activity monitor here -->
+      <table>
+        <tr>
+          <th style="text-align:left;width:100%">Name</th>
+          <th style="min-width:12rem">Last Connection</th>
+          <th>Time spent</th>
+          <th>Unanswered</th>
+          <th>Unvoted</th>
+          <th>Unrated</th>
+        </tr>
+        <% Spe.all.order(:id).each do |spe| %>
+          <tr>
+            <td style="text-align:left"><%= spe.full_name %></td>
+            <td><%= spe.last_connection %></td>
+            <td><%= spe.time_spent_on_site %></td>
+            <td><%= spe.unanswered_questions_count %></td>
+            <td><%= spe.unvoted_questions_count %></td>
+            <td><%= spe.unrated_questions_count %></td>
+          </tr>
+        <% end %>
+      </table>
     </div>
   </div>
 
@@ -57,7 +95,18 @@
   <div class="tool-wrapper">
     <h2 class="tool-title">Logging</h2>
     <div class="logging-wrapper">
-      <!-- insert activity monitor here -->
+      <table>
+        <tr>
+          <th style="min-width:12rem">Timestamp</th>
+          <th style="text-align:left;width:100%">Description</th>
+        </tr>
+        <% Log.list.each do |l| %>
+          <tr>
+            <td><%= l.updated_at.strftime "%Y-%m-%d %H:%M:%S" %></td>
+            <td style="text-align:left"><%= l.description %></td>
+          </tr>
+        <% end %>
+      </table>
     </div>
   </div>
 </div>
