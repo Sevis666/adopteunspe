@@ -65,15 +65,20 @@ class PagesController < ApplicationController
       sum = params["answers"].map {|k, v| v["points"].to_i}.sum.to_f
       params["answers"].each do |key, value|
         a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
+        answer_already_present = !a.nil?
         unless a
           next if Config::frozen?(:answers)
           a = Answer.new(answer: value["answer"], answer_number: key.to_i)
           q.answer << a
         end
-        a.answer = value["answer"] unless Config::frozen?(:answers)
+        unless Config::frozen?(:answers) || a.answer == value["answer"]
+          Log::log_answer_change(a, @spe, value["answer"]) if answer_already_present
+          a.answer = value["answer"]
+        end
         point = value["points"].to_i
         a.set_points(point, @spe) unless Config::frozen?(:answer_points)
         a.save
+        Log::log_new_answer(a, @spe) unless answer_already_present
       end
     end
     redirect_to_questions_list(q, chain)
