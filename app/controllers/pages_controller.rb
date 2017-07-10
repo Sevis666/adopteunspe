@@ -46,6 +46,13 @@ class PagesController < ApplicationController
       q.question = params[:question]
     end
 
+    chain = []
+    if params.has_key? :unanswered
+      chain = @spe.unanswered_questions.map(&:id)
+    elsif params.has_key? :unrated
+      chain = @spe.unrated_questions.map(&:id)
+    end
+
     c = q.chosen_coeff(@spe)
     unless c == params["coeff"].to_i
       q.set_coeff(@spe, params["coeff"].to_i)
@@ -69,13 +76,25 @@ class PagesController < ApplicationController
         a.save
       end
     end
-    redirect_to_questions_list(q)
+    redirect_to_questions_list(q, chain)
   end
 
-  def redirect_to_questions_list(q = nil)
+  def redirect_to_questions_list(q = nil, chain = [])
     if params.has_key? :unanswered
+      if params.has_key?(:chain) && !q.nil?
+        id = chain.index(q.id)
+        if !id.nil? && id + 1 < chain.size
+          redirect_to "/questions/#{chain[id + 1]}?unanswered&chain" and return
+        end
+      end
       redirect_to "/questions/unanswered"
     elsif params.has_key? :unrated
+      if params.has_key?(:chain) && !q.nil?
+        id = chain.index(q.id)
+        if !id.nil? && id < chain.size
+          redirect_to "/questions/#{chain[id + 1]}?unrated&chain" and return
+        end
+      end
       redirect_to "/questions/unrated"
     elsif q
       redirect_to "/questions#question-#{q.id}"

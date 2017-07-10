@@ -2,6 +2,7 @@
 <% q = Question.find(params[:id]) %>
 <div class="main-container">
     <%= form_tag("/questions/new", method: "post", class: "question-form-box") do %>
+        <%= hidden_field_tag(:chain, true) if params.has_key? :chain %>
         <% if params.has_key? :unanswered %>
             <%= hidden_field_tag(:unanswered, true) %>
         <% elsif params.has_key? :unrated %>
@@ -26,7 +27,8 @@
         </div>
         <div class="bottom-buttons">
             <p class="button" onclick="addAnswer()">Ajouter une réponse</p>
-            <%= submit_tag("Valider", class: "button", id: "submit-button") %>
+            <%= submit_tag(params.has_key?(:chain) ? "Valider & Suivant" : "Valider",
+                           class: "button", id: "submit-button") %>
         </div>
     <% end %>
 

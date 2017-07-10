@@ -60,6 +60,17 @@ a:hover {
     text-decoration: underline;
 }
 
+a.color-changing-link {
+    color: #888;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+a.color-changing-link:hover {
+    color: #d00;
+    text-decoration: none;
+}
+
 .small {
     line-height: 1.2rem;
     font-size: 0.8rem;

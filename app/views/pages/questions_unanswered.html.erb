@@ -4,6 +4,12 @@
 <ul class="main-container">
     <% collection = @spe.unanswered_questions %>
     <% unless collection.empty? %>
+        <div class="centerer">
+          <h4>Pour aller plus vite, vous pouvez aussi
+            <%= link_to "enchaîner les questions",
+              "/questions/#{collection.first.id}?unanswered&chain",
+             class: "color-changing-link" %></h4>
+        </div>
         <div class="info">
             <p>Le total de vos points sur ces questions n'est pas 10</p>
             <p>Pour attribuer vos points, cliquer sur l'icône de modification</p>

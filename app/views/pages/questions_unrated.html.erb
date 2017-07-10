@@ -4,6 +4,12 @@
 <ul class="main-container">
     <% collection = @spe.unrated_questions %>
     <% unless collection.empty? %>
+        <div class="centerer">
+          <h4>Pour aller plus vite, vous pouvez aussi
+            <%= link_to "enchaîner les questions",
+              "/questions/#{collection.first.id}?unrated&chain",
+             class: "color-changing-link" %></h4>
+        </div>
         <div class="info">
             <p>Il est conseillé d'attribuer un coefficient à chaque question</p>
             <p>Si le coefficient déjà attribué vous convient, vous pouvez revoter pour ce même coefficient</p>
