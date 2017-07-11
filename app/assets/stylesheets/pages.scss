@@ -693,11 +693,15 @@ ul, li {
         text-align: center;
         font-size: .8rem;
         line-height: 1.5rem;
-        border-bottom-left-radius: 3px;
+        &:first-child {
+          border-bottom-left-radius: 3px;
+        }
+        &:not(:first-child) {
+          border-left: 1px solid #000;
+        }
     }
 
     #submit-button {
-        border-left: 1px solid #000;
         border-radius: 0;
         border-bottom-right-radius: 3px;
     }

@@ -21,7 +21,6 @@
                         <input type="number" name="answers[<%= i+1 %>][points]" value="<%= a.points(@spe) %>" class="private-points-input" min="0" max="10">
                         <input type="text" name="answers[<%= i+1 %>][answer]" value="<%= a.answer %>" class="answer-input">
                     </div>
-                    <p><%= a.print_scores.join(', ') %></p>
                 </div>
             <% end %>
         </div>
