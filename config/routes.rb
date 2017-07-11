@@ -33,4 +33,5 @@ Rails.application.routes.draw do
   get '/admin', to: 'admin#index'
   post '/admin/freeze', to: 'admin#freeze'
   post '/admin/balance', to: 'admin#balance'
+  post '/admin/toggle_multiple_flag', to: 'admin#toggle_multiple_flag'
 end

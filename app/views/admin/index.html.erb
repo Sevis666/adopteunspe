@@ -109,4 +109,18 @@
       </table>
     </div>
   </div>
+
+  <div class="tool-wrapper">
+    <h2 class="tool-title">Toggle multiple flag for question</h2>
+    <%= form_tag("/admin/toggle_multiple_flag", method: "post", class: "multiple-flag-form", remote: true, onsubmit: "clearInput(this)") do %>
+      <%= number_field_tag(:question_id, nil, placeholder: "Id", autocomplete: "off") %>
+      <%= submit_tag("Toggle", class: "submit-button")%>
+    <% end %>
+  </div>
 </div>
+
+<script type="text/javascript">
+  function clearInput(div) {
+    document.getElementById('question_id').value = "";
+  }
+</script>

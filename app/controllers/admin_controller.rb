@@ -19,6 +19,16 @@ class AdminController < ApplicationController
     redirect_to "/admin"
   end
 
+  def toggle_multiple_flag
+    render nothing: true, status: 400 unless params.has_key?(:question_id)
+    q = Question.find params[:question_id]
+    unless q.nil?
+      q.multiple = !q.multiple
+      q.save
+    end
+    render nothing: true, status: 200
+  end
+
   private
   def balance_points
     total = Rails.configuration.x.total_points_per_question
