@@ -81,11 +81,20 @@ class ProcessingController < ApplicationController
     not s.nil?
   end
 
-  @@scores_query = "SELECT ap.spe_id AS spe, SUM(ap.score) AS score FROM (SELECT * FROM users_answers WHERE user_id = ?) ua INNER JOIN answers a ON a.question_id = ua.question_id AND a.answer_number = ua.answer_number JOIN answer_points ap ON ap.answer_id = a.id GROUP BY ap.spe_id"
+  def scores_query
+    <<-SQL
+      SELECT ap.spe_id AS spe, SUM(ap.score) AS score
+        FROM (SELECT * FROM users_answers WHERE user_id = ?) ua
+        INNER JOIN answers a ON a.question_id = ua.question_id
+                          AND a.answer_number = ua.answer_number
+        JOIN answer_points ap ON ap.answer_id = a.id
+      GROUP BY ap.spe_id"
+    SQL
+  end
 
   def retrieve_scores(user)
     scores = Array.new { 0 }
-    ActiveRecord::Base.connection.execute(@@scores_query.sub("?", user.id.to_s))
+    ActiveRecord::Base.connection.execute(scores_query.sub("?", user.id.to_s))
       .each { |h| scores[h["spe"]] = h["score"] }
     scores
   end
