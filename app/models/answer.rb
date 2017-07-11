@@ -3,8 +3,9 @@ class Answer < ActiveRecord::Base
 
     def scores
       s = {}
+      $username_cache ||= Hash.new { |h,k| h[k] = Spe.find(k).username.to_sym }
       answer_points.each do |ap|
-        s[Spe.find(ap.spe_id).username.to_sym] = ap.score
+        s[$username_cache[ap.spe_id]] = ap.score
       end
       s.select! {|k, v| v>0}
       s = s.sort_by {|k, v| v}
