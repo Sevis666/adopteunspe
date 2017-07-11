@@ -83,7 +83,11 @@
 
   <div class="tool-wrapper">
     <h2 class="tool-title">Key management</h2>
-    <p>You are [insert rank here]. Here are the key management tools you can access</p>
+    <p style="text-align:center">You are <%= AdminController::levels[@access_level].to_s.capitalize %>. Here are the key management tools you can access</p>
+    <%= form_tag("/admin/create_token", method: "post", class: "basic-number-form") do %>
+      <%= number_field_tag(:level, nil, placeholder: "Access level", autocomplete: "off", min: 0, max: @access_level) %>
+      <%= submit_tag("Create", class: "submit-button")%>
+    <% end %>
     <!-- key management tools :
       - General key creation, revocation
       - Lieutenant key creation, revocation

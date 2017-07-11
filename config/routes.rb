@@ -31,8 +31,11 @@ Rails.application.routes.draw do
   post '/api/users', to: 'pages#users_list'
 
   get '/admin', to: 'admin#index'
+  get '/admin/login', to: 'admin#login'
+  post '/admin/login', to: 'admin#login'
   post '/admin/freeze', to: 'admin#freeze'
   post '/admin/balance', to: 'admin#balance'
   post '/admin/toggle_multiple_flag', to: 'admin#toggle_multiple_flag'
   post '/admin/remove_questions', to: 'admin#remove_questions'
+  post '/admin/create_token', to: 'admin#create_token'
 end

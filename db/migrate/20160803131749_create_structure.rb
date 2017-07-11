@@ -80,5 +80,11 @@ class CreateStructure < ActiveRecord::Migration
       t.belongs_to :spe
       t.timestamps
     end
+
+    create_table :access_tokens do |t|
+      t.string :token, null: false
+      t.integer :level, null: false, default: 0
+      t.string :voucher, default: nil
+    end
   end
 end
