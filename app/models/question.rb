@@ -79,28 +79,6 @@ class Question < ActiveRecord::Base
     c
   end
 
-  def balance_points(spe)
-    if spe.is_a? Spe
-      spe = spe.username.to_sym
-    end
-    sum = self.answer.map {|a| a[spe] }.sum.to_f
-
-    if sum == 10
-      # everything ok
-    elsif sum == 0
-      c = self.answer.size
-      self.answer.each do |a|
-        a[spe] = (10.0 / c).to_i
-        a.save
-      end
-    else
-      self.answer.each do |a|
-        a[spe] = (10.0 * (a[spe] / sum)).to_i
-        a.save
-      end
-    end
-  end
-
   def shred
     Answer.where(question_id: id).destroy_all
     Vote.where(question_id: id).destroy_all

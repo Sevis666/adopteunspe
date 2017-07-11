@@ -31,4 +31,6 @@ Rails.application.routes.draw do
   post '/api/users', to: 'pages#users_list'
 
   get '/admin', to: 'admin#index'
+  post '/admin/freeze', to: 'admin#freeze'
+  post '/admin/balance', to: 'admin#balance'
 end
