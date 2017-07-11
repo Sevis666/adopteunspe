@@ -112,15 +112,51 @@
 
   <div class="tool-wrapper">
     <h2 class="tool-title">Toggle multiple flag for question</h2>
-    <%= form_tag("/admin/toggle_multiple_flag", method: "post", class: "multiple-flag-form", remote: true, onsubmit: "clearInput(this)") do %>
+    <%= form_tag("/admin/toggle_multiple_flag", method: "post", class: "basic-number-form", remote: true, onsubmit: "clearInput(this, 'question_id')") do %>
       <%= number_field_tag(:question_id, nil, placeholder: "Id", autocomplete: "off") %>
       <%= submit_tag("Toggle", class: "submit-button")%>
+    <% end %>
+  </div>
+
+  <div class="tool-wrapper">
+    <h2 class="tool-title">Question removal</h2>
+
+    <p style="text-align:center">Questions having fewer votes than the threshold (threshold included) will be deleted</p>
+
+    <% table = Hash.new { |h, k| h[k] = 0 }
+       Question.find_each do |q|
+         table[q.vote_count.to_s] += 1
+       end
+       cur = tot = Question.count
+       cumul = {}
+       table.keys.sort.reverse.each do |i|
+         cumul[i] = (100 * cur / tot).round(2)
+         cur -= table[i]
+       end %>
+    <table style="margin:0 auto">
+      <tr>
+        <th>Vote count</th>
+        <th>Question count</th>
+        <th>Cumulated proportion</th>
+      </tr>
+      <% table.keys.sort.each do |i| %>
+        <tr>
+          <td><%= i %></td>
+          <td><%= table[i] %></td>
+          <td><%= cumul[i] %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <%= form_tag("/admin/remove_questions", method: "post", class: "basic-number-form", remote: true, onsubmit: "clearInput(this, 'vote_count')") do %>
+      <%= number_field_tag(:vote_count, nil, placeholder: "Threshold", autocomplete: "off") %>
+      <%= submit_tag("Remove", class: "submit-button")%>
     <% end %>
   </div>
 </div>
 
 <script type="text/javascript">
-  function clearInput(div) {
-    document.getElementById('question_id').value = "";
+  function clearInput(div, id) {
+    document.getElementById(id).value = "";
   }
 </script>
