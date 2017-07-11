@@ -75,7 +75,7 @@ class PagesController < ApplicationController
         a = Answer.find_by(question_id: params[:question_id], answer_number: key.to_i)
         answer_already_present = !a.nil?
         unless a
-          next if Config::frozen?(:answers)
+          next if Config::frozen?(:answers) || !value.has_key?(:answer) || value["answer"].size == 0
           a = Answer.new(answer: value["answer"], answer_number: key.to_i)
           q.answer << a
         end
