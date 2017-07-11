@@ -1,6 +1,4 @@
 class Answer < ActiveRecord::Base
-  has_many :comments
-  has_many :answers
   has_many :answer_points
 
     def scores
@@ -29,5 +27,10 @@ class Answer < ActiveRecord::Base
     def points(spe)
       ap = answer_points.find_by(spe_id: spe.id)
       ap.nil? ? 0 : ap.score
+    end
+
+    def shred
+      answer_points.destroy_all
+      destroy
     end
 end
