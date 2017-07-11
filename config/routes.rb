@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
   get '/admin', to: 'admin#index'
   get '/admin/login', to: 'admin#login'
+  get '/admin/seed', to: 'admin#seed'
+  post '/admin/seed', to: 'admin#seed'
   post '/admin/login', to: 'admin#login'
   post '/admin/freeze', to: 'admin#freeze'
   post '/admin/balance', to: 'admin#balance'

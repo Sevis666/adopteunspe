@@ -47,6 +47,7 @@ class CreateStructure < ActiveRecord::Migration
     create_table :spes do |t|
       t.string :username
       t.string :full_name
+      t.string :email
       t.string :key
       t.boolean :elligible, default: true
     end

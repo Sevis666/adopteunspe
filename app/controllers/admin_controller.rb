@@ -1,3 +1,6 @@
+require 'base64'
+require 'digest/sha1'
+
 class AdminController < ApplicationController
   def login
     if request.post?
@@ -78,7 +81,25 @@ class AdminController < ApplicationController
     @voucher = a.voucher
   end
 
+  def seed
+    grant_access(:general)
+    salt = Rails.application.secrets.key_salt
+    if request.post?
+      file = params[:seed]
+      file.read.each_line do |line|
+        line = line.split(':')
+        username, full_name, email = line[0],line[1],line[2..-1].join(':')
+        Spe.new(username: username, full_name: full_name, email: email,
+                key: generate_key(full_name, email, salt)).save
+      end
+    end
+  end
+
   private
+  def generate_key(full_name, email, salt)
+    Digest::SHA1.hexdigest(Base64::encode64(full_name)+salt.to_s+email)[0...8]
+  end
+
   def balance_points
     total = Rails.configuration.x.total_points_per_question
 

@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20160829101233) do
   create_table "spes", force: :cascade do |t|
     t.string  "username"
     t.string  "full_name"
+    t.string  "email"
     t.string  "key"
     t.boolean "elligible",   default: true
     t.string  "admin_token"

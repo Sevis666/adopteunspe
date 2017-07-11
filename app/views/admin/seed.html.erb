@@ -1,0 +1,13 @@
+<h1 class="page-title">Seed</h1>
+
+<div class="toolbox-container">
+  <div class="tool-wrapper">
+    <h2 class="tool-title">Seed Spes list</h2>
+    <p>Takes an input file with three column-separated values on each line : username, full name, and e-mail, as in the example below. Make sure usernames are unique, contain only lowercase letters, and can be easily recognized.</p>
+    <pre style="font-size:1rem;text-align:left">ravetta:Antoine Ravetta:antoineravetta@nullmail.com<br/>robina:Arnaud Robin:arnaud@robin.mail<br/>robind:David Robin:david@robin.mail<br/>obama:Barrack Obama:barrack@notobama.com</pre>
+    <%= form_tag("/admin/seed", method: "post", class: "basic-file-form", multipart: true) do %>
+      <%= file_field_tag('seed') %>
+      <%= submit_tag("Seed", class: "submit-button") %>
+    <% end %>
+  </div>
+</div>
