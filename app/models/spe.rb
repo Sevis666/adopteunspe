@@ -65,7 +65,7 @@ class Spe < ActiveRecord::Base
         JOIN answer_points ap ON ap.answer_id = a.id
       WHERE ap.spe_id = #{id}
       GROUP BY q.id
-      HAVING SUM(score) = 10
+      HAVING SUM(score) = #{Rails.configuration.x.total_points_per_question}
     SQL
   end
 

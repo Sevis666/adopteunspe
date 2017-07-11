@@ -6,9 +6,9 @@
     <p>There are <b>four main phases</b> in the creation of questions :</p>
     <ul>
       <li><b>First</b> : Everything can be modified, questions can be created, automatically destroyed, modified, etc.</li>
-      <li><b>Second</b> : Questions are frozen, no new questions can be added, but they can still be automatically removed, and answers can be modified</li>
-      <li><b>Third</b> : Both questions and their answers are frozen, questions will no longer be deleted, and students must give their points</li>
-      <li><b>Fourth</b> : Everything is frozen, and the users database resets, everyting is ready for the matching</li>
+      <li><b>Second</b> : Questions are frozen, but can still be automatically removed, and answers can be modified</li>
+      <li><b>Third</b> : Both questions and their answers are frozen, questions will no longer be deleted</li>
+      <li><b>Fourth</b> : Everything is frozen, the users database resets, and the root toggles, everyting is ready for the matching</li>
     </ul>
     <p>Please make sure everybody understands this scheme, and make sure to notify users before freezing anything</p>
 
@@ -48,7 +48,7 @@
 
   <div class="tool-wrapper">
     <h2 class="tool-title">Balance points</h2>
-    <p>Triggering this action will cause all points to be messed up, realigning points for every question so the sum for each student is as close as possible to 10, but keeping proper proportions.</p>
+    <p>Triggering this action will cause all points to be messed up, realigning points for every question so the sum for each student is as close as possible to <%= Rails.configuration.x.total_points_per_question %>, but keeping proper proportions.</p>
     <p><b>This is not reversible</b>, please make sure everybody understands what will happen before triggering it, and send an e-mail to all students so they have the option to rebalance their points themselve. Only use this as a last resort to avoid bias during matching</p>
     <%= form_tag("/admin/balance", method: "post") do %>
       <%= submit_tag "Balance now", class: "button centered-button" %>

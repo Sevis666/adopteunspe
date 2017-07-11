@@ -38,4 +38,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Custom variable for the number of points per question
+  config.x.total_points_per_question = 120
 end

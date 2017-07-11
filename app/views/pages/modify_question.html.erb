@@ -1,3 +1,4 @@
+<% total_points = Rails.configuration.x.total_points_per_question %>
 <h1 class="page-title">Modifier une question</h1>
 <% q = Question.find(params[:id]) %>
 <div class="main-container">
@@ -18,7 +19,7 @@
             <% q.answer.order(:answer_number).each_with_index do |a, i| %>
                 <div class="answer">
                     <div class="upper-box">
-                        <input type="number" name="answers[<%= i+1 %>][points]" value="<%= a.points(@spe) %>" class="private-points-input" min="0" max="10">
+                        <input type="number" name="answers[<%= i+1 %>][points]" value="<%= a.points(@spe) %>" class="private-points-input" min="0" max="<%= total_points %>">
                         <input type="text" name="answers[<%= i+1 %>][answer]" value="<%= a.answer %>" class="answer-input">
                     </div>
                 </div>
@@ -47,6 +48,7 @@
 
 <script type="text/javascript">
  var fullName = "<%= @spe.full_name %>";
+ var total_points_per_question = <%= total_points %>;
 </script>
 
 <%= javascript_include_tag "question_buttons.js" %>

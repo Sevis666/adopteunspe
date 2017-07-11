@@ -13,6 +13,7 @@
 <%= javascript_include_tag "question_buttons.js" %>
 
 <script type="text/javascript">
+ var total_points_per_question = <%= Rails.configuration.x.total_points_per_question %>;
  addAnswer();
  addAnswer();
 </script>

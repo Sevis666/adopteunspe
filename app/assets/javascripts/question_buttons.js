@@ -12,7 +12,7 @@ function addAnswer() {
     points.className = "private-points-input";
     points.type = "number";
     points.min = 0;
-    points.max = 10;
+    points.max = total_points_per_question;
     points.value = 0;
     points.name = "answers[" + count + "][points]";
     tmp.appendChild(points);

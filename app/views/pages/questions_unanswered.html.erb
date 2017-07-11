@@ -11,7 +11,7 @@
              class: "color-changing-link" %></h4>
         </div>
         <div class="info">
-            <p>Le total de vos points sur ces questions n'est pas 10</p>
+            <p>Le total de vos points sur ces questions n'est pas <%= Rails.configuration.x.total_points_per_question %></p>
             <p>Pour attribuer vos points, cliquer sur l'icône de modification</p>
         </div>
     <% end %>

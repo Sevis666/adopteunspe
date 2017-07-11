@@ -21,6 +21,8 @@ class AdminController < ApplicationController
 
   private
   def balance_points
+    total = Rails.configuration.x.total_points_per_question
+
     s = Hash.new { |h,q_id| h[q_id] = Hash.new { |k, spe_id| h[spe_id] = 0 } }
     ActiveRecord::Base.connection.execute(points_query).each do |res|
       s[res["question_id"].to_i][res["spe_id"].to_i] = res["score"].to_i
@@ -33,12 +35,12 @@ class AdminController < ApplicationController
         # Balance points when already present
         a.answer_points.each do |ap|
           ap_present[ap.spe_id] = true
-          if s[q.id][ap.spe_id] == 10
+          if s[q.id][ap.spe_id] == total
             # everythink ok
           elsif s[q.id][ap.spe_id] == 0
-            ap.score = 10 / answers.size
+            ap.score = total / answers.size
           else
-            ap.score = (10 * ap.score / s[q.id][ap.spe_id].to_f).to_i
+            ap.score = (total * ap.score / s[q.id][ap.spe_id].to_f).to_i
           end
           ap.save
         end
@@ -46,7 +48,7 @@ class AdminController < ApplicationController
         Spe.all.map(&:id).each do |id|
           next if ap_present[id]
           ap = AnswerPoint.new(answer_id: a.id, spe_id: id)
-          ap.score = (s[q.id][id] == 10) ? 0 : (10 / answers.size)
+          ap.score = (s[q.id][id] == 0) ? (total / answers.size) : 0
           ap.save
         end
       end

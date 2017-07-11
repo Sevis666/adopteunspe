@@ -1,3 +1,4 @@
+<% total = Rails.configuration.x.total_points_per_question %>
 <h1>Explication du nouveau système de points :</h1>
 <br>
 <h3>Restrictions de modifications</h3>
@@ -5,11 +6,11 @@
 <p>Vos points s'affichent à gauche de la réponse</p>
 <br>
 <h3>Changement des attributions</h3>
-<p>Vous disposez de 10 points, à répartir comme vous le souhaitez entre les différentes réponses</p>
+<p>Vous disposez de <%= total %> points, à répartir comme vous le souhaitez entre les différentes réponses</p>
 <p>Essayez d'éviter de tout mettre sur une seule, il est rare qu'une seule réponse vous corresponde.</p>
 <p>Préférez répartir sur les différentes réponses qui vous semblent vous correspondre un peu.</p>
 <p>Le système ne modifie rien pour l'instant, pour vous laisser le temps d'équilibrer vos points.</p>
-<p>Ils seront ensuite ajustés pour chacun de façon à conserver les proportions qui avaient été proposées en gardant un total de 10</p>
+<p>Ils seront ensuite ajustés pour chacun de façon à conserver les proportions qui avaient été proposées en gardant un total de <%= total %></p>
 <br>
 <h3>Validation des questions</h3>
 <p>Vous pouvez votez pour ou contre le fait de garder une question, avec les petites flèches rouge et verte.</p>
