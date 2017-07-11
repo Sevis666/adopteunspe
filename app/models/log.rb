@@ -1,9 +1,9 @@
 require 'base64'
 
 class Log < ActiveRecord::Base
-  @@categories = [:question_creation, :question_change,
-             :answer_creation, :answer_change,
-             :comment]
+  @@categories = [:question_creation, :question_change, :question_shred,
+                  :answer_creation, :answer_change,
+                  :comment]
 
   def reversible?
     reversible
@@ -63,6 +63,14 @@ class Log < ActiveRecord::Base
             " from \"#{answer.answer}\" to \"#{new_answer}\"",
             blob: spe.id.to_s.rjust(4, '0') + answer.id.to_s.rjust(4, '0') +
             Base64.encode64(answer.answer) )
+      .save
+  end
+
+  def self.log_shred_question(question)
+    Log.new(category: @@categories.index(:question_shred),
+            reversible: false,
+            description: "Server shredded question ##{question.id} :" +
+            " \"#{question.question}\"")
       .save
   end
 end

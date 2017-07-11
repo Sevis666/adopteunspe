@@ -34,4 +34,5 @@ Rails.application.routes.draw do
   post '/admin/freeze', to: 'admin#freeze'
   post '/admin/balance', to: 'admin#balance'
   post '/admin/toggle_multiple_flag', to: 'admin#toggle_multiple_flag'
+  post '/admin/remove_questions', to: 'admin#remove_questions'
 end

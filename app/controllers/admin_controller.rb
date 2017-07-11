@@ -29,6 +29,12 @@ class AdminController < ApplicationController
     render nothing: true, status: 200
   end
 
+  def remove_questions
+    render nothing: true, status: 400 unless params.has_key?(:threshold) && params[:threshold].match(/^\d+$/)
+    Question.where("vote_count <= #{params[:threshold]}").map(&:shred)
+    redirect_to "/admin"
+  end
+
   private
   def balance_points
     total = Rails.configuration.x.total_points_per_question

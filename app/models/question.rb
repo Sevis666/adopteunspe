@@ -80,6 +80,7 @@ class Question < ActiveRecord::Base
   end
 
   def shred
+    Log::log_shred_question(self)
     Answer.where(question_id: id).map(&:shred)
     Vote.where(question_id: id).destroy_all
     SuggestedCoeff.where(question_id: id).destroy_all
