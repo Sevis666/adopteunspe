@@ -148,8 +148,8 @@
       <% end %>
     </table>
 
-    <%= form_tag("/admin/remove_questions", method: "post", class: "basic-number-form", remote: true, onsubmit: "clearInput(this, 'vote_count')") do %>
-      <%= number_field_tag(:vote_count, nil, placeholder: "Threshold", autocomplete: "off") %>
+    <%= form_tag("/admin/remove_questions", method: "post", class: "basic-number-form", onsubmit: "clearInput(this, 'threshold')") do %>
+      <%= number_field_tag(:threshold, nil, placeholder: "Threshold", autocomplete: "off") %>
       <%= submit_tag("Remove", class: "submit-button")%>
     <% end %>
   </div>
@@ -157,6 +157,8 @@
 
 <script type="text/javascript">
   function clearInput(div, id) {
-    document.getElementById(id).value = "";
+    setTimeout(function() {
+      document.getElementById(id).value = "";
+    }, 800);
   }
 </script>
