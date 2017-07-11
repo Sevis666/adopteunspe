@@ -2,6 +2,14 @@
 class PagesController < ApplicationController
   protect_from_forgery except: [:users_list]
 
+  def root
+    if Config::frozen? :answer_points
+      redirect_to "/user_login"
+    else
+      redirect_to "/index"
+    end
+  end
+
   def index
   end
 

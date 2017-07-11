@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get '/', to: 'pages#user_login'
+  get '/', to: 'pages#root'
   get '/index', to: 'pages#index'
   get '/questions', to: 'pages#questions'
   get '/questions/new', to: 'pages#add_new_question'
