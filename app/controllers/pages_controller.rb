@@ -125,9 +125,11 @@ class PagesController < ApplicationController
   def comment_question
     check_cookie
     q = Question.find(params[:id])
-    c = Comment.new(user_id: @spe.id, comment: params[:comment])
-    q.comment << c
-    Log::log_comment(q, @spe, c)
+    if params.has_key?(:comment) && params[:comment].size > 0
+      c = Comment.new(user_id: @spe.id, comment: params[:comment])
+      q.comment << c
+      Log::log_comment(q, @spe, c)
+    end
     render nothing: true, status: 200
   end
 
