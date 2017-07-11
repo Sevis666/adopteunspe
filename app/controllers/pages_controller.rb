@@ -197,7 +197,8 @@ class PagesController < ApplicationController
   private
   def check_authenticity(key)
     @spe = Spe.find_by(key: key)
-    not @spe.nil?
+    !@spe.nil? ||
+      !AccessToken.find_by(level: 3, token: cookies.permanent[:AdopteUnSpe_key]).nil?
   end
 
   def check_cookie

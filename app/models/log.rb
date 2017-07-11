@@ -15,7 +15,7 @@ class Log < ActiveRecord::Base
   end
 
   def self.spe_connection(spe)
-    ConnectionLog::log_connection(spe)
+    ConnectionLog::log_connection(spe) unless spe.nil?
   end
 
   def self.log_comment(question, spe, comment)

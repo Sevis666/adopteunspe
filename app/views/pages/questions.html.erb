@@ -16,7 +16,7 @@
   <%= link_to "Ajouter une autre question", "/questions/new", class: "button centered-button", id: "bottom" %>
 <% end %>
 
-<p class="user-info"><%= @spe.full_name %></p>
+<p class="user-info"><%= @spe.nil? ? "" : @spe.full_name %></p>
 <%= link_to "", "#", class: "to-top-button" %>
 
 <script type="text/javascript">
@@ -24,7 +24,7 @@
      function () {
          window.history.pushState("", document.title, location.href.split('#')[0]);
      };
-var fullName = "<%= @spe.full_name %>";
+var fullName = "<%= @spe.nil? ? "" : @spe.full_name %>";
 </script>
 
 <%= javascript_include_tag "send_comment.js" %>
