@@ -95,6 +95,17 @@ class AdminController < ApplicationController
     end
   end
 
+  def send_welcome_email
+    Spe.find_each do |spe|
+      UserMailer.welcome(spe).deliver
+    end
+  end
+
+  def reset_spe_database
+    Question.find_each { |q| q.shred }
+    Spe.destroy_all
+  end
+
   private
   def generate_key(full_name, email, salt)
     Digest::SHA1.hexdigest(Base64::encode64(full_name)+salt.to_s+email)[0...8]

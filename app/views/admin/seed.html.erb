@@ -2,6 +2,13 @@
 
 <div class="toolbox-container">
   <div class="tool-wrapper">
+    <h2 class="tool-title">Reset spe database</h2>
+    <%= form_tag("/admin/reset_spe_database", method: "post", class: "basic-file-form") do %>
+      <%= submit_tag("Reset", class: "submit-button") %>
+    <% end %>
+  </div>
+
+  <div class="tool-wrapper">
     <h2 class="tool-title">Seed Spes list</h2>
     <p>Takes an input file with three column-separated values on each line : username, full name, and e-mail, as in the example below. Make sure usernames are unique, contain only lowercase letters, and can be easily recognized.</p>
     <pre style="font-size:1rem;text-align:left">ravetta:Antoine Ravetta:antoineravetta@nullmail.com<br/>robina:Arnaud Robin:arnaud@robin.mail<br/>robind:David Robin:david@robin.mail<br/>obama:Barrack Obama:barrack@notobama.com</pre>
@@ -10,4 +17,10 @@
       <%= submit_tag("Seed", class: "submit-button") %>
     <% end %>
   </div>
+
+  <div class="tool-wrapper">
+    <h2 class="tool-title">Send welcome email</h2>
+    <%= form_tag("/admin/send_welcome_email", method: "post", class: "basic-file-form") do %>
+      <%= submit_tag("Send email", class: "submit-button") %>
+    <% end %>
 </div>

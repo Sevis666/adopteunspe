@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+  </head>
+
+  <body>
+    <div dir="ltr">
+      <div class="markdown-here-wrapper">
+        <p style="margin:0px 0px 1.2em">
+        Bonjour à toi jeune spé en devenir !
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Ce message t'es addressé de façon automatique par le serveur d'<em>Adopte Un Spé</em>.
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Si tu n'étais pas présent à la soirée d'intégration en début d'année, tu ne sais probablement pas de quoi il s'agit!<br>Tout d'abord, déshonneur sur toi, sur ta famille, et sur ta vache ! C'est super important les soirées d'intégration, et tes spés se sont (presque) donné du mal pour l'organiser.<br>Enfin bref, petit rappel : <em>Adopte Un Spé</em> est une parodie d'un site dont il ne faut pas prononcer le nom (parce que j'ai pas payé les droits de reproduction, déshonneur sur moi aussi!), qui a pour but de donner aux jeunes sups un parrain qui leur correspond. Pour cela, on leur pose un certain nombre de questions, et on calcule leur degré d'affinité avec chaque spé, pour ensuite choisir les parrains au mieux.<br>Et ces questions, c'est à ton tour de les choisir !
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Tu peux dès maintenant te connecter sur le site : <a href="http://adopteunspe.herokuapp.com">http://adopteunspe.herokuapp.com</a>, avec ta clé qui doit s'afficher ci-dessous
+        </p>
+        <blockquote style="margin:1.2em 0px;border-left:4px solid rgb(221,221,221);padding:0px 1em;color:rgb(119,119,119);quotes:none">
+          <p style="margin:0px 0px 1.2em"><%= @spe.key %></p>
+        </blockquote>
+        <p style="margin:0px 0px 1.2em">
+        Un manuel d'utilisation complet est disponible sur <a href="http://github.com">la page github du projet</a>, mais l'essentiel de ce que tu dois savoir se trouve dans la suite du message.</p>
+        <hr>
+        <h3 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.3em">
+          Fonctionnement général
+        </h3>
+        <p style="margin:0px 0px 1.2em">
+        L'idée est simple : chacun propose des questions sur le site, et affecte un nombre de points à chaque réponse. Lorsqu'un sup choisit sur le questionnaire une réponse, il gagne envers vous le nombre de points que vous aviez mis sur cette réponse. Après avoir rempli tout le questionnaire, il dispose donc d'une table d'affinité avec l'ensemble des spés : plus il a de points envers vous, et plus il est probable que vous soyez son parrain.
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Mais choisir les questions, c'est difficile, alors pour que ce soit moins le bazar, on a introduit des votes : tout le monde peut proposer ses questions, et voter pour ou contre les questions proposées, avec les petites flèches vertes et rouges. La couleur de la bordure vous indique ce que vous avez voté. Les questions validées par presque tout le monde feront partie du questionnaire final, et les autres seront supprimées.
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Sauf qu'on a encore un problème : il y a plein de questions qui sont drôles à poser, mais qui ne permettent pas vraiment de choisir un parrain, alors on a introduit encore un paramètre : le coefficient. Chacun choisit pour chaque question un entier entre 1 et 10 correspondant au coefficient qu'il souhaite affecter à la question dans le calcul d'affinité, qui figure dans la petite case grisée. Comme ça, une question avec beaucoup de votes et un coefficient de 1 sera bien posée aux sups, mais ne modifiera que peu les tables d'affinités, alors tout le monde est content.
+        </p>
+        <h3 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.3em">
+          Phases de verrouillage
+        </h3>
+        <p style="margin:0px 0px 1.2em">
+        Le but étant au bout d'un moment d'arrêter de toucher à tout pout converger vers un questionnaire avec lequel tout monde est d'accord, la construction se déroulera en quatre phases.
+        </p>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Phase 1 : Open bar
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        Tout le monde peut ajouter ou modifier des questions, des réponses, ses points, tout. Proposez toutes vos idées, c'est le moment.
+        </p>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Phase 2 : Verrouillage des questions
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        Les questions ne pourront plus être ajoutées ni modifiées, mais on peut toujours toucher aux réponses et déplacer son capital de points. Les questions qui n'obtiennent pas suffisamment de votes continuent d'être supprimées.
+        </p>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Phase 3 : Verrouillage des réponses
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        On approche de la fin, le questionnaire est verrouillé, il faut dans cette phase ajuster vos points pour chaque question, mais cette fois vous êtes sûrs que plus rien ne va bouger.
+        </p>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Phase 4 : Verrouillage des points
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        Cette fois tout sera verrouillé, la page d'acceuil du site va changer, pour être remplacée par le questionnaire, et la base de données sera réinitialisée pour enlever les faux utilisateurs que vous avez pu créer dans le mode preview.
+        </p>
+        <h3 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.3em">
+          Conseils complémentaires
+        </h3>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Répartition des points
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        Les points, c'est comme la confiture, ça s'étale, il est rare qu'une seule réponse vous corresponde, préférez répartir vos points entre les différentes réponses qui vous correspondent même seulement un peu.
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Pour éviter tout biais statistique lors du choix des parrains, la somme de vos points sur chaque question sera ramenée à <%= total = Rails.configuration.x.total_points_per_question %> en conservant les proportions que vous aviez choisies. Essayez donc tout de suite de répartir exactement <%= total %> points, ça vous évitera de mauvaises surprise au moment de l'ajustement des points.
+        </p>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Pondération des questions
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        Les coefficients suggérés sont les suivants :
+        </p>
+        <ul style="margin:1.2em 0px;padding-left:2em">
+          <li style="margin:0.5em 0px">
+            7 à 10 pour les questions qui traitent des centres d'intérêt, de la présence, des méthodes de travail, etc.
+          </li>
+          <li style="margin:0.5em 0px">
+            4 à 6 pour les blagues qui donnent tout de même des renseignements utiles sur les goûts
+          </li>
+          <li style="margin:0.5em 0px">
+            1 à 3 pour les private jokes et autres questions auxquelles les sups ne connaissent rien
+          </li>
+        </ul>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Cumul des votes
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        Vous pouvez voter contre une question <u>et</u> lui affecter un petit coefficient.
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Elle sera peut être retirée, et si elle ne l'est pas, votre coefficient compte dans dans le calcul de la pondération de la question
+        </p>
+        <h4 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.2em">
+          Suppression des trolls
+        </h4>
+        <p style="margin:0px 0px 1.2em">
+        Si certaines personnes votent de façon étrange, disproportionnée, ou surcoefficientent leurs questions, leur vote sera ignoré lors du calcul final des coefficients, alors ne vous fiez pas trop à la moyenne.
+        </p>
+        <h3 style="margin:1.3em 0px 1em;padding:0px;font-weight:bold;font-size:1.3em">
+          Bugs et autres désagréments
+        </h3>
+        <p style="margin:0px 0px 1.2em">
+        Ce site ayant été écrit à l'arrache deux semaines avant la soirée d'intégration de la première année où il a été mis en place, puis patché tant bien que mal par le même illuminé pendant ses oraux à Centrale, il est très fortement probable qu'il grouille encore de petits bugs. N'hésitez pas à les signaler à l'adresse suivante : <a href=3D"mailto:david.robin97@gmail.com">david.robin97@gmail.com</a>
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        Si vous avez des idées d'améliorations, ou que vous souhaitez mettre à profit vos compétences en informatique pour la maintenance du site, écrivez moi aussi, ou envoyez directement des pull requests sur mon github.
+        </p>
+        <p style="margin:0px 0px 1.2em">
+        <em>Merci d'avoir pris le temps lire jusqu'ici, je n'ai malheureusement pas de patate à vous offrir, mais je vous souhaite quand même bonne chance pour votre année, et amusez vous bien</em>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
