@@ -81,27 +81,31 @@ class AdminController < ApplicationController
     @voucher = a.voucher
   end
 
-  def seed
+  def seed_index
+    grant_access(:general)
+  end
+
+  def seed_spes
     grant_access(:general)
     salt = Rails.application.secrets.key_salt
-    if request.post?
-      file = params[:seed]
-      file.read.each_line do |line|
-        line = line.split(':')
-        username, full_name, email = line[0],line[1],line[2..-1].join(':')
-        Spe.new(username: username, full_name: full_name, email: email,
-                key: generate_key(full_name, email, salt)).save
-      end
+    file = params[:seed]
+    file.read.each_line do |line|
+      line = line.split(':')
+      username, full_name, email = line[0],line[1],line[2..-1].join(':')
+      Spe.new(username: username, full_name: full_name, email: email,
+              key: generate_key(full_name, email, salt)).save
     end
   end
 
   def send_welcome_email
+    grant_access(:general)
     Spe.find_each do |spe|
       UserMailer.welcome(spe).deliver
     end
   end
 
   def reset_spe_database
+    grant_access(:general)
     Question.find_each { |q| q.shred }
     Spe.destroy_all
   end

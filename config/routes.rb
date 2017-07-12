@@ -32,8 +32,8 @@ Rails.application.routes.draw do
 
   get '/admin', to: 'admin#index'
   get '/admin/login', to: 'admin#login'
-  get '/admin/seed', to: 'admin#seed'
-  post '/admin/seed', to: 'admin#seed'
+  get '/admin/seed', to: 'admin#seed_index'
+  post '/admin/seed', to: 'admin#seed_spes'
   post '/admin/send_welcome_email', to: 'admin#send_welcome_email'
   post '/admin/reset_spe_database', to: 'admin#reset_spe_database'
   post '/admin/login', to: 'admin#login'
