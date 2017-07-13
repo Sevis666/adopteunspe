@@ -111,6 +111,11 @@ class AdminController < ApplicationController
     Spe.destroy_all
   end
 
+  def post_announcement
+    Announcement.new(content: params[:announcement]).save
+    redirect_to "/message_board"
+  end
+
   private
   def generate_key(full_name, email, salt)
     Digest::SHA1.hexdigest(Base64::encode64(full_name)+salt.to_s+email)[0...8]

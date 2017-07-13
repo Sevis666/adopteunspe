@@ -56,7 +56,20 @@
   }
 }
 
-.basic-number-form, .basic-file-form {
+textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  resize: none;
+  font-size: 1rem;
+  padding: .8rem;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.basic-number-form, .basic-file-form, .basic-text-form {
   max-width: 20rem;
   margin: 1.5rem auto 0 auto;
   padding: 0;
@@ -84,5 +97,17 @@
     font-size: 1rem;
     background-color: #eee;
     cursor: pointer;
+  }
+}
+
+.basic-text-form {
+  max-width: 40rem;
+  flex-direction: column;
+
+  .submit-button {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: .5rem;
+    border-top: 1px solid #ccc;
+    border-left: none;
   }
 }

@@ -1,14 +1,16 @@
 <h1 class="page-title">Annonces</h1>
 <div class="main-container">
-<% announcements = Announcement.all.to_a.delete_if { |a| a.expired? } %>
-<% announcements.each do |ann| %>
-  <div class="info">
-    <p><%= ann.content %></p>
-  </div>
-<% end %>
-<% if announcements.empty? %>
-  <div class="info">
-    <p>Aucune annonce pour le moment</p>
-  </div>
-<% end %>
+  <% announcements = Announcement.all.to_a.delete_if { |a| a.expired? } %>
+  <% announcements.each do |ann| %>
+    <div class="info">
+      <p><%= ann.content %></p>
+    </div>
+  <% end %>
+  <% if announcements.empty? %>
+    <div class="info">
+      <p>Aucune annonce pour le moment</p>
+    </div>
+  <% end %>
+  <%= link_to "Back to index", "/index", class: "button",
+    style: "display:table;margin:0 auto" %>
 </div>

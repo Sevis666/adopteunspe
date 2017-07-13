@@ -157,6 +157,14 @@
       <%= submit_tag("Remove", class: "submit-button")%>
     <% end %>
   </div>
+
+  <div class="tool-wrapper">
+    <h2 class="tool-title">Annoucements</h2>
+    <%= form_tag("/admin/post_announcement", method: "post", class: "basic-text-form") do %>
+      <%= text_area_tag(:announcement, nil, placeholder: "Your announcement", autocomplete: "off", rows: 5) %>
+      <%= submit_tag("Post", class: "submit-button")%>
+    <% end %>
+  </div>
 </div>
 
 <script type="text/javascript">

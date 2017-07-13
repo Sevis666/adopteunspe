@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   post '/admin/seed', to: 'admin#seed_spes'
   post '/admin/send_welcome_email', to: 'admin#send_welcome_email'
   post '/admin/reset_spe_database', to: 'admin#reset_spe_database'
+  post '/admin/post_announcement', to: 'admin#post_announcement'
   post '/admin/login', to: 'admin#login'
   post '/admin/freeze', to: 'admin#freeze'
   post '/admin/balance', to: 'admin#balance'
