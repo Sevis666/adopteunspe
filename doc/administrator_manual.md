@@ -42,7 +42,7 @@ Un seul poste, non nécessairement renouvelé tous les ans.
 
 Le dictateur a tous les droits sur le site et son code. Il est membre du groupe github autorisé à modifier le code source du projet et du groupe heroku autorisé à déployer ces modifications. Il peut créer et révoquer tous types de clés à tout instant, et peut modifier manuellement la base de données.
 
-Le dictateur n'intervient normalement que lorsque des bugs sont constatés sur le serveur, qu'une modification non implémentée dans l'index d'administration doit avoir lieu, ou pour modifier manuellement une valeur de la base de données qui ne devrait pas pouvoir l'être dans le protocole habituel. Il n'a en théorie pas à intervenir du tout, mais il est nécessaire de conserver les droits de modification du code.
+Le dictateur n'intervient normalement que lorsque des bugs sont constatés sur le serveur, qu'une modification non implémentée dans l'index d'administration doit avoir lieu, ou pour modifier manuellement une valeur de la base de données qui ne devrait pas pouvoir l'être dans le protocole habituel. Il n'a en théorie pas à intervenir du tout, mais il est nécessaire que quelqu'un conserve un droit de modification sur le code.
 
 La nomination au poste de dictateur nécessite des connaissances poussées dans l'ensemble des langages qui constituent ce site et une maîtrise complète de son code source. Contactez votre dictateur si vous souhaitez proposer quelqu'un pour prendre sa relève.
 

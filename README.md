@@ -16,8 +16,10 @@ The following environnement variables need to be properly set : KEY\_SALT, SENDG
 
 To set those in heroku for instance, just use
 
-> heroku addons:add sendgrid:starter
-> heroku config:set KEY\_SALT=yoursalt
+```
+heroku addons:add sendgrid:starter
+heroku config:set KEY_SALT=yoursalt
+```
 
 The sendgrid module sets the sendgrid variables automatically, and the starter addon is free of charges
 
