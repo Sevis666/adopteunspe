@@ -1,36 +1,35 @@
 # Adopte Un Spé
 
-Built for Louis-le-Grand's MPSI2, but should be reusable with a few hardcode changes.
-
-## Install
-
-Pull the code, make the following changes so it matches your classmates' names, and push to your production server. It is already Heroku-ready, more info on [Heroku Rails's starting page](https://devcenter.heroku.com/articles/getting-started-with-ruby#introduction)
-
-### Hardcode fixes
-
-No worries, this will be fixed in a future release. In case you want to use this version, here are the files that you need change :
-
-+ app/models/question.rb
-+ app/models/answer.rb
-+ app/views/pages/add_new_question.html.erb
-+ app/controllers/processing_controller.rb
-+ db/migrate/20160820124301_clean_users_answers.rb
-+ db/migrate/20160803131749_create_structure.rb
-+ db/migrate/20160815124353_add_scores.rb
-
-In these files, replace the global students variable with your own list of ids. The order does not matter.
-
-In db/seeds.rb, use your own information, but make sure that the ids match.
-
-#### When will this be fixed ?
-
-Hopefully by the end of April 2017, maybe before. These variables were hardcoded because I was in a hurry, if you want to be notified when an updated version is available or want to fix this yourself, please e-mail me and feel free to make a pull request.
-
 ## Description
 
 This is a website to choose godfathers for the newcomers in MPSI2.
 
 It's built as a joke, and used during our first day of class, to welcome the new students. This is why it uses the famous [Adopte un mec](http://adopteunmec.com) theme. I _do not_ own the original logo, nor any of Adopte un mec's content. This website is up for a month every year at most, and you are free to use this code, but do not misuse it, or violate copyright laws associated with the original theme and logo, those are Adopte un mec's property.
+
+Although it was originally built for LLG's MPSI2, this code can easily be adapted to any other godfather-choosing instance.
+
+## Install
+
+Just pull the code, and push to your production server. It is already Heroku-ready, more info on [Heroku Rails's starting page](https://devcenter.heroku.com/articles/getting-started-with-ruby#introduction)
+
+The following environnement variables need to be properly set : KEY\_SALT, SENDGRID\_USERNAME, SENDGRID\_PASSWORD
+
+To set those in heroku for instance, just use
+
+> heroku addons:add sendgrid:starter
+> heroku config:set KEY\_SALT=yoursalt
+
+The sendgrid module sets the sendgrid variables automatically, and the starter addon is free of charges
+
+The dictator key has to be set form the console.
+
+You will also definitely want to edit the default welcoming e-mail : *app/views/user_mailer/welcome.html.erb*.
+
+## Documentation
+
+The [User Manual](doc/user_manual.md) and the [Administrator's Manual](doc/administrator_manual.md) should give you all the information needed to run this website properly.
+
+If you have any questions about how this website works or how you could improve it, feel free to send me an e-mail
 
 ## Authors
 
