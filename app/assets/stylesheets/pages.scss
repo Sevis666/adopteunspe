@@ -130,9 +130,11 @@ a.color-changing-link:hover {
 }
 
 .info {
+    margin-bottom: 1.5rem;
     border: 1px solid $dark-grey;
     border-radius: 1rem;
     text-align: center;
+    word-wrap: break-word;
 
     a {
         margin: 0;

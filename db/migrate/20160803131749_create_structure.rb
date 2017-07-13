@@ -87,5 +87,10 @@ class CreateStructure < ActiveRecord::Migration
       t.integer :level, null: false, default: 0
       t.string :voucher, default: nil
     end
+
+    create_table :announcements do |t|
+      t.string :content
+      t.timestamps
+    end
   end
 end

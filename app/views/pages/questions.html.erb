@@ -1,6 +1,19 @@
 <h1 class="page-title">Questions actuelles :</h1>
 <%= link_to "", "#bottom", class: "to-bottom-button" %>
 <ul class="main-container">
+  <% announcements = Announcement.all.to_a.delete_if { |a| a.expired? }
+     count = announcements.size
+     announcements.keep_if { |a| a.content.size <= 280 } %>
+  <% announcements.each do |ann| %>
+    <div class="info">
+      <p><%= ann.content %></p>
+    </div>
+  <% end %>
+  <% if announcements.size < count %>
+    <div class="info">
+      <p>Pour voir toutes les annonces, merci de consulter <a href="/message_board">la page d'annonces</a>.</p>
+    </div>
+  <% end %>
     <div class="centerer top-spacing">
         <h4>Filtrer les questions par</h4>
         <div class="info-links">

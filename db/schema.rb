@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829101233) do
+ActiveRecord::Schema.define(version: 20160824123521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,12 @@ ActiveRecord::Schema.define(version: 20160829101233) do
     t.string  "token",               null: false
     t.integer "level",   default: 0, null: false
     t.string  "voucher"
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "answer_points", force: :cascade do |t|
@@ -80,8 +86,7 @@ ActiveRecord::Schema.define(version: 20160829101233) do
     t.string  "full_name"
     t.string  "email"
     t.string  "key"
-    t.boolean "elligible",   default: true
-    t.string  "admin_token"
+    t.boolean "elligible", default: true
   end
 
   create_table "suggested_coeffs", force: :cascade do |t|
