@@ -39,6 +39,7 @@ class AdminController < ApplicationController
       Config.unfreeze category
     else
       Config::freeze category
+      (User.destroy_all; UsersAnswer.destroy_all) if category == :answer_points
     end
     redirect_to "/admin"
   end
