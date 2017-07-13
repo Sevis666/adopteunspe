@@ -1,3 +1,5 @@
+# Manuel de l'utilisateur
+
 ## Fonctionnement général
 
 L'idée est simple : chacun propose des questions sur le site, et affecte un nombre de points à chaque réponse. Lorsqu'un sup choisit sur le questionnaire une réponse, il gagne envers vous le nombre de points que vous aviez mis sur cette réponse. Après avoir rempli tout le questionnaire, il dispose donc d'une table d'affinité avec l'ensemble des spés : plus il a de points envers vous, et plus il est probable que vous soyez son parrain.
