@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "Adopte Un Spé <server@adopteunspe.herokuapp.com>"
+  default from: "Adopte Un Spé <noreply@adopteunspe.herokuapp.com>"
 
   def welcome(s)
     @spe = s
