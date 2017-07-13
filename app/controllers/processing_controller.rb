@@ -76,9 +76,9 @@ class ProcessingController < ApplicationController
 
   private
   def check_token
-    s = Spe.find_by(admin_token: params[:token])
-    render nothing: true, status: 403 unless s
-    not s.nil?
+    at = AccessToken.find_by(token: params[:token])
+    render nothing: true, status: 403 if at.nil? || at.level < 1
+    !at.nil? && at.level >= 1
   end
 
   def scores_query
