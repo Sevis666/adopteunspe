@@ -64,40 +64,25 @@ class Spe < ActiveRecord::Base
   end
 
   # Retrieve list of filtered questions
-  def unanswered_questions
-    questions_not_matching_query(answered_questions_query)
-  end
-
-  def unvoted_questions
-    questions_not_matching_query(voted_questions_query)
-  end
-
-  def unrated_questions
-    questions_not_matching_query(rated_questions_query)
-  end
+  def unanswered_questions; questions_not_matching_query(answered_questions_query); end
+  def unvoted_questions; questions_not_matching_query(voted_questions_query); end
+  def unrated_questions; questions_not_matching_query(rated_questions_query); end
 
   # Count filtered questions
-  def unanswered_questions_count
-    questions_not_matching_query(answered_questions_query, count: true)
-  end
-
-  def unvoted_questions_count
-    questions_not_matching_query(voted_questions_query, count: true)
-  end
-
-  def unrated_questions_count
-    questions_not_matching_query(rated_questions_query, count: true)
-  end
+  def unanswered_questions_count; count_not_matching_query(answered_questions_query); end
+  def unvoted_questions_count; count_not_matching_query(voted_questions_query); end
+  def unrated_questions_count; count_not_matching_query(rated_questions_query); end
 
   private
-  def questions_not_matching_query(query, count: false)
+  def questions_not_matching_query(query)
     all = Question.all.order(:id).select(:id).map { |i| i[:id] }
     matching = ActiveRecord::Base.connection.execute(query).map {|r| r["id"].to_i }
-    if count
-      (all - matching).size
-    else
-      (all - matching).map { |i| Question.find i }
-    end
+    (all - matching).map { |i| Question.find i }
+  end
+
+  def count_not_matching_query(query)
+    query = "SELECT COUNT(*) FROM (#{query.chomp}) t"
+    ActiveRecord::Base.connection.execute(query).first["count"].to_i
   end
 
   def answered_questions_query
