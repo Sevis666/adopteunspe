@@ -30,31 +30,31 @@ class ProcessingController < ApplicationController
     render nothing: true, status: 200
     puts "Starting algorithm"
 
-    build_scores_query
     build_table
 
-    spes = []
-    Spe.all.order(:id).each_with_index do |s, i|
-      spes << SpeStudent.new(s.full_name, i, @table, s.id, s.elligible)
+    spes = {}
+    Spe.all.order(:id).each do |s|
+      spes[s.id] = SpeStudent.new(s.full_name, s.id, s.elligible)
     end
-    sups = []
-    User.where("godfather_id IS NULL").order(:id).each_with_index do |u, i|
-      sups << SupStudent.new(u.first_name + " " + u.last_name, i, @table, u.id)
+    sups = {}
+    User.where("godfather_id IS NULL").order(:id).each do |u|
+      sups[u.id] = SupStudent.new(u.first_name + " " + u.last_name, u.id)
     end
     puts "\n\nDone loading"
-    while sups.size > spes.select {|s| s.elligible }.size
+    while sups.size > spes.select {|id, s| s.elligible }.size
       pre_match(sups, spes)
     end
 
-    while s = sups.find {|sup| sup.single?} do
+    while couple = sups.find {|id, sup| sup.single?} do
+      id, s = couple
       puts "\nConsidering single sup #{s}"
       s.propose_to spes[s.best_partner]
     end
     puts "\n\nFound matching pairs"
 
-    sups.each do |s|
+    sups.each do |id, s|
       puts "#{s} <-> #{s.fiance}"
-      u = User.find(s.user_id)
+      u = User.find(id)
       u.godfather_id = s.fiance.spe_id
       u.save
     end
@@ -88,34 +88,34 @@ class ProcessingController < ApplicationController
         INNER JOIN answers a ON a.question_id = ua.question_id
                           AND a.answer_number = ua.answer_number
         JOIN answer_points ap ON ap.answer_id = a.id
-      GROUP BY ap.spe_id"
+      GROUP BY ap.spe_id
     SQL
   end
 
   def retrieve_scores(user)
-    scores = Array.new { 0 }
+    scores = Hash.new { 0 }
     ActiveRecord::Base.connection.execute(scores_query.sub("?", user.id.to_s))
-      .each { |h| scores[h["spe"]] = h["score"] }
+      .each { |h| scores[h["spe"].to_i] = h["score"].to_i }
     scores
   end
 
   def build_table
-    @table = []
-    User.where("godfather_id IS NULL").order(:id).each_with_index do |u, i|
-      @table[i] = retrieve_scores(u)
+    Student::affinity_table = {}
+    User.where("godfather_id IS NULL").order(:id).each do |u|
+      Student::affinity_table[u.id] = retrieve_scores(u)
     end
   end
 
   def pre_match(sups, spes)
-    best_scores = sups.map {|s| s.affinity_with(spes[s.best_partner]) }
-    s = sups[best_scores.index best_scores.max]
+    best_scores = {}
+    sups.each {|id, s| best_scores[id] = s.affinity_with(spes[s.best_partner]) }
+    s = sups[best_scores.key best_scores.values.max]
     bp = s.best_partner
     puts "sup #{s} has highest affinity with #{spes[bp]}"
-    c = User.where("godfather_id = #{spes[bp].spe_id}").count
+    c = User.where("godfather_id = #{bp}").count
     case c
-    when 0
-    when 1
-      t = Spe.find(spes[bp].spe_id)
+    when 0, 1
+      t = Spe.find(bp)
       t.elligible = false
       t.save
       spes[bp].elligible = false
@@ -125,19 +125,21 @@ class ProcessingController < ApplicationController
       return
     end
     u = User.find(s.user_id)
-    u.godfather_id = spes[s.best_partner].spe_id
+    u.godfather_id = s.best_partner
     u.save
-    sups.delete(s)
+    sups.delete(s.user_id)
   end
 
   class Student
-    def initialize(name, id, affinity_table)
-      @name = name
-      @id = id
-      @fiance = nil
-      @affinity_table = affinity_table
+    class << self
+      attr_accessor :affinity_table
     end
-    attr_reader :name, :id
+
+    def initialize(name)
+      @name = name
+      @fiance = nil
+    end
+    attr_reader :name
     attr_accessor :fiance
 
     def to_s
@@ -159,9 +161,9 @@ class ProcessingController < ApplicationController
   end
 
   class SupStudent < Student
-    def initialize(name, id, table, user_id)
-      super(name, id, table)
-      @proposals = []
+    def initialize(name, user_id)
+      super(name)
+      @proposals = Hash.new { false }
       @user_id = user_id
     end
     attr_reader :user_id
@@ -169,11 +171,11 @@ class ProcessingController < ApplicationController
     def best_partner
       best_score = nil
       best_id = nil
-      @affinity_table[@id].each_with_index do |p, i|
-        unless @proposals[i]
-          if best_score.nil? || best_score < p
-            best_score = p
-            best_id = i
+      Student::affinity_table[@user_id].each do |id, points|
+        unless @proposals[id]
+          if best_score.nil? || best_score < points
+            best_score = points
+            best_id = id
           end
         end
       end
@@ -181,23 +183,24 @@ class ProcessingController < ApplicationController
     end
 
     def forget_best_partner
-      @affinity_table[@id][best_partner] = 0
+      Student::affinity_table[@user_id][best_partner] = 0
+      puts Student::affinity_table.inspect
     end
 
     def affinity_with(person)
-      @affinity_table[@id][person.id]
+      Student::affinity_table[@user_id][person.spe_id]
     end
 
     def propose_to(person)
       puts "#{self} proposes to #{person} (score #{affinity_with(person)})"
-      @proposals[person.id] = true
+      @proposals[person.spe_id] = true
       person.respond_to_proposal(self)
     end
   end
 
   class SpeStudent < Student
-    def initialize(name, id, table, spe_id, elligible)
-      super(name, id, table)
+    def initialize(name, spe_id, elligible)
+      super(name)
       @spe_id = spe_id
       @elligible = elligible
     end
@@ -205,7 +208,7 @@ class ProcessingController < ApplicationController
     attr_accessor :elligible
 
     def affinity_with(person)
-      @affinity_table[person.id][@id]
+      Student::affinity_table[person.user_id][@spe_id]
     end
 
     def better_choice?(person)
