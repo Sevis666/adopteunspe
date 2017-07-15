@@ -124,7 +124,7 @@ class AdminController < ApplicationController
   def balance_points
     total = Rails.configuration.x.total_points_per_question
 
-    s = Hash.new { |h,q_id| h[q_id] = Hash.new { |k, spe_id| h[spe_id] = 0 } }
+    s = Hash.new { |h,q_id| h[q_id] = Hash.new { |k, spe_id| k[spe_id] = 0 } }
     ActiveRecord::Base.connection.execute(points_query).each do |res|
       s[res["question_id"].to_i][res["spe_id"].to_i] = res["score"].to_i
     end
@@ -158,7 +158,7 @@ class AdminController < ApplicationController
 
   def points_query
     <<-SQL
-      SELECT question_id, spe_id, SUM(score)
+      SELECT question_id, spe_id, SUM(score) as score
        FROM answer_points ap
        JOIN answers a ON a.id = ap.answer_id
       GROUP BY question_id, spe_id
