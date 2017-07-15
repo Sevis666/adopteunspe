@@ -4,9 +4,12 @@ class Config
                     answer_points: "answer_points_freezed" }
 
   def self.frozen?(sym)
-    c = self.freeze_var(sym)
-    c.save
-    c.value == "1"
+    cache_key = "freeze-var_#{sym.to_s}"
+    Rails.cache.fetch(cache_key, expires_in: 2.days) do
+      c = self.freeze_var(sym)
+      c.save
+      c.value == "1"
+    end
   end
 
   def self.freeze(sym)
@@ -18,7 +21,12 @@ class Config
   end
 
   private
+  def self.expire_cache(sym)
+    Rails.cache.delete("freeze-var_#{sym.to_s}")
+  end
+
   def self.set_freeze_value(sym, value)
+    expire_cache(sym)
     c = self.freeze_var(sym)
     c.value = value.to_s
     c.save
