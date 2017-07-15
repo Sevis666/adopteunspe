@@ -2,6 +2,7 @@ class Spe < ActiveRecord::Base
   has_many :connection_log
   has_many :vote
   has_many :suggested_coeff
+  has_many :answer_point
 
   def last_connection
     c = connection_log.order(:updated_at).last
@@ -19,6 +20,47 @@ class Spe < ActiveRecord::Base
     s = 0
     connection_log.each { |c| s += c.updated_at - c.created_at }
     s.to_i
+  end
+
+  def build_all_caches
+    points_cache; vote_cache; coeff_cache; true
+  end
+
+  def points_cache_built? ; !@points_cache.nil? ; end
+  def vote_cache_built?   ; !@vote_cache.nil?   ; end
+  def coeff_cache_built?  ; !@coeff_cache.nil?  ; end
+
+  def points_cache
+    return @points_cache unless @points_cache.nil?
+    @points_cache = Hash.new { 0 }
+    answer_point.each do |ap|
+      @points_cache[ap.answer_id] = ap.score
+    end
+    @points_cache
+  end
+
+  def vote_cache
+    return @vote_cache unless @vote_cache.nil?
+    @vote_cache = Hash.new { 0 }
+    vote.each do |v|
+      @vote_cache[v.question_id] = v.vote
+    end
+    @vote_cache
+  end
+
+  def coeff_cache
+    return @coeff_cache unless @coeff_cache.nil?
+    @coeff_cache = Hash.new { 0 }
+    suggested_coeff.each do |s|
+      @coeff_cache[s.question_id] = s.coeff
+    end
+    @coeff_cache
+  end
+
+  def self.build_username_cache
+    cache = {}
+    Spe.find_each { |s| cache[s.id] = s.username }
+    $username_cache = cache
   end
 
   # Retrieve list of filtered questions

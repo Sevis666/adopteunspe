@@ -23,7 +23,7 @@ class CreateStructure < ActiveRecord::Migration
 
     create_table :answer_points do |t|
       t.belongs_to :answer, index: true
-      t.integer :spe_id
+      t.belongs_to :spe, index: true
       t.integer :score, default: 0
     end
 

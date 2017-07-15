@@ -3,7 +3,7 @@ class Answer < ActiveRecord::Base
 
     def scores
       s = {}
-      $username_cache ||= Hash.new { |h,k| h[k] = Spe.find(k).username.to_sym }
+      $username_cache ||= Spe::build_username_cache
       answer_points.each do |ap|
         s[$username_cache[ap.spe_id]] = ap.score
       end
@@ -33,5 +33,19 @@ class Answer < ActiveRecord::Base
     def shred
       answer_points.destroy_all
       destroy
+    end
+
+    def self.build_scores_table
+      $username_cache ||= Spe::build_username_cache
+      table = Hash.new { |h,k| h[k] = {} }
+      AnswerPoint.find_each do |ap|
+        table[ap.answer_id][ap.spe_id] = ap.score
+      end
+      table.keys.each do |id|
+        table[id] = table[id].sort_by { |k, v| v }.reverse
+          .map { |spe_id, score| $username_cache[spe_id].to_s + ": " + score.to_s }
+          .join(', ')
+      end
+      table
     end
 end

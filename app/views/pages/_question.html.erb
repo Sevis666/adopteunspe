@@ -9,6 +9,10 @@ def parse_filter
     end
 end
 %>
+<% puts "Preparing caches to display questions list" %>
+<% @spe.build_all_caches %>
+<% answer_scores = Answer::build_scores_table %>
+
 <% collection.each do |q| %>
     <div class="centerer">
         <div class="coeff-box" id="question-<%= q.id %>">
@@ -37,10 +41,11 @@ end
         <ul class="answers-container">
             <% q.answer.order(:answer_number).each do |a| %>
                 <li class="answer-box">
-                    <p class="answer-private-points"><%= (e = a.points(@spe)) == 0 ? "-" : e %></p>
+                    <% points = @spe.points_cache[a.id] || a.points(@spe) %>
+                    <p class="answer-private-points"><%= points == 0 ? "-" : points %></p>
                     <div class="answer-public">
                         <p class="answer-title"><%= a.answer %></p>
-                        <p class="answer-scores"><%= a.print_scores.join(', ') %></p>
+                        <p class="answer-scores"><%= answer_scores[a.id] %></p>
                     </div>
                 </li>
             <% end %>
