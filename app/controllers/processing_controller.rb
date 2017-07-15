@@ -83,11 +83,12 @@ class ProcessingController < ApplicationController
 
   def scores_query
     <<-SQL
-      SELECT ap.spe_id AS spe, SUM(ap.score) AS score
+      SELECT ap.spe_id AS spe, SUM(q.coeff * ap.score) AS score
         FROM (SELECT * FROM users_answers WHERE user_id = ?) ua
         INNER JOIN answers a ON a.question_id = ua.question_id
                           AND a.answer_number = ua.answer_number
         JOIN answer_points ap ON ap.answer_id = a.id
+        JOIN questions q ON q.id = a.question_id
       GROUP BY ap.spe_id
     SQL
   end
