@@ -21,6 +21,7 @@ class Question < ActiveRecord::Base
   end
 
   def chosen_vote(spe)
+    return 0 if spe.nil?
     return spe.vote_cache[id] if spe.vote_cache_built?
     a = vote.find_by(spe_id: spe.id)
     a.nil? ? 0 : a.vote
@@ -31,6 +32,7 @@ class Question < ActiveRecord::Base
   end
 
   def chosen_coeff(spe)
+    return 0 if spe.nil?
     return spe.coeff_cache[id] if spe.coeff_cache_built?
     a = suggested_coeff.find_by(spe_id: spe.id)
     a.nil? ? 0 : a.coeff
