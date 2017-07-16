@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/message_board', to: 'pages#message_board'
   get '/login', to: 'pages#login'
   post '/login', to: 'pages#login'
+  get '/archive', to: 'pages#archives'
 
   get '/user_login', to: 'pages#user_login'
   post '/user_login', to: 'pages#register_user'
