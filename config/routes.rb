@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   post '/user_login', to: 'pages#register_user'
   get '/survey', to: 'pages#survey'
   post '/survey', to: 'pages#survey'
+  get '/license_agreement', to: 'pages#license_agreement'
 
   post '/db/reset_users', to: 'processing#reset_users'
   post '/db/reset_godfathers', to: 'processing#reset_godfathers'
