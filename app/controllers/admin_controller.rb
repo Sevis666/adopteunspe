@@ -92,7 +92,7 @@ class AdminController < ApplicationController
     file = params[:seed]
     file.read.each_line do |line|
       line = line.split(':')
-      username, full_name, email = line[0],line[1],line[2..-1].join(':')
+      username, full_name, email = line[0],line[1],line[2..-1].join(':').chomp
       Spe.new(username: username, full_name: full_name, email: email,
               key: generate_key(full_name, email, salt)).save
     end
