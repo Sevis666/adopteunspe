@@ -43,8 +43,9 @@ class Answer < ActiveRecord::Base
       end
       table.keys.each do |id|
         table[id] = table[id].sort_by { |k, v| v }.reverse
-          .map { |spe_id, score| $username_cache[spe_id].to_s + ": " + score.to_s }
-          .join(', ')
+          .map { |spe_id, score|
+            score == 0 ? "" : $username_cache[spe_id].to_s + ": " + score.to_s + ','
+          }.join.chop
       end
       table
     end
