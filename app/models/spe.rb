@@ -82,7 +82,7 @@ class Spe < ActiveRecord::Base
 
   def count_not_matching_query(query)
     query = "SELECT COUNT(*) FROM (#{query.chomp}) t"
-    ActiveRecord::Base.connection.execute(query).first["count"].to_i
+    Question.count - ActiveRecord::Base.connection.execute(query).first["count"].to_i
   end
 
   def answered_questions_query
