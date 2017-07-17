@@ -125,7 +125,7 @@
        Question.find_each do |q|
          table[q.vote_count.to_s] += 1
        end
-       cur = tot = Question.count
+       cur = tot = Question.count.to_f
        cumul = {}
        table.keys.sort.reverse.each do |i|
          cumul[i] = (100 * cur / tot).round(2)
