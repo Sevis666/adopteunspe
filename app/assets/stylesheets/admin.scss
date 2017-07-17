@@ -13,6 +13,8 @@
 
 .tool-wrapper > p , .tool-wrapper > ul {
   text-align: left;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .tool-title {
@@ -43,7 +45,9 @@
 
 .tool-wrapper {
   table {
+    width: 100%;
     border-collapse: collapse;
+    white-space: nowrap;
   }
   th, td {
     text-align: center;
@@ -101,6 +105,7 @@ textarea {
 }
 
 .basic-text-form {
+  width: 90%;
   max-width: 40rem;
   flex-direction: column;
 
@@ -110,4 +115,12 @@ textarea {
     border-top: 1px solid #ccc;
     border-left: none;
   }
+}
+
+.button-form input {
+  font-size: 1rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
 }

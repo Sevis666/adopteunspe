@@ -18,8 +18,8 @@
     <div class="freeze-wrapper">
       <div class="freeze-box">
         <h4>Questions</h4>
-        <p>Current state : <%= q_frozen ? "Frozen" : "Modifiable" %></p>
-        <%= form_tag("/admin/freeze", method: "post") do %>
+        <p>State : <%= q_frozen ? "Frozen" : "Modifiable" %></p>
+        <%= form_tag("/admin/freeze", method: "post", class: "button-form") do %>
           <%= hidden_field_tag(:category, "questions") %>
           <%= submit_tag (q_frozen ? "Unfreeze" : "Freeze"),
             class: "button centered-button" %>
@@ -27,17 +27,17 @@
       </div>
       <div class="freeze-box">
         <h4>Answers</h4>
-        <p>Current state : <%= Config::frozen?(:answers) ? "Frozen" : "Modifiable" %></p>
-        <%= form_tag("/admin/freeze", method: "post") do %>
+        <p>State : <%= Config::frozen?(:answers) ? "Frozen" : "Modifiable" %></p>
+        <%= form_tag("/admin/freeze", method: "post", class: "button-form") do %>
           <%= hidden_field_tag(:category, "answers") %>
           <%= submit_tag (a_frozen ? "Unfreeze" : "Freeze"),
             class: "button centered-button" %>
         <% end %>
       </div>
       <div class="freeze-box">
-        <h4>Answer points</h4>
-        <p>Current state : <%= Config::frozen?(:answer_points) ? "Frozen" : "Modifiable" %></p>
-        <%= form_tag("/admin/freeze", method: "post") do %>
+        <h4>Points</h4>
+        <p>State : <%= Config::frozen?(:answer_points) ? "Frozen" : "Modifiable" %></p>
+        <%= form_tag("/admin/freeze", method: "post", class: "button-form") do %>
           <%= hidden_field_tag(:category, "answer_points") %>
           <%= submit_tag (p_frozen ? "Unfreeze" : "Freeze"),
             class: "button centered-button" %>
@@ -50,18 +50,18 @@
     <h2 class="tool-title">Balance points</h2>
     <p>Triggering this action will cause all points to be messed up, realigning points for every question so the sum for each student is as close as possible to <%= Rails.configuration.x.total_points_per_question %>, but keeping proper proportions.</p>
     <p><b>This is not reversible</b>, please make sure everybody understands what will happen before triggering it, and send an e-mail to all students so they have the option to rebalance their points themselve. Only use this as a last resort to avoid bias during matching</p>
-    <%= form_tag("/admin/balance", method: "post") do %>
+    <%= form_tag("/admin/balance", method: "post", class: "button-form") do %>
       <%= submit_tag "Balance now", class: "button centered-button" %>
     <% end %>
   </div>
 
   <div class="tool-wrapper">
     <h2 class="tool-title">Activity monitor</h2>
-    <div class="activity-monitor-wrapper">
+    <div class="table-wrapper">
       <table>
         <tr>
           <th style="text-align:left;width:100%">Name</th>
-          <th style="min-width:12rem">Last Connection</th>
+          <th style="min-width:10rem">Last Connection</th>
           <th>Time spent</th>
           <th>Unanswered</th>
           <th>Unvoted</th>
@@ -92,10 +92,10 @@
 
   <div class="tool-wrapper">
     <h2 class="tool-title">Logging</h2>
-    <div class="logging-wrapper">
+    <div class="table-wrapper">
       <table>
         <tr>
-          <th style="min-width:12rem">Timestamp</th>
+          <th style="min-width:10rem">Timestamp</th>
           <th style="text-align:left;width:100%">Description</th>
         </tr>
         <% Log.list.each do |l| %>
@@ -131,20 +131,22 @@
          cumul[i] = (100 * cur / tot).round(2)
          cur -= table[i]
        end %>
-    <table style="margin:0 auto">
-      <tr>
-        <th>Vote count</th>
-        <th>Question count</th>
-        <th>Cumulated proportion</th>
-      </tr>
-      <% table.keys.sort.each do |i| %>
+    <div class="table-wrapper">
+      <table style="margin:0 auto">
         <tr>
-          <td><%= i %></td>
-          <td><%= table[i] %></td>
-          <td><%= cumul[i] %></td>
+          <th>Vote count</th>
+          <th>Question count</th>
+          <th>Proportion</th>
         </tr>
-      <% end %>
-    </table>
+        <% table.keys.sort.each do |i| %>
+          <tr>
+            <td><%= i %></td>
+            <td><%= table[i] %></td>
+            <td><%= (cumul[i] == cumul[i].to_i) ? cumul[i].to_i : cumul[i] %> %</td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
 
     <%= form_tag("/admin/remove_questions", method: "post", class: "basic-number-form", onsubmit: "clearInput(this, 'threshold')") do %>
       <%= number_field_tag(:threshold, nil, placeholder: "Threshold", autocomplete: "off") %>
