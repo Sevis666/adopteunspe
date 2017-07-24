@@ -123,7 +123,7 @@
 
     <% table = Hash.new { |h, k| h[k] = 0 }
        Question.find_each do |q|
-         table[q.vote_count.to_s] += 1
+         table[q.vote_count.to_i] += 1
        end
        cur = tot = Question.count.to_f
        cumul = {}
