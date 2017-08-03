@@ -22,5 +22,8 @@ module AdopteUnSpe
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.action_view.sanitized_allowed_tags = ["strong", "em", "u", "b", "i", "a"]
+    config.action_view.sanitized_allowed_attributes = ["href", "title"]
   end
 end
